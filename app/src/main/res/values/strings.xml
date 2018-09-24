@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TrackSpotDraft</string>
+    <string name="title_activity_new_spot_screen">NewSpotScreen</string>
+    <string name="title_activity_old_spot_screen">OldSpotScreen</string>
+    <string name="title_activity_track_spot_screen">TrackSpotScreen</string>
+    <string name="title_activity_settings_screen">SettingsScreen</string>
 </resources>
