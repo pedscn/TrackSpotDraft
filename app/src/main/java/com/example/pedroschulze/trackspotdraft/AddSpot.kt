@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
-import kotlinx.android.synthetic.main.activity_new_spot_screen.*
+import kotlinx.android.synthetic.main.activity_add_spot.*
 
-class NewSpotScreen : AppCompatActivity() {
+class AddSpot : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_spot_screen)
+        setContentView(R.layout.activity_add_spot)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->

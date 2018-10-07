@@ -4,4 +4,6 @@
     <string name="title_activity_old_spot_screen">OldSpotScreen</string>
     <string name="title_activity_track_spot_screen">TrackSpotScreen</string>
     <string name="title_activity_settings_screen">SettingsScreen</string>
+    <string name="title_activity_body_screen">BodyScreen</string>
+    <string name="title_activity_add_spot">AddSpot</string>
 </resources>
