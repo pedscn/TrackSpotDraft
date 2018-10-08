@@ -99,16 +99,18 @@ class BodyScreen : AppCompatActivity() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        Log.e("BodyScreen", "onActivityResult")
-//
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-//            Log.e("BodyScreen", "request code and result code ok")
-//            //do whatever you need with taken photo using file or fileUri
-//            galleryAddPic()
-//
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.e("BodyScreen", "onActivityResult")
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            Log.e("BodyScreen", "request code and result code ok")
+            //do whatever you need with taken photo using file or fileUri
+            galleryAddPic()
+            val intent = Intent(this, AddSpot::class.java)
+            intent.putExtra("imgpath", mCurrentPhotoPath)
+            startActivity(intent)
+        }
+    }
 
 }
