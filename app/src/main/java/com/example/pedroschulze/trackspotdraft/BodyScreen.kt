@@ -29,18 +29,29 @@ class BodyScreen : AppCompatActivity() {
         setContentView(R.layout.activity_new_spot_screen)
         Log.e("BodyScreen", "onCreate")
 
-        val btn_left_hand = findViewById<Button>(R.id.btn_left_hand) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_left_hand.setOnClickListener {
+        val btn_left_arm = findViewById<Button>(R.id.btn_left_arm) as Button //Required some googling due to sdk version not compatible with inference.
+        btn_left_arm.setOnClickListener {
             dispatchTakePictureIntent()
-            galleryAddPic()
-            val intent = Intent(this, AddSpot::class.java)
         }
-        val btn_right_hand = findViewById<Button>(R.id.btn_right_hand) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_right_hand.setOnClickListener {
+        val btn_right_arm = findViewById<Button>(R.id.btn_right_arm) as Button //Required some googling due to sdk version not compatible with inference.
+        btn_right_arm.setOnClickListener {
             dispatchTakePictureIntent()
-            galleryAddPic()
-            val intent = Intent(this, AddSpot::class.java)
-
+        }
+        val btn_right_leg = findViewById<Button>(R.id.btn_right_leg) as Button //Required some googling due to sdk version not compatible with inference.
+        btn_right_leg.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
+        val btn_left_leg = findViewById<Button>(R.id.btn_left_leg) as Button //Required some googling due to sdk version not compatible with inference.
+        btn_left_leg.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
+        val btn_torso = findViewById<Button>(R.id.btn_torso) as Button //Required some googling due to sdk version not compatible with inference.
+        btn_torso.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
+        val btn_head = findViewById<Button>(R.id.btn_head) as Button //Required some googling due to sdk version not compatible with inference.
+        btn_head.setOnClickListener {
+            dispatchTakePictureIntent()
         }
     }
 
