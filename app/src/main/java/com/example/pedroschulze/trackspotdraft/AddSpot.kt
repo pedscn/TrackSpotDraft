@@ -30,26 +30,26 @@ class AddSpot : AppCompatActivity() {
         btn_confirm_spot.setOnClickListener {
             val editText = findViewById<EditText>(R.id.spot_name) as EditText
             val editname = editText.text.toString()
-            galleryAddPic(directorypath, imgname, editname, limb)
+           // galleryAddPic(directorypath, imgname, editname, limb)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }
 
-    fun galleryAddPic(pathname: String, imgname: String, editname: String, limb: String) {
-        Log.e("BodyScreen", "Adding pic to gallery")
-        Log.e("mCurrentPhoroPath: ", pathname)
-        Log.e("mCurrentPhoroPath: ", imgname)
-        Log.e("mCurrentPhoroPath: ", editname)
-        val newdir = "$pathname/$editname/".replace("pics/", limb)
-        Log.e("newdir: ", newdir)
-        File(newdir).mkdirs()
-        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
-            val f = File(pathname + imgname + limb)
-            Log.e("value f: ", f.toString())
-            mediaScanIntent.data = Uri.fromFile(f)
-            sendBroadcast(mediaScanIntent)
-            Log.e("BodyScreen", "Done")
-        }
-    }
+//    fun galleryAddPic(pathname: String, imgname: String, editname: String, limb: String) {
+//        Log.e("BodyScreen", "Adding pic to gallery")
+//        Log.e("mCurrentPhoroPath: ", pathname)
+//        Log.e("mCurrentPhoroPath: ", imgname)
+//        Log.e("mCurrentPhoroPath: ", editname)
+//        val newdir = "$pathname/$editname/".replace("pics/", limb)
+//        Log.e("newdir: ", newdir)
+//        File(newdir).mkdirs()
+//        Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
+//            val f = File(pathname + imgname + limb)
+//            Log.e("value f: ", f.toString())
+//            mediaScanIntent.data = Uri.fromFile(f)
+//            sendBroadcast(mediaScanIntent)
+//            Log.e("BodyScreen", "Done")
+//        }
+//    }
 }
