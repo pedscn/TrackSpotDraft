@@ -17,22 +17,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class BodyScreen : AppCompatActivity() {
-    val REQUEST_IMAGE_CAPTURE = 1
-    val REQUEST_TAKE_PHOTO = 1
-    var mCurrentPhotoPath: String = ""
-    var limb = ""
+    companion object {
+        val REQUEST_IMAGE_CAPTURE = 1
+        val REQUEST_TAKE_PHOTO = 1
+    }
+    private var mCurrentPhotoPath: String = ""
+    private var limb = ""
     var directorypath = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_spot_screen)
         Log.e("BodyScreen", "onCreate")
-        val MainMenuAction = intent.getStringExtra("MainMenuAction")
+        val mainMenuAction = intent.getStringExtra("MainMenuAction")
 
-        val btn_left_arm = findViewById<Button>(R.id.btn_left_arm) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_left_arm.setOnClickListener {
+        val btnLeftArm = findViewById<Button>(R.id.btn_left_arm) as Button //Required some googling due to sdk version not compatible with inference.
+        btnLeftArm.setOnClickListener {
             limb="leftarm"
-            if (MainMenuAction.equals( "Newspot")) {
+            if (mainMenuAction.equals( "Newspot")) {
                 dispatchTakePictureIntent()
             }
             else {
@@ -41,10 +43,10 @@ class BodyScreen : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        val btn_right_arm = findViewById<Button>(R.id.btn_right_arm) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_right_arm.setOnClickListener {
+        val btnRightArm = findViewById<Button>(R.id.btn_right_arm) as Button //Required some googling due to sdk version not compatible with inference.
+        btnRightArm.setOnClickListener {
             limb="rightarm"
-            if (MainMenuAction.equals( "Newspot")) {
+            if (mainMenuAction.equals( "Newspot")) {
                 dispatchTakePictureIntent()
             }
             else {
@@ -53,10 +55,10 @@ class BodyScreen : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        val btn_right_leg = findViewById<Button>(R.id.btn_right_leg) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_right_leg.setOnClickListener {
+        val btnRightLeg = findViewById<Button>(R.id.btn_right_leg) as Button //Required some googling due to sdk version not compatible with inference.
+        btnRightLeg.setOnClickListener {
             limb="rightleg"
-            if (MainMenuAction.equals( "Newspot")) {
+            if (mainMenuAction.equals( "Newspot")) {
                 dispatchTakePictureIntent()
             }
             else {
@@ -65,10 +67,10 @@ class BodyScreen : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        val btn_left_leg = findViewById<Button>(R.id.btn_left_leg) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_left_leg.setOnClickListener {
+        val btnLeftLeg = findViewById<Button>(R.id.btn_left_leg) as Button //Required some googling due to sdk version not compatible with inference.
+        btnLeftLeg.setOnClickListener {
             limb="leftleg"
-            if (MainMenuAction.equals( "Newspot")) {
+            if (mainMenuAction.equals( "Newspot")) {
                 limb="leftleg"
                 dispatchTakePictureIntent()
             }
@@ -78,10 +80,10 @@ class BodyScreen : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        val btn_torso = findViewById<Button>(R.id.btn_torso) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_torso.setOnClickListener {
+        val btnTorso = findViewById<Button>(R.id.btn_torso) as Button //Required some googling due to sdk version not compatible with inference.
+        btnTorso.setOnClickListener {
             limb="torso"
-            if (MainMenuAction.equals( "Newspot")) {
+            if (mainMenuAction.equals( "Newspot")) {
                 dispatchTakePictureIntent()
             }
             else {
@@ -90,10 +92,10 @@ class BodyScreen : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        val btn_head = findViewById<Button>(R.id.btn_head) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_head.setOnClickListener {
+        val btnHead = findViewById<Button>(R.id.btn_head) as Button //Required some googling due to sdk version not compatible with inference.
+        btnHead.setOnClickListener {
             limb="head"
-            if (MainMenuAction.equals( "Newspot")) {
+            if (mainMenuAction.equals( "Newspot")) {
                 dispatchTakePictureIntent()
             }
             else {

@@ -26,8 +26,8 @@ class AddSpot : AppCompatActivity() {
         val bmp = BitmapFactory.decodeFile(pathname)
         spotimg.setImageBitmap(bmp)
 
-        val btn_confirm_spot = findViewById<Button>(R.id.btn_confirm_spot) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_confirm_spot.setOnClickListener {
+        val btnConfirmSpot = findViewById<Button>(R.id.btn_confirm_spot) as Button //Required some googling due to sdk version not compatible with inference.
+        btnConfirmSpot.setOnClickListener {
             val editText = findViewById<EditText>(R.id.spot_name) as EditText
             val editname = editText.text.toString()
            // galleryAddPic(directorypath, imgname, editname, limb)

@@ -12,28 +12,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btn_new_spot = findViewById<Button>(R.id.btn_new_spot) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_new_spot.setOnClickListener {
+        val btnNewSpot = findViewById<Button>(R.id.btn_new_spot) as Button //Required some googling due to sdk version not compatible with inference.
+        btnNewSpot.setOnClickListener {
             Toast.makeText(this@MainActivity, "Adding a New Spot.", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, BodyScreen::class.java)
             intent.putExtra("MainMenuAction", "Newspot");
             startActivity(intent)
         }
-        val btn_old_spot = findViewById<Button>(R.id.btn_old_spot) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_old_spot.setOnClickListener {
+        val btnOldSpot = findViewById<Button>(R.id.btn_old_spot) as Button //Required some googling due to sdk version not compatible with inference.
+        btnOldSpot.setOnClickListener {
             Toast.makeText(this@MainActivity, "Adding an Old Spot", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, BodyScreen::class.java)
             intent.putExtra("MainMenuAction", "Oldspot");
             startActivity(intent)
         }
-        val btn_view_spots = findViewById<Button>(R.id.btn_view_spot) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_view_spots.setOnClickListener {
+        val btnViewSpots = findViewById<Button>(R.id.btn_view_spot) as Button //Required some googling due to sdk version not compatible with inference.
+        btnViewSpots.setOnClickListener {
             Toast.makeText(this@MainActivity, "Tracking a Spot", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, TrackSpotScreen::class.java)
             startActivity(intent)
         }
-        val btn_settings = findViewById<Button>(R.id.btn_settings) as Button //Required some googling due to sdk version not compatible with inference.
-        btn_settings.setOnClickListener {
+        val btnSettings = findViewById<Button>(R.id.btn_settings) as Button //Required some googling due to sdk version not compatible with inference.
+        btnSettings.setOnClickListener {
             Toast.makeText(this@MainActivity, "Opening Settings", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, SettingsScreen::class.java)
             startActivity(intent)
