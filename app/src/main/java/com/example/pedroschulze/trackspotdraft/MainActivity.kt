@@ -16,12 +16,14 @@ class MainActivity : AppCompatActivity() {
         btn_new_spot.setOnClickListener {
             Toast.makeText(this@MainActivity, "Adding a New Spot.", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, BodyScreen::class.java)
+            intent.putExtra("MainMenuAction", "Newspot");
             startActivity(intent)
         }
         val btn_old_spot = findViewById<Button>(R.id.btn_old_spot) as Button //Required some googling due to sdk version not compatible with inference.
         btn_old_spot.setOnClickListener {
             Toast.makeText(this@MainActivity, "Adding an Old Spot", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, OldSpotScreen::class.java)
+            val intent = Intent(this, BodyScreen::class.java)
+            intent.putExtra("MainMenuAction", "Oldspot");
             startActivity(intent)
         }
         val btn_view_spots = findViewById<Button>(R.id.btn_view_spot) as Button //Required some googling due to sdk version not compatible with inference.
