@@ -112,9 +112,10 @@ class BodyScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, TrackSpotScreen::class.java)
+                    val intent = Intent(this, OldSpotScreen::class.java)
                     intent.putExtra("option", "viewspot")
                     intent.putExtra("limb", limb)
+                    startActivity(intent)
                 }
             }
         }
@@ -130,9 +131,10 @@ class BodyScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, TrackSpotScreen::class.java)
+                    val intent = Intent(this, OldSpotScreen::class.java)
                     intent.putExtra("option", "viewspot")
                     intent.putExtra("limb", limb)
+                    startActivity(intent)
                 }
             }
         }
@@ -148,9 +150,10 @@ class BodyScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, TrackSpotScreen::class.java)
+                    val intent = Intent(this, OldSpotScreen::class.java)
                     intent.putExtra("option", "viewspot")
                     intent.putExtra("limb", limb)
+                    startActivity(intent)
                 }
             }
         }
@@ -166,9 +169,10 @@ class BodyScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, TrackSpotScreen::class.java)
+                    val intent = Intent(this, OldSpotScreen::class.java)
                     intent.putExtra("option", "viewspot")
                     intent.putExtra("limb", limb)
+                    startActivity(intent)
                 }
             }
         }
@@ -184,9 +188,10 @@ class BodyScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, TrackSpotScreen::class.java)
+                    val intent = Intent(this, OldSpotScreen::class.java)
                     intent.putExtra("option", "viewspot")
                     intent.putExtra("limb", limb)
+                    startActivity(intent)
                 }
             }
         }
@@ -202,9 +207,10 @@ class BodyScreen : AppCompatActivity() {
                     startActivity(intent)
                 }
                 mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, TrackSpotScreen::class.java)
+                    val intent = Intent(this, OldSpotScreen::class.java)
                     intent.putExtra("option", "viewspot")
                     intent.putExtra("limb", limb)
+                    startActivity(intent)
                 }
             }
         }
