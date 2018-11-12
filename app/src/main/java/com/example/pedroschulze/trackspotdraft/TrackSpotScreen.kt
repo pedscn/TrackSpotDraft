@@ -1,17 +1,12 @@
 package com.example.pedroschulze.trackspotdraft
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-
+import com.gtomato.android.ui.transformer.CoverFlowViewTransformer
 import kotlinx.android.synthetic.main.activity_track_spot_screen.*
-import swipeable.com.layoutmanager.OnItemSwiped
-import swipeable.com.layoutmanager.SwipeableTouchHelperCallback
-import android.support.v7.widget.AppCompatButton
-import swipeable.com.layoutmanager.SwipeableLayoutManager
-import swipeable.com.layoutmanager.touchelper.ItemTouchHelper
+import android.view.Gravity
+import com.gtomato.android.ui.transformer.LinearViewTransformer
 
 
 class TrackSpotScreen : AppCompatActivity() {
@@ -30,49 +25,27 @@ class TrackSpotScreen : AppCompatActivity() {
         Log.e("limb", limb)
 
         var adapter = ListAdapter()
-        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view)
-        val swipeableTouchHelperCallback = object : SwipeableTouchHelperCallback(object : OnItemSwiped {
-            override fun onItemSwiped() {
-                adapter.removeTopItem()
-            }
+        var adapter1 = ListAdapter()
+        Log.e("adapter items", adapter.items.toString())
+        Log.e("adapter count", adapter.itemCount.toString())
 
-            override fun onItemSwipedLeft() {
-                Log.e("SWIPE", "LEFT")
-            }
+        carousel1.transformer = CoverFlowViewTransformer()
+        carousel1.adapter = adapter
+        carousel1.gravity = Gravity.CENTER
+        carousel1.isScrollingAlignToViews = true
+        carousel1.clipChildren = true
+        carousel1.extraVisibleChilds = 1
+        carousel1.isEnableFling = false
+        carousel1.smoothScrollToPosition(carousel1.adapter.itemCount - 1);
 
-            override fun onItemSwipedRight() {
-                Log.e("SWIPE", "RIGHT")
-            }
+        carousel2.transformer = CoverFlowViewTransformer()
+        carousel2.adapter = adapter1
+        carousel2.setGravity(Gravity.CENTER)
+        carousel2.setScrollingAlignToViews(true);
+        carousel2.setClipChildren(false);
+        carousel2.setExtraVisibleChilds(4);
+        carousel2.setEnableFling(false);
 
-            override fun onItemSwipedUp() {
-                Log.e("SWIPE", "UP")
-            }
-
-            override fun onItemSwipedDown() {
-                Log.e("SWIPE", "DOWN")
-            }
-        }) {
-            override fun getAllowedSwipeDirectionsMovementFlags(viewHolder: RecyclerView.ViewHolder): Int {
-                return ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
-            }
-        }
-
-        val itemTouchHelper = ItemTouchHelper(swipeableTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-        recyclerView.layoutManager = SwipeableLayoutManager().setAngle(10)
-                .setAnimationDuratuion(450)
-                .setMaxShowCount(3)
-                .setScaleGap(0.1f)
-                .setTransYGap(0)
-        adapter = ListAdapter()
-        recyclerView.adapter = adapter
-
-    //    val button = findViewById(R.id.swipe)
-    //    button.setOnClickListener(object : View.OnClickListener() {
-    //        fun onClick(v: View) {
-    //            itemTouchHelper.swipe(recyclerView.findViewHolderForAdapterPosition(0), ItemTouchHelper.DOWN)
-    //        }
-    //    })
 
     }
 
