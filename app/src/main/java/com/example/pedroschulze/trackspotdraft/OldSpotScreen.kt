@@ -14,6 +14,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import com.bumptech.glide.Glide
 import android.support.v4.content.FileProvider
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -22,9 +24,27 @@ import java.util.*
 
 class OldSpotScreen : AppCompatActivity() {
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menuitems, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_add -> {
+            // do stuff
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_old_spot_screen)
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+
         val limb = intent.getStringExtra("limb")
         val MainMenuAction = intent.getStringExtra("option")
         Log.e("option", MainMenuAction)

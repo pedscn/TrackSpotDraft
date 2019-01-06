@@ -28,7 +28,9 @@ class BodyScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_spot_screen)
+        setContentView(R.layout.activity_body_screen)
+        setSupportActionBar(findViewById(R.id.my_toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         Log.e("BodyScreen", "onCreate")
         createMainMenu()
     }
@@ -102,6 +104,15 @@ class BodyScreen : AppCompatActivity() {
         val btnLeftArm = findViewById<Button>(R.id.btn_left_arm) as Button //Required some googling due to sdk version not compatible with inference.
         btnLeftArm.setOnClickListener {
             limb = "leftarm"
+            val intent = Intent(this, OldSpotScreen::class.java)
+            intent.putExtra("limb", limb)
+            intent.putExtra("option", "placeholder") //needed to not break next activity, remove later **
+            startActivity(intent)
+        }
+
+        val btnTorso = findViewById<Button>(R.id.btn_torso) as Button //Required some googling due to sdk version not compatible with inference.
+        btnTorso.setOnClickListener {
+            limb = "torso"
             val intent = Intent(this, OldSpotScreen::class.java)
             intent.putExtra("limb", limb)
             intent.putExtra("option", "placeholder") //needed to not break next activity, remove later **
