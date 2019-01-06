@@ -21,6 +21,7 @@ class BodyScreen : AppCompatActivity() {
         val REQUEST_IMAGE_CAPTURE = 1
         val REQUEST_TAKE_PHOTO = 1
     }
+
     private var mCurrentPhotoPath: String = ""
     private var limb = ""
     var directorypath = ""
@@ -29,9 +30,7 @@ class BodyScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_spot_screen)
         Log.e("BodyScreen", "onCreate")
-        val mainMenuAction = intent.getStringExtra("MainMenuAction")
-        createMainMenu(mainMenuAction)
-
+        createMainMenu()
     }
 
     @Throws(IOException::class)
@@ -41,7 +40,7 @@ class BodyScreen : AppCompatActivity() {
         val storageDir: File = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
         directorypath = storageDir.absolutePath + "/trackspot/temp/"
         val newDir = File(directorypath)
-        if(!newDir.exists()) newDir.mkdirs()
+        if (!newDir.exists()) newDir.mkdirs()
 
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
@@ -99,120 +98,15 @@ class BodyScreen : AppCompatActivity() {
         }
     }
 
-    private fun createMainMenu(mainMenuAction: String?) {
+    private fun createMainMenu() {
         val btnLeftArm = findViewById<Button>(R.id.btn_left_arm) as Button //Required some googling due to sdk version not compatible with inference.
         btnLeftArm.setOnClickListener {
-            limb="leftarm"
-            when {
-                mainMenuAction.equals( "Newspot") -> dispatchTakePictureIntent()
-                mainMenuAction.equals("Oldspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("limb", limb)
-                    intent.putExtra("option", "oldspot")
-                    startActivity(intent)
-                }
-                mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("option", "viewspot")
-                    intent.putExtra("limb", limb)
-                    startActivity(intent)
-                }
-            }
-        }
-        val btnRightArm = findViewById<Button>(R.id.btn_right_arm) as Button //Required some googling due to sdk version not compatible with inference.
-        btnRightArm.setOnClickListener {
-            limb="rightarm"
-            when {
-                mainMenuAction.equals( "Newspot") -> dispatchTakePictureIntent()
-                mainMenuAction.equals("Oldspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("limb", limb)
-                    intent.putExtra("option", "oldspot")
-                    startActivity(intent)
-                }
-                mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("option", "viewspot")
-                    intent.putExtra("limb", limb)
-                    startActivity(intent)
-                }
-            }
-        }
-        val btnRightLeg = findViewById<Button>(R.id.btn_right_leg) as Button //Required some googling due to sdk version not compatible with inference.
-        btnRightLeg.setOnClickListener {
-            limb="rightleg"
-            when {
-                mainMenuAction.equals( "Newspot") -> dispatchTakePictureIntent()
-                mainMenuAction.equals("Oldspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("limb", limb)
-                    intent.putExtra("option", "oldspot")
-                    startActivity(intent)
-                }
-                mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("option", "viewspot")
-                    intent.putExtra("limb", limb)
-                    startActivity(intent)
-                }
-            }
-        }
-        val btnLeftLeg = findViewById<Button>(R.id.btn_left_leg) as Button //Required some googling due to sdk version not compatible with inference.
-        btnLeftLeg.setOnClickListener {
-            limb="leftleg"
-            when {
-                mainMenuAction.equals( "Newspot") -> dispatchTakePictureIntent()
-                mainMenuAction.equals("Oldspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("limb", limb)
-                    intent.putExtra("option", "oldspot")
-                    startActivity(intent)
-                }
-                mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("option", "viewspot")
-                    intent.putExtra("limb", limb)
-                    startActivity(intent)
-                }
-            }
-        }
-        val btnTorso = findViewById<Button>(R.id.btn_torso) as Button //Required some googling due to sdk version not compatible with inference.
-        btnTorso.setOnClickListener {
-            limb="torso"
-            when {
-                mainMenuAction.equals( "Newspot") -> dispatchTakePictureIntent()
-                mainMenuAction.equals("Oldspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("limb", limb)
-                    intent.putExtra("option", "oldspot")
-                    startActivity(intent)
-                }
-                mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("option", "viewspot")
-                    intent.putExtra("limb", limb)
-                    startActivity(intent)
-                }
-            }
-        }
-        val btnHead = findViewById<Button>(R.id.btn_head) as Button //Required some googling due to sdk version not compatible with inference.
-        btnHead.setOnClickListener {
-            limb="head"
-            when {
-                mainMenuAction.equals( "Newspot") -> dispatchTakePictureIntent()
-                mainMenuAction.equals("Oldspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("limb", limb)
-                    intent.putExtra("option", "oldspot")
-                    startActivity(intent)
-                }
-                mainMenuAction.equals("Viewspot") -> {
-                    val intent = Intent(this, OldSpotScreen::class.java)
-                    intent.putExtra("option", "viewspot")
-                    intent.putExtra("limb", limb)
-                    startActivity(intent)
-                }
-            }
+            limb = "leftarm"
+            val intent = Intent(this, OldSpotScreen::class.java)
+            intent.putExtra("limb", limb)
+            intent.putExtra("option", "placeholder") //needed to not break next activity, remove later **
+            startActivity(intent)
         }
     }
 }
+
