@@ -24,6 +24,10 @@ import java.util.*
 
 class OldSpotScreen : AppCompatActivity() {
 
+    var selectedLimb = ""
+    var isOldSpotSelected = false
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menuitems, menu)
         return true
@@ -32,6 +36,10 @@ class OldSpotScreen : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             // do stuff
+            val spotName = "temp"
+            val spotDesc = "/storage/emulated/0/Pictures/trackspot/$selectedLimb/temp/"
+            val spotDetail = "placehplder"
+            dispatchTakePictureIntent(spotName, spotDetail, spotDesc)
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -42,9 +50,10 @@ class OldSpotScreen : AppCompatActivity() {
         setContentView(R.layout.activity_old_spot_screen)
         setSupportActionBar(findViewById(R.id.my_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        isOldSpotSelected = false
 
 
-
+        selectedLimb = intent.getStringExtra("limb")
         val limb = intent.getStringExtra("limb")
         val MainMenuAction = intent.getStringExtra("option")
         Log.e("option", MainMenuAction)
@@ -98,6 +107,7 @@ class OldSpotScreen : AppCompatActivity() {
             Log.e("spotNames", spotNames[arg2])
             Log.e("spotDetails", spotDetails[arg2])
             Log.e("spotDesc", spotDesc[arg2])
+            isOldSpotSelected = false
             if (MainMenuAction=="oldspot") {
                 dispatchTakePictureIntent(spotNames[arg2], spotDetails[arg2], spotDesc[arg2])
             }
@@ -166,10 +176,16 @@ class OldSpotScreen : AppCompatActivity() {
         Log.e("BodyScreen", "onActivityResult")
 
         if (requestCode == BodyScreen.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(this@OldSpotScreen, "Spot updated", Toast.LENGTH_SHORT).show()
-
+            //val intent = Intent(this, OldSpotScreen::class.java)
+            //startActivity(intent)
+            if (isOldSpotSelected) {
+                Toast.makeText(this@OldSpotScreen, "Spot updated", Toast.LENGTH_SHORT).show()
+                finish()
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, AddSpot::class.java)
+                startActivity(intent)
+            }
         }
     }
 
