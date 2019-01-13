@@ -11,6 +11,8 @@ import java.io.File
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Environment
+import android.os.Environment.*
 import android.provider.MediaStore
 import com.bumptech.glide.Glide
 import android.support.v4.content.FileProvider
@@ -21,11 +23,12 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class OldSpotScreen : AppCompatActivity() {
 
     var selectedLimb = ""
     var isOldSpotSelected = false
+    var currentPath = ""
+    private var mCurrentPhotoPath: String = ""
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -38,7 +41,8 @@ class OldSpotScreen : AppCompatActivity() {
             // do stuff
             val spotName = "temp"
             val spotDesc = "/storage/emulated/0/Pictures/trackspot/$selectedLimb/temp/"
-            val spotDetail = "placehplder"
+            currentPath = spotDesc
+            val spotDetail = "placeholder"
             dispatchTakePictureIntent(spotName, spotDetail, spotDesc)
             true
         }
@@ -55,8 +59,8 @@ class OldSpotScreen : AppCompatActivity() {
 
         selectedLimb = intent.getStringExtra("limb")
         val limb = intent.getStringExtra("limb")
+        title = limb+" Spots"
         val MainMenuAction = intent.getStringExtra("option")
-        Log.e("option", MainMenuAction)
         var spotNames = emptyArray<String>()
         var spotDetails = emptyArray<String>()
         var spotDesc = emptyArray<String>()
@@ -65,22 +69,23 @@ class OldSpotScreen : AppCompatActivity() {
             Log.e("PATH", file.toString())
             if (index != 0) {
                 val name = file.toString().removePrefix("/storage/emulated/0/Pictures/trackspot/$limb/")
+                Log.e("imgFile walk", File("/storage/emulated/0/Pictures/trackspot/$limb/$name/").walk().maxDepth(1).toList().toString())
                 val imgFile =  File("/storage/emulated/0/Pictures/trackspot/$limb/$name/").walk().maxDepth(1).toList()[1]
+                Log.e("name", name)
                 Log.e("imgfile", imgFile.toString())
                 spotNames += name
                 spotDesc += "/storage/emulated/0/Pictures/trackspot/$limb/$name/"
                 spotDetails += imgFile.toString().removePrefix("/storage/emulated/0/Pictures/trackspot/$limb/$name/")
-
                 thumbnails += BitmapFactory.decodeFile(imgFile.absolutePath)
                 //val name = nameAndImage.split("/")[0]
                 //val image = nameAndImage.split("/")[1]
-                Log.e("name", name)
                 //Log.e("image", image)
                     //val imgFile = File(file.toString())
                     //val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                     //thumbnails += myBitmap
                 }
             }
+
 
         val adapter1 = object : ArrayAdapter<String>(this, R.layout.list_item, R.id.title, spotNames) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -95,6 +100,7 @@ class OldSpotScreen : AppCompatActivity() {
                 text3.text = spotDesc[position].removePrefix("/storage/emulated/0")
                 Glide.with(this@OldSpotScreen)
                         .load(thumbnails[position])
+                        .thumbnail( 0.1f )
                         .into(view1)
                 return view
             }
@@ -127,8 +133,8 @@ class OldSpotScreen : AppCompatActivity() {
     fun createImageFile(spotDesc: String): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        //val storageDir: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        //val directorypath = spotDesc
+        val storageDir: File = getExternalStoragePublicDirectory(DIRECTORY_PICTURES)
+        val directorypath = spotDesc
         val newDir = File(spotDesc)
         if(!newDir.exists()) newDir.mkdirs()
 
@@ -138,7 +144,7 @@ class OldSpotScreen : AppCompatActivity() {
                 newDir /* directory */
         ).apply {
             // Save a file: path for use with ACTION_VIEW intents
-            //mCurrentPhotoPath = absolutePath
+            mCurrentPhotoPath = absolutePath
             //Log.e("mCurrentPhotoPath IM", mCurrentPhotoPath)
         }
     }
@@ -184,9 +190,16 @@ class OldSpotScreen : AppCompatActivity() {
                 startActivity(intent)
             } else {
                 val intent = Intent(this, AddSpot::class.java)
+                intent.putExtra("limb", selectedLimb)
+                intent.putExtra("directorypath", currentPath)
+                intent.putExtra("imgpath", mCurrentPhotoPath)
+                intent.putExtra("imgname", "placeholder")
                 startActivity(intent)
             }
         }
     }
-
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
 }

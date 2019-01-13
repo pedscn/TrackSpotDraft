@@ -119,5 +119,9 @@ class BodyScreen : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
+    override fun onBackPressed() {
+
+    }
 }
 
