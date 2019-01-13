@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import java.io.File
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Environment
 import android.os.Environment.*
@@ -19,7 +20,9 @@ import android.support.v4.content.FileProvider
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
+import com.yalantis.ucrop.UCrop
 import java.io.IOException
+import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -181,9 +184,7 @@ class OldSpotScreen : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         Log.e("BodyScreen", "onActivityResult")
 
-        if (requestCode == BodyScreen.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            //val intent = Intent(this, OldSpotScreen::class.java)
-            //startActivity(intent)
+        if (requestCode == UCrop.REQUEST_CROP) {
             if (isOldSpotSelected) {
                 Toast.makeText(this@OldSpotScreen, "Spot updated", Toast.LENGTH_SHORT).show()
                 finish()
@@ -196,6 +197,20 @@ class OldSpotScreen : AppCompatActivity() {
                 intent.putExtra("imgname", "placeholder")
                 startActivity(intent)
             }
+        }
+
+        if (requestCode == BodyScreen.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+
+            val cropOptions = UCrop.Options().apply {
+                //setActiveWidgetColor(Color.BLUE)
+                //setToolbarColor(Color.BLUE)
+                setAllowedGestures(0,0,0)
+            }
+
+            UCrop.of(Uri.parse("file://"+mCurrentPhotoPath), Uri.parse("file://"+mCurrentPhotoPath))
+                    .withAspectRatio(1.toFloat(),1.toFloat())
+                    .withOptions(cropOptions)
+                    .start(this)
         }
     }
     override fun onBackPressed() {

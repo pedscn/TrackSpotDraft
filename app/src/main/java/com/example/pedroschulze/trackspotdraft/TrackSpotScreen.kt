@@ -23,6 +23,16 @@ class TrackSpotScreen : AppCompatActivity() {
         Log.e("spotPicname", spotPicname)
         Log.e("limb", limb)
 
+
+
+
+
+
+
+
+
+
+
     }
 
 }
