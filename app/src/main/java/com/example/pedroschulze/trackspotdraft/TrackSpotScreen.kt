@@ -13,26 +13,17 @@ class TrackSpotScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_track_spot_screen)
+        setSupportActionBar(findViewById(R.id.toolbar))
+        title = "Spot Comparison"
 
-        val limb = intent.getStringExtra("limb")
+        /*val limb = intent.getStringExtra("limb")
         val spotName = intent.getStringExtra("spotName")
         val spotPath = intent.getStringExtra("spotPath")
         val spotPicname = intent.getStringExtra("spotPicname")
         Log.e("spotName", spotName)
         Log.e("spotPath", spotPath)
         Log.e("spotPicname", spotPicname)
-        Log.e("limb", limb)
-
-
-
-
-
-
-
-
-
-
+        Log.e("limb", limb)*/
 
     }
-
 }
