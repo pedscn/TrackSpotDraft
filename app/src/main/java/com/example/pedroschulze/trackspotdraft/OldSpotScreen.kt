@@ -3,7 +3,6 @@ package com.example.pedroschulze.trackspotdraft
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -11,24 +10,21 @@ import java.io.File
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Environment.*
-import android.provider.MediaStore
 import com.bumptech.glide.Glide
-import android.support.v4.content.FileProvider
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
 import com.yalantis.ucrop.UCrop
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
-class OldSpotScreen : AppCompatActivity() {
+class OldSpotScreen : CameraOpeningActivity() { // Reduce redundancy
 
-    var selectedLimb = ""
-    var isOldSpotSelected = false
-    var currentPath = ""
-    private var mCurrentPhotoPath: String = ""
+    companion object {
+        val REQUEST_IMAGE_CAPTURE = 1
+        val REQUEST_TAKE_PHOTO = 1
+    }
+
+    lateinit var selectedBodyPart : String
+    lateinit var currentPath : String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menuitems, menu)
@@ -37,12 +33,9 @@ class OldSpotScreen : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
-            // do stuff
-            val spotName = "temp"
-            val spotDesc = "/storage/emulated/0/Pictures/trackspot/$selectedLimb/temp/"
-            currentPath = spotDesc
-            val spotDetail = "placeholder"
-            dispatchTakePictureIntent(spotDesc)
+            val spotDirectory = "/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/temp/" //Is this stable with every device?
+            currentPath = spotDirectory
+            dispatchTakePictureIntent(spotDirectory)
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -53,34 +46,22 @@ class OldSpotScreen : AppCompatActivity() {
         setContentView(R.layout.activity_old_spot_screen)
         setSupportActionBar(findViewById(R.id.my_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        isOldSpotSelected = false
-
-        selectedLimb = intent.getStringExtra("limb")
-        val limb = intent.getStringExtra("limb")
-        title = limb+" Spots"
-        val MainMenuAction = intent.getStringExtra("option")
+        selectedBodyPart = intent.getStringExtra("selectedBodyPart")
+        title = "$selectedBodyPart Spots"
         var spotNames = emptyArray<String>()
-        var spotDetails = emptyArray<String>() //JPg only filenames
-        var spotDesc = emptyArray<String>()
+        var spotImageName = emptyArray<String>() //JPG only filenames
+        var spotPaths = emptyArray<String>() //Path without jpg
         var thumbnails = emptyArray<Bitmap>()
-        File("/storage/emulated/0/Pictures/trackspot/$limb/").walk().maxDepth(1).forEachIndexed { index, file ->
+        File("/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/").walk().maxDepth(1).forEachIndexed { index, file ->
             Log.e("PATH", file.toString())
             if (index != 0) {
-                val name = file.toString().removePrefix("/storage/emulated/0/Pictures/trackspot/$limb/")
-                Log.e("imgFile walk", File("/storage/emulated/0/Pictures/trackspot/$limb/$name/").walk().maxDepth(1).toList().toString())
-                val imgFile =  File("/storage/emulated/0/Pictures/trackspot/$limb/$name/").walk().maxDepth(1).toList()[1]
-                Log.e("name", name)
-                Log.e("imgfile", imgFile.toString())
-                spotNames += name
-                spotDesc += "/storage/emulated/0/Pictures/trackspot/$limb/$name/"
-                spotDetails += imgFile.toString().removePrefix("/storage/emulated/0/Pictures/trackspot/$limb/$name/")
+                val spotName = file.toString().removePrefix("/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/")
+                Log.e("imgFile walk", File("/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/$spotName/").walk().maxDepth(1).toList().toString())
+                val imgFile =  File("/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/$spotName/").walk().maxDepth(1).toList()[1]
+                spotNames += spotName
+                spotPaths += "/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/$spotName/"
+                spotImageName += imgFile.toString().removePrefix("/storage/emulated/0/Pictures/trackspot/$selectedBodyPart/$spotName/")
                 thumbnails += BitmapFactory.decodeFile(imgFile.absolutePath)
-                //val name = nameAndImage.split("/")[0]
-                //val image = nameAndImage.split("/")[1]
-                //Log.e("image", image)
-                    //val imgFile = File(file.toString())
-                    //val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                    //thumbnails += myBitmap
                 }
             }
 
@@ -91,84 +72,30 @@ class OldSpotScreen : AppCompatActivity() {
                 val text2 = view.findViewById<View>(R.id.seconddesc) as TextView
                 val text3 = view.findViewById<View>(R.id.artist) as TextView
                 val view1 = view.findViewById<ImageView>(R.id.thumbn) as ImageView
-
                 text1.text = spotNames[position]
-                text2.text = spotDetails[position]
-                text3.text = spotDesc[position].removePrefix("/storage/emulated/0")
+                text2.text = spotImageName[position]
+                text3.text = spotPaths[position].removePrefix("/storage/emulated/0") //Just for cleaner UI purposes
                 Glide.with(this@OldSpotScreen)
                         .load(thumbnails[position])
-                        .thumbnail( 0.1f )
+                        .thumbnail( 0.1f ) //Improve memory management
                         .into(view1)
                 return view
             }
         }
 
         val listView = findViewById<ListView>(R.id.sampleListView)
-        listView.adapter = adapter1 //Setting adapter and listener to start song level when clicked.
+        listView.adapter = adapter1
         listView.onItemClickListener = AdapterView.OnItemClickListener { arg0, arg1, arg2, arg3 ->
             Log.e("arg3", arg3.toString())
-            Log.e("spotNames", spotNames[arg2])
-            Log.e("spotDetails", spotDetails[arg2])
-            Log.e("spotDesc", spotDesc[arg2])
-            isOldSpotSelected = false
-            if (MainMenuAction=="oldspot") {
-                dispatchTakePictureIntent(spotNames[arg2])
-            }
-            else {
-                val intent = Intent(this, SpotImageList::class.java)
-                intent.putExtra("limb", limb)
-                intent.putExtra("spotName", spotNames[arg2])
-                intent.putExtra("spotPicname", spotDetails[arg2])
-                intent.putExtra("spotPath", spotDesc[arg2])
-                startActivity(intent)
-            }
-
-        }
-    }
-
-    @Throws(IOException::class)
-    fun createImageFile(spotDirectory: String): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = getExternalStoragePublicDirectory(DIRECTORY_PICTURES)
-        val newDir = File(spotDirectory)
-        if(!newDir.exists()) newDir.mkdirs()
-        return File.createTempFile(
-                "JPEG_${timeStamp}_", /* prefix */
-                ".jpg", /* suffix */
-                newDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            mCurrentPhotoPath = absolutePath
-        }
-    }
-
-    fun dispatchTakePictureIntent(spotDirectory: String) {
-        Log.e("BodyScreen", "dispatchTakePictureIntent")
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
-            takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                // Create the File where the photo should go
-                val photoFile: File? = try {
-                    createImageFile(spotDirectory)
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    Log.e("BodyScreen", "IOException")
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                            this,
-                            "com.example.pedroschulze.trackspotdraft.android.fileprovider",
-                            it
-                    )
-                    Log.e("BodyScreen", "startingIntent")
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, BodyScreen.REQUEST_TAKE_PHOTO)
-                }
-            }
+            Log.e("spotNames", spotNames[arg2]) //arg2 is position in the list
+            Log.e("spotDetails", spotImageName[arg2])
+            Log.e("spotDesc", spotPaths[arg2])
+            val intent = Intent(this, SpotImageList::class.java)
+            intent.putExtra("selectedBodyPart", selectedBodyPart)
+            intent.putExtra("spotName", spotNames[arg2])
+            intent.putExtra("spotImageName", spotImageName[arg2])
+            intent.putExtra("spotPath", spotPaths[arg2])
+            startActivity(intent)
         }
     }
 
@@ -177,29 +104,22 @@ class OldSpotScreen : AppCompatActivity() {
         Log.e("BodyScreen", "onActivityResult")
 
         if (requestCode == UCrop.REQUEST_CROP) {
-            if (isOldSpotSelected) {
-                Toast.makeText(this@OldSpotScreen, "Spot updated", Toast.LENGTH_SHORT).show()
-                finish()
-                startActivity(intent)
-            } else {
-                val intent = Intent(this, AddSpot::class.java)
-                intent.putExtra("limb", selectedLimb)
-                intent.putExtra("directorypath", currentPath)
-                intent.putExtra("imgpath", mCurrentPhotoPath)
-                intent.putExtra("imgname", "placeholder")
-                startActivity(intent)
-            }
+            val intent = Intent(this, AddSpot::class.java)
+            intent.putExtra("selectedBodyPart", selectedBodyPart)
+            intent.putExtra("directorypath", currentPath)
+            intent.putExtra("imgpath", mCurrentPhotoPath)
+            intent.putExtra("imgname", "placeholder")
+            startActivity(intent)
         }
 
-        if (requestCode == BodyScreen.REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val cropOptions = UCrop.Options().apply {
                 //setActiveWidgetColor(Color.BLUE)
                 //setToolbarColor(Color.BLUE)
                 setAllowedGestures(0,0,0)
             }
 
-            UCrop.of(Uri.parse("file://"+mCurrentPhotoPath), Uri.parse("file://"+mCurrentPhotoPath))
+            UCrop.of(Uri.parse("file://"+mCurrentPhotoPath), Uri.parse("file://"+mCurrentPhotoPath)) //same destination as source file
                     .withAspectRatio(1.toFloat(),1.toFloat())
                     .withOptions(cropOptions)
                     .start(this)

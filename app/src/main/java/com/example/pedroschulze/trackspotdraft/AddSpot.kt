@@ -19,13 +19,10 @@ class AddSpot : AppCompatActivity() {
         setContentView(R.layout.activity_add_spot)
 
         val pathname:String = intent.getStringExtra("imgpath")
-        val limb = intent.getStringExtra("limb")
+        val limb = intent.getStringExtra("selectedBodyPart")
         val imgname = pathname.removePrefix("/storage/emulated/0/Pictures/trackspot/$limb/temp/")
         val directorypath = intent.getStringExtra("directorypath")
         Log.e("preconfirm pathname: ", pathname)
-
-        //val bmp = BitmapFactory.decodeFile(pathname)
-        //spotimg.setImageBitmap(bmp)
 
         Glide.with(this@AddSpot)
                 .load(File(pathname)) // Uri of the picture
@@ -41,7 +38,7 @@ class AddSpot : AppCompatActivity() {
 
             galleryAddPic(directorypath, imgname, editname, limb)
             val intent = Intent(this, OldSpotScreen::class.java)
-            intent.putExtra("limb", limb)
+            intent.putExtra("selectedBodyPart", limb)
             startActivity(intent)
         }
     }

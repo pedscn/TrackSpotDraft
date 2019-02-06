@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -40,7 +42,11 @@
         <activity
             android:name=".TrackSpotScreen"
             android:label="@string/title_activity_track_spot_screen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.pedroschulze.trackspotdraft.BodyScreen" />
+        </activity>
         <activity
             android:name=".SettingsScreen"
             android:label="@string/title_activity_settings_screen"
@@ -48,12 +54,12 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.pedroschulze.trackspotdraft.android.fileprovider"
+            android:authorities="my.package.name.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
 
         <activity
@@ -67,7 +73,11 @@
         <activity
             android:name=".SpotImageList"
             android:label="@string/title_activity_spot_image_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.pedroschulze.trackspotdraft.BodyScreen" />
+        </activity>
     </application>
 
 </manifest>

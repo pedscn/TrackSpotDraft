@@ -7,4 +7,6 @@
     <string name="title_activity_body_screen">BodyScreen</string>
     <string name="title_activity_add_spot">AddSpot</string>
     <string name="title_activity_spot_image_list">SpotImageList</string>
+    <string name="compare">Compare</string>
+    <string name="email">Email</string>
 </resources>
