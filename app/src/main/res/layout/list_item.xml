@@ -19,7 +19,7 @@
             android:layout_width="45sp"
             android:layout_height="60sp"
             android:id="@+id/thumbn"
-            android:src="@drawable/music"
+            android:src="@drawable/ic_circle"
             android:contentDescription="thumbnail" />
 
     </LinearLayout>
@@ -66,7 +66,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_name"
+        android:src="@drawable/ic_camera"
         android:layout_marginRight="12sp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"

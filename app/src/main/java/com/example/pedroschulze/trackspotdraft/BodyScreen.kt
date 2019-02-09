@@ -2,8 +2,10 @@ package com.example.pedroschulze.trackspotdraft
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
+import FragmentAdapter
 import android.widget.Button
 
 class BodyScreen : AppCompatActivity() {
@@ -15,25 +17,30 @@ class BodyScreen : AppCompatActivity() {
         setContentView(R.layout.activity_body_screen)
         setSupportActionBar(findViewById(R.id.my_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        createMainMenu()
+        createTabs()
     }
 
-    private fun createMainMenu() {
-        val btnLeftArm = findViewById<Button>(R.id.btn_left_arm) as Button //Required some googling due to sdk version not compatible with inference.
-        btnLeftArm.setOnClickListener {
-            selectedBodyPart = "leftarm"
-            val intent = Intent(this, OldSpotScreen::class.java)
-            intent.putExtra("selectedBodyPart", selectedBodyPart)
-            startActivity(intent)
-        }
+    private fun createTabs() {
+        val tabLayout: TabLayout = findViewById(R.id.tab_layout)
+        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        val adapter = FragmentAdapter(supportFragmentManager)
+        viewPager.adapter = adapter
+        tabLayout.setupWithViewPager(viewPager)
+        tabLayout.tabMode = TabLayout.MODE_FIXED
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+        tabLayout.getTabAt(0)?.text = "Front"
+        tabLayout.getTabAt(1)?.text = "Back"
 
-        val btnTorso = findViewById<Button>(R.id.btn_torso) as Button
-        btnTorso.setOnClickListener {
-            selectedBodyPart = "torso"
-            val intent = Intent(this, OldSpotScreen::class.java)
-            intent.putExtra("selectedBodyPart", selectedBodyPart)
-            startActivity(intent)
-        }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
     }
 
     override fun onBackPressed() {
