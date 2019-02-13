@@ -6,7 +6,6 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:padding="5dip">
 
-    <!--  ListRow Left sied Thumbnail image -->
     <LinearLayout
         android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
@@ -20,34 +19,32 @@
             android:layout_height="60sp"
             android:id="@+id/thumbn"
             android:src="@drawable/ic_circle"
-            android:contentDescription="thumbnail" />
+            android:contentDescription="@string/thumbnail" />
 
     </LinearLayout>
 
-    <!-- Title Of Song-->
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toEndOf="@+id/thumbnail"
-        android:text="title tag"
+        android:text="@string/title_tag"
         android:textColor="#040404"
         android:typeface="sans"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!-- Artist Name -->
     <TextView
         android:id="@+id/artist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:textColor="#343434"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_marginTop="1dip"
         android:layout_toEndOf="@+id/thumbnail"
-        android:text="tag" />
+        android:text="@string/tag" />
 
     <TextView
         android:id="@+id/seconddesc"
@@ -55,21 +52,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/artist"
         android:textColor="#343434"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:layout_marginTop="1dip"
         android:layout_toEndOf="@+id/thumbnail"
-        android:text="tag" />
+        android:text="@string/tag" />
 
-    <!-- Rightend Duration -->
-
-    <!-- Rightend Arrow -->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_camera"
-        android:layout_marginRight="12sp"
+        android:layout_marginEnd="12sp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:contentDescription="icon" />
+        android:contentDescription="@string/icon" />
 
 </RelativeLayout>

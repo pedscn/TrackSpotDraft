@@ -7,38 +7,57 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import kotlinx.android.synthetic.main.fragment_one.*
 
 class FragmentOne : Fragment() {
 
-    lateinit var selectedBodyPart : String
+    private val selectedBodySide = "front"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        //createMainMenu()
-        return inflater!!.inflate(R.layout.fragment_one, container, false)
+        return inflater.inflate(R.layout.fragment_one, container, false)
     }
-
 
     companion object {
         fun newInstance(): FragmentOne = FragmentOne()
     }
 
-    /*private fun createMainMenu() {
-        val btnLeftArm = btn_left_arm//Required some googling due to sdk version not compatible with inference.
-        btnLeftArm.setOnClickListener {
-            selectedBodyPart = "leftarm"
-            val intent = Intent(context, OldSpotScreen::class.java)
-            intent.putExtra("selectedBodyPart", selectedBodyPart)
-            startActivity(intent)
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        createMainMenu()
+    }
 
-        val btnTorso = btn_torso
-        btnTorso.setOnClickListener {
-            selectedBodyPart = "torso"
-            val intent = Intent(context, OldSpotScreen::class.java)
-            intent.putExtra("selectedBodyPart", selectedBodyPart)
-            startActivity(intent)
+   private fun openBodyPart(selectedBodyPart : String) {
+       val intent = Intent(this.activity, OldSpotScreen::class.java)
+       intent.putExtra("selectedBodyPart", selectedBodyPart)
+       intent.putExtra("selectedBodySide", selectedBodySide)
+       startActivity(intent)
+   }
+
+    private fun createMainMenu() {
+
+        val btnLeftArm = view?.findViewById<Button>(R.id.btn_right_arm) as Button
+        btnLeftArm.setOnClickListener {
+            openBodyPart("leftarm")
         }
-    }*/
+        val btnRightArm = view?.findViewById<Button>(R.id.btn_left_arm) as Button
+        btnRightArm.setOnClickListener {
+            openBodyPart("rightarm")
+        }
+        val btnTorso = view?.findViewById<Button>(R.id.btn_back) as Button
+        btnTorso.setOnClickListener {
+            openBodyPart("torso")
+        }
+        val btnLeftLeg = view?.findViewById<Button>(R.id.btn_right_leg) as Button
+        btnLeftLeg.setOnClickListener {
+            openBodyPart("leftleg")
+        }
+        val btnRightLeg = view?.findViewById<Button>(R.id.btn_left_leg) as Button
+        btnRightLeg.setOnClickListener {
+            openBodyPart("rightleg")
+        }
+        val btnHead = view?.findViewById<Button>(R.id.btn_head) as Button
+        btnHead.setOnClickListener {
+            openBodyPart("head")
+        }
+    }
 }

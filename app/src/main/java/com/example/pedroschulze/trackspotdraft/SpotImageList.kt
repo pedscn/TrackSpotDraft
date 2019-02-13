@@ -17,11 +17,8 @@ import com.yalantis.ucrop.UCrop
 
 class SpotImageList : CameraOpeningActivity() {
 
-    var selectedBodyPart = ""
-    var spotName = ""
-    var spotPath = ""
-    var spotImageName = ""
-
+    private lateinit var spotName : String
+    lateinit var spotDirectory: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menuitems, menu)
@@ -30,7 +27,7 @@ class SpotImageList : CameraOpeningActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
-            dispatchTakePictureIntent(spotPath)
+            dispatchTakePictureIntent(spotDirectory)
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -42,52 +39,50 @@ class SpotImageList : CameraOpeningActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         Fresco.initialize(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         spotName = intent.getStringExtra("spotName")
-        spotPath = intent.getStringExtra("spotPath")
-        spotImageName = intent.getStringExtra("spotImageName")
-        title = "Spot Images of "+spotName
-        
-        var imgPaths = emptyArray<String>()
-        var thumbnails = emptyArray<Bitmap>()
-        val imgFiles =  File(spotPath).walk().maxDepth(1).toList()
+        spotDirectory = intent.getStringExtra("spotDirectory")
+        title = "Spot Images of " + spotName
+        createSpotImageLists()
+    }
 
-        for (i in 2..imgFiles.size) {
-            imgPaths += imgFiles[i-1].toString()
-            thumbnails += BitmapFactory.decodeFile(imgFiles[i-1].absolutePath)
+    private fun createSpotImageLists() { //Same as OldSpotScreen, there's a better way.
+        var fullImagePaths = emptyArray<String>()
+        var imageThumbnails = emptyArray<Bitmap>()
+        val imageFiles =  File(spotDirectory).walk().maxDepth(1).toList()
+
+        for (i in 2..imageFiles.size) {
+            fullImagePaths += imageFiles[i-1].toString()
+            imageThumbnails += BitmapFactory.decodeFile(imageFiles[i-1].absolutePath)
         }
 
-        val adapter1 = object : ArrayAdapter<String>(this, R.layout.list_item, R.id.title, imgPaths) {
+        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.list_item, R.id.title, fullImagePaths) { //Again, can refactor xml
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                val text1 = view.findViewById<View>(R.id.title) as TextView
-                val text2 = view.findViewById<View>(R.id.seconddesc) as TextView
+                val photoJpegName = view.findViewById<View>(R.id.title) as TextView //TODO Refactor these names
+                val photoDescription = view.findViewById<View>(R.id.seconddesc) as TextView
                 val text3 = view.findViewById<View>(R.id.artist) as TextView
-                val view1 = view.findViewById<ImageView>(R.id.thumbn) as ImageView
-                text1.text = imgPaths[position].removePrefix(spotPath)
-                text1.textSize = 14.toFloat()
-                text2.text = spotPath
+                val photoThumbnail = view.findViewById<ImageView>(R.id.thumbn) as ImageView
+                photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
+                photoJpegName.textSize = 14.toFloat()
+                photoDescription.text = spotDirectory
                 text3.visibility = View.GONE
                 Glide.with(this@SpotImageList)
-                        .load(thumbnails[position])
+                        .load(imageThumbnails[position])
                         .thumbnail( 0.1f )
-                        .into(view1)
+                        .into(photoThumbnail)
                 return view
             }
         }
 
-        var pics = emptyArray<Uri>()
-        for (uri in imgPaths) {
-            Log.e("URI", uri)
-            pics += Uri.parse("file://"+uri)
+        var arrayofImageUris = emptyArray<Uri>()
+        for (uri in fullImagePaths) {
+            arrayofImageUris += Uri.parse("file://" + uri) //Again, is this the best design?
         }
 
-        val listView = findViewById<ListView>(R.id.sampleListView)
-        listView.adapter = adapter1 //Setting adapter and listener to start song level when clicked.
-        listView.onItemClickListener = AdapterView.OnItemClickListener { arg0, arg1, arg2, arg3 ->
-            Log.e("arg3", arg3.toString())
-            ImageViewer.Builder(this, pics)
+        val listView = findViewById<ListView>(R.id.ListView)
+        listView.adapter = spotImagesAdapter
+        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, arg3 ->
+            ImageViewer.Builder(this, arrayofImageUris)
                     .setStartPosition(arg3.toInt())
                     .hideStatusBar(false)
                     .allowSwipeToDismiss(true)
@@ -99,7 +94,7 @@ class SpotImageList : CameraOpeningActivity() {
             setMultiChoiceModeListener(object : AbsListView.MultiChoiceModeListener {
                 override fun onItemCheckedStateChanged(mode: ActionMode, position: Int,
                                                        id: Long, checked: Boolean) {
-                    if (checkedItemCount <2 || checkedItemCount >2) {
+                    if (checkedItemCount <2 || checkedItemCount >2) { //TODO Can we make it so no more than 2 can be selected?
                         mode.title = "Select images"
                         mode.menu.findItem(R.id.compare).isEnabled = false
                     } else {
@@ -111,19 +106,15 @@ class SpotImageList : CameraOpeningActivity() {
                     return when (item.itemId) {
                         R.id.compare -> {
                             var selectedSpotsPaths = emptyArray<String>()
-                            for (i in 0..checkedItemPositions.size()) {
-                                Log.e("comparecheck", checkedItemPositions.get(i).toString())
-                                if (checkedItemPositions.get(i)) {
-                                    selectedSpotsPaths += imgPaths[i]
-                                }
-                            }
-
-                            val firstSpot = selectedSpotsPaths[0]
-                            val secondSpot = selectedSpotsPaths[1]
+                            (0..checkedItemPositions.size()) //Same as a for loop to get the ImagePaths of currently selected spots
+                                    .filter { checkedItemPositions.get(it) }
+                                    .forEach { selectedSpotsPaths += fullImagePaths[it] }
+                            val firstSpotToCompare = selectedSpotsPaths[0]
+                            val secondSpotToCompare = selectedSpotsPaths[1]
 
                             val intent = Intent(this@SpotImageList, TrackSpotScreen::class.java)
-                            intent.putExtra("firstSpot", firstSpot)
-                            intent.putExtra("secondSpot", secondSpot)
+                            intent.putExtra("firstSpotToCompare", firstSpotToCompare)
+                            intent.putExtra("secondSpotToCompare", secondSpotToCompare)
                             startActivity(intent)
                             true
                         }
@@ -138,9 +129,11 @@ class SpotImageList : CameraOpeningActivity() {
                 }
 
                 override fun onDestroyActionMode(mode: ActionMode) {
+                    //TODO
                 }
 
                 override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+                    //TODO
                     return false
                 }
             })
@@ -149,24 +142,19 @@ class SpotImageList : CameraOpeningActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.e("BodyScreen", "onActivityResult")
 
         if (requestCode == UCrop.REQUEST_CROP) {
                 val intent = Intent(this, SpotImageList::class.java)
-                intent.putExtra("selectedBodyPart", selectedBodyPart)
                 intent.putExtra("spotName", spotName)
-                intent.putExtra("spotPath", spotPath)
-                intent.putExtra("spotImageName", "placeholder")
+                intent.putExtra("spotDirectory", spotDirectory)
                 startActivity(intent)
             }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-
             val cropOptions = UCrop.Options().apply {
                 setAllowedGestures(0,0,0)
             }
-
-            UCrop.of(Uri.parse("file://"+mCurrentPhotoPath), Uri.parse("file://"+mCurrentPhotoPath))
+            UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //Fix if needed
                     .withAspectRatio(1.toFloat(),1.toFloat())
                     .withOptions(cropOptions)
                     .start(this)

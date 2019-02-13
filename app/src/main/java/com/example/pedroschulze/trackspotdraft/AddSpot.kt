@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_spot.*
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.widget.Button
@@ -18,60 +17,48 @@ class AddSpot : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_spot)
 
-        val pathname:String = intent.getStringExtra("imgpath")
-        val limb = intent.getStringExtra("selectedBodyPart")
-        val imgname = pathname.removePrefix("/storage/emulated/0/Pictures/trackspot/$limb/temp/")
-        val directorypath = intent.getStringExtra("directorypath")
-        Log.e("preconfirm pathname: ", pathname)
+        val fullPhotoPath = intent.getStringExtra("fullPhotoPath")
+        val selectedBodySide = intent.getStringExtra("selectedBodySide")
+        val selectedBodyPart = intent.getStringExtra("selectedBodyPart")
+        val spotImageName = intent.getStringExtra("spotImageName")
 
         Glide.with(this@AddSpot)
-                .load(File(pathname)) // Uri of the picture
-                .into(spotimg)
+                .load(File(fullPhotoPath))
+                .into(spot_image)
 
-        val btnConfirmSpot = findViewById<Button>(R.id.btn_confirm_spot) as Button //Required some googling due to sdk version not compatible with inference.
+        val btnConfirmSpot = findViewById<Button>(R.id.btn_confirm_spot) as Button //SDK version not compatible with inference.
         btnConfirmSpot.setOnClickListener {
             val editText = findViewById<EditText>(R.id.spot_name) as EditText
-            val editname = editText.text.toString()
-            Log.e("directorypath", directorypath)
-            Log.e("imgname", imgname)
-            Log.e("editname", editname)
+            val editName = editText.text.toString()
 
-            galleryAddPic(directorypath, imgname, editname, limb)
+            galleryAddPic(fullPhotoPath, spotImageName, editName)
             val intent = Intent(this, OldSpotScreen::class.java)
-            intent.putExtra("selectedBodyPart", limb)
+            intent.putExtra("selectedBodyPart", selectedBodyPart)
+            intent.putExtra("selectedBodySide", selectedBodySide)
             startActivity(intent)
         }
     }
 
-    fun deleteRecursive(fileOrDirectory: File) {
+    private fun deleteRecursive(fileOrDirectory: File) {
         if (fileOrDirectory.isDirectory)
             for (child in fileOrDirectory.listFiles()!!)
                 deleteRecursive(child)
-
         fileOrDirectory.delete()
     }
 
-    fun galleryAddPic(pathname: String, imgname: String, editname: String, limb: String) {
-        Log.e("BodyScreen", "Adding pic to gallery")
-        Log.e("mCurrentPhoroPath: ", pathname)
-        Log.e("mCurrentPhoroPath: ", imgname)
-        Log.e("mCurrentPhoroPath: ", editname)
-        val newDirPath = "$pathname".replace("temp", editname)
+    //Is the galleryAddPic method even needed???? Apart from renaming
+    private fun galleryAddPic(fullPhotoPath: String, spotImageName: String, editName: String) { //Need better way of dealing with temps
+        val photoDirectory = fullPhotoPath.removeSuffix(spotImageName)
+        val newDirPath = photoDirectory.replace("temp", editName)
         val newDir = File(newDirPath)
-        Log.e("newdir: ", newDirPath)
-
         if(!newDir.exists()) newDir.mkdirs()
-
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
-            val f = File(pathname + imgname)
-            Log.e("value f: ", f.toString())
+            val f = File(fullPhotoPath)
             mediaScanIntent.data = Uri.fromFile(f)
             sendBroadcast(mediaScanIntent)
-            f.renameTo(File(newDirPath + imgname))
-            val tempFolder = File(pathname)
+            f.renameTo(File(newDirPath + spotImageName))
+            val tempFolder = File(photoDirectory)
             deleteRecursive(tempFolder)
-
-            Log.e("BodyScreen", "Done")
         }
     }
 }

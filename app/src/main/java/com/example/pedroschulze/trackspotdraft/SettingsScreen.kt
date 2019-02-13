@@ -3,7 +3,6 @@ package com.example.pedroschulze.trackspotdraft
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-
 import kotlinx.android.synthetic.main.activity_settings_screen.*
 
 class SettingsScreen : AppCompatActivity() {
