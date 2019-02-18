@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -19,6 +18,13 @@ class SpotImageList : CameraOpeningActivity() {
 
     private lateinit var spotName : String
     lateinit var spotDirectory: String
+    lateinit var selectedBodyPart: String
+    lateinit var selectedBodySide: String
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menuitems, menu)
@@ -41,6 +47,8 @@ class SpotImageList : CameraOpeningActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         spotName = intent.getStringExtra("spotName")
         spotDirectory = intent.getStringExtra("spotDirectory")
+        selectedBodyPart = intent.getStringExtra("selectedBodyPart")
+        selectedBodySide = intent.getStringExtra("selectedBodySide")
         title = "Spot Images of " + spotName
         createSpotImageLists()
     }
@@ -112,9 +120,13 @@ class SpotImageList : CameraOpeningActivity() {
                             val firstSpotToCompare = selectedSpotsPaths[0]
                             val secondSpotToCompare = selectedSpotsPaths[1]
 
-                            val intent = Intent(this@SpotImageList, TrackSpotScreen::class.java)
+                            val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
                             intent.putExtra("firstSpotToCompare", firstSpotToCompare)
                             intent.putExtra("secondSpotToCompare", secondSpotToCompare)
+                            intent.putExtra("spotName", spotName)
+                            intent.putExtra("spotDirectory", spotDirectory)
+                            intent.putExtra("selectedBodyPart", selectedBodyPart)
+                            intent.putExtra("selectedBodySide", selectedBodySide)
                             startActivity(intent)
                             true
                         }
@@ -145,8 +157,10 @@ class SpotImageList : CameraOpeningActivity() {
 
         if (requestCode == UCrop.REQUEST_CROP) {
                 val intent = Intent(this, SpotImageList::class.java)
-                intent.putExtra("spotName", spotName)
-                intent.putExtra("spotDirectory", spotDirectory)
+            intent.putExtra("spotName", spotName)
+            intent.putExtra("spotDirectory", spotDirectory)
+            intent.putExtra("selectedBodyPart", selectedBodyPart)
+            intent.putExtra("selectedBodySide", selectedBodySide)
                 startActivity(intent)
             }
 
@@ -162,7 +176,9 @@ class SpotImageList : CameraOpeningActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, OldSpotScreen::class.java)
+        intent.putExtra("selectedBodySide", selectedBodySide)
+        intent.putExtra("selectedBodyPart", selectedBodyPart)
         startActivity(intent)
     }
 }

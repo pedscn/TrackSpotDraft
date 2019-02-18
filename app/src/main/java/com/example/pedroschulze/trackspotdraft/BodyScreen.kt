@@ -12,14 +12,19 @@ class BodyScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_body_screen)
-        setSupportActionBar(findViewById(R.id.my_toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setSupportActionBar(findViewById(R.id.body_screen_toolbar))
+        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
         selectedBodySide = if (intent.hasExtra("selectedBodySide")) {
             intent.getStringExtra("selectedBodySide")
         } else {
             "front"
         }
         createTabs(selectedBodySide)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
     private fun createTabs(selectedBodySide : String) {

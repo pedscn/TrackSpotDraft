@@ -29,16 +29,19 @@
         <activity
             android:name=".BodyScreen"
             android:label="@string/title_activity_new_spot_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".OldSpotScreen"
             android:label="@string/title_activity_old_spot_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".TrackSpotScreen"
+            android:name=".CompareSpotScreen"
             android:label="@string/title_activity_track_spot_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
@@ -47,6 +50,7 @@
         <activity
             android:name=".SettingsScreen"
             android:label="@string/title_activity_settings_screen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
@@ -62,6 +66,7 @@
         <activity
             android:name=".AddSpot"
             android:label="@string/title_activity_add_spot"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -70,6 +75,7 @@
         <activity
             android:name=".SpotImageList"
             android:label="@string/title_activity_spot_image_list"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"

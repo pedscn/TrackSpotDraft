@@ -7,13 +7,13 @@
     tools:context="com.example.pedroschulze.trackspotdraft.BodyScreen">
 
     <include layout="@layout/actionbar"
-        android:id="@+id/my_toolbar"/>
+        android:id="@+id/body_screen_toolbar"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/my_toolbar"
+        android:layout_below="@id/body_screen_toolbar"
         android:layout_above="@+id/tab_layout"
         android:layout_alignParentStart="true" />
 
