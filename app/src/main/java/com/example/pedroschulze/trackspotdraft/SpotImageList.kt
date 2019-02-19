@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -49,7 +51,7 @@ class SpotImageList : CameraOpeningActivity() {
         spotDirectory = intent.getStringExtra("spotDirectory")
         selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         selectedBodySide = intent.getStringExtra("selectedBodySide")
-        title = "Spot Images of " + spotName
+        title = "Images of " + spotName
         createSpotImageLists()
     }
 
@@ -63,16 +65,17 @@ class SpotImageList : CameraOpeningActivity() {
             imageThumbnails += BitmapFactory.decodeFile(imageFiles[i-1].absolutePath)
         }
 
-        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.list_item, R.id.title, fullImagePaths) { //Again, can refactor xml
+        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.test_list_item, R.id.title, fullImagePaths) { //Again, can refactor xml
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val photoJpegName = view.findViewById<View>(R.id.title) as TextView //TODO Refactor these names
                 val photoDescription = view.findViewById<View>(R.id.seconddesc) as TextView
                 val text3 = view.findViewById<View>(R.id.artist) as TextView
                 val photoThumbnail = view.findViewById<ImageView>(R.id.thumbn) as ImageView
+                val spotDateText = "Added on " +fullImagePaths[position].removePrefix(spotDirectory).subSequence(5,15).toString().replace("-", "/")
                 photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
                 photoJpegName.textSize = 14.toFloat()
-                photoDescription.text = spotDirectory
+                photoDescription.text = spotDateText
                 text3.visibility = View.GONE
                 Glide.with(this@SpotImageList)
                         .load(imageThumbnails[position])
@@ -82,15 +85,15 @@ class SpotImageList : CameraOpeningActivity() {
             }
         }
 
-        var arrayofImageUris = emptyArray<Uri>()
+        var arrayOfImageUris = emptyArray<Uri>()
         for (uri in fullImagePaths) {
-            arrayofImageUris += Uri.parse("file://" + uri) //Again, is this the best design?
+            arrayOfImageUris += Uri.parse("file://" + uri) //Again, is this the best design?
         }
 
         val listView = findViewById<ListView>(R.id.ListView)
         listView.adapter = spotImagesAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, arg3 ->
-            ImageViewer.Builder(this, arrayofImageUris)
+            ImageViewer.Builder(this, arrayOfImageUris)
                     .setStartPosition(arg3.toInt())
                     .hideStatusBar(false)
                     .allowSwipeToDismiss(true)
@@ -114,10 +117,10 @@ class SpotImageList : CameraOpeningActivity() {
                     return when (item.itemId) {
                         R.id.compare -> {
                             var selectedSpotsPaths = emptyArray<String>()
-                            (0..checkedItemPositions.size()) //Same as a for loop to get the ImagePaths of currently selected spots
+                            (0..checkedItemCount) //Same as a for loop to get the ImagePaths of currently selected spots
                                     .filter { checkedItemPositions.get(it) }
                                     .forEach { selectedSpotsPaths += fullImagePaths[it] }
-                            val firstSpotToCompare = selectedSpotsPaths[0]
+                            val firstSpotToCompare = selectedSpotsPaths[0] //TODO fix this loop, sometimes firstspot out of bounds osmetimes second
                             val secondSpotToCompare = selectedSpotsPaths[1]
 
                             val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
@@ -155,23 +158,34 @@ class SpotImageList : CameraOpeningActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == UCrop.REQUEST_CROP) {
-                val intent = Intent(this, SpotImageList::class.java)
+        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            val intent = Intent(this, SpotImageList::class.java)
             intent.putExtra("spotName", spotName)
             intent.putExtra("spotDirectory", spotDirectory)
             intent.putExtra("selectedBodyPart", selectedBodyPart)
             intent.putExtra("selectedBodySide", selectedBodySide)
-                startActivity(intent)
+            startActivity(intent)
             }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val cropOptions = UCrop.Options().apply {
                 setAllowedGestures(0,0,0)
+                setShowCropGrid(false)
+                setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                setShowCropFrame(true)
             }
             UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //Fix if needed
                     .withAspectRatio(1.toFloat(),1.toFloat())
                     .withOptions(cropOptions)
                     .start(this)
+        }
+        if (resultCode != RESULT_OK) { //Error or back press on cropping activity
+            File(currentFullPhotoPath).delete() //Can this cause errors?
+            val intent = intent
+            finish()
+            startActivity(intent)
         }
     }
 

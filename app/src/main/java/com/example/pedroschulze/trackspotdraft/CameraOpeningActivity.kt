@@ -5,7 +5,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -28,7 +27,6 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
     }
 
     fun dispatchTakePictureIntent(spotDirectory: String) { //Grabbed from Android docs
-        Log.e("DispatchTakePicture", spotDirectory)
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
             takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {

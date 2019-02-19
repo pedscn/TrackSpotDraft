@@ -12,6 +12,7 @@ import java.io.File
 import android.content.Intent
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.Toolbar
+import android.widget.Toast
 import com.bumptech.glide.request.RequestOptions
 
 

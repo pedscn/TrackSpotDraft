@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.activity_old_spot_screen.*
 import android.support.v4.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
-import android.util.Log
 
 
 class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
@@ -66,7 +65,6 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
 
     private fun startCamera() {
         val spotTempDirectory = devicePictureDirectory + "/trackyourspot/temp/" //Probably crap design, could find something better
-        Log.e("spotTempDirectory", spotTempDirectory)
         dispatchTakePictureIntent(spotTempDirectory)
     }
 
@@ -96,7 +94,8 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         selectedBodySide = intent.getStringExtra("selectedBodySide")
         devicePictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
         spotListDirectory = "$devicePictureDirectory/trackyourspot/$selectedBodySide/$selectedBodyPart/" //Research good file path naming conventions
-        title = "$selectedBodyPart Spots" //Need to substitute with labels
+        val capitalisedTitle = selectedBodyPart.capitalize()
+        title = "$capitalisedTitle Spots" //Need to substitute with labels
     }
 
     private fun createSpotList() {
@@ -105,7 +104,6 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         var spotDirectories = emptyArray<String>() //Path without jpg
         var spotThumbnails = emptyArray<Bitmap>()
         File(spotListDirectory).walk().maxDepth(1).forEachIndexed { index, file -> //Look into SQLLite
-            Log.e("Files", file.absolutePath)
             if (index != 0) {
                 val spotName = file.toString().removePrefix(spotListDirectory)
                 val imgFile =  File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()[1]
@@ -113,20 +111,21 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 spotDirectories += "$spotListDirectory$spotName/"
                 spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/")
                 spotThumbnails += BitmapFactory.decodeFile(imgFile.absolutePath)
-                Log.e("imgFile", imgFile.absolutePath)
             }
         }
 
-        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.list_item, R.id.title, spotNames) { //spotNames needs to be passed or no spots shown.
+        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.test_list_item, R.id.title, spotNames) { //spotNames needs to be passed or no spots shown.
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val spotNameTextView = view.findViewById<View>(R.id.title) as TextView //Need to refactor and edit xml
                 val spotDirectoryTextView = view.findViewById<View>(R.id.artist) as TextView
                 val spotJpegTextView = view.findViewById<View>(R.id.seconddesc) as TextView
                 val spotThumbnailImageView = view.findViewById<ImageView>(R.id.thumbn) as ImageView
+                val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
                 spotNameTextView.text = spotNames[position]
                 spotDirectoryTextView.text = spotDirectories[position] //TODO, substitute with date or number of dates
-                spotJpegTextView.text = spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15) //Shows picture date
+                spotJpegTextView.text = spotDirectories[position]
+                spotDirectoryTextView.visibility = View.GONE
                 Glide.with(this@OldSpotScreen)
                         .load(spotThumbnails[position])
                         .thumbnail( 0.1f ) //Improves memory management
@@ -153,7 +152,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == UCrop.REQUEST_CROP) {
+        if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
             val intent = Intent(this, AddSpot::class.java)
             intent.putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can delete later
             intent.putExtra("selectedBodyPart", selectedBodyPart)
@@ -164,16 +163,26 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val cropOptions = UCrop.Options().apply { //Could customize better for app UI
-                //setActiveWidgetColor(Color.BLUE)
-                //setToolbarColor(Color.BLUE)
+            val cropOptions = UCrop.Options().apply {
+                setShowCropGrid(false)
+                setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                setShowCropFrame(true)
                 setAllowedGestures(0,0,0)
             }
             //Is this stable on every device? Bad design probably
             UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //same destination as source file
-                    .withAspectRatio(1.toFloat(),1.toFloat())
+                    .withAspectRatio(1.toFloat(), 1.toFloat())
                     .withOptions(cropOptions)
                     .start(this)
+        }
+        //Error or back press on cropping activity
+        if (resultCode != RESULT_OK) {
+            File(currentFullPhotoPath).delete() //Can this cause errors?
+            val intent = intent
+            finish()
+            startActivity(intent)
         }
     }
 

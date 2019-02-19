@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_spot.*
 import android.net.Uri
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -34,7 +33,6 @@ class AddSpot : AppCompatActivity(){
         selectedBodySide = intent.getStringExtra("selectedBodySide")
         selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         val spotImageName = intent.getStringExtra("spotImageName")
-        Log.e("spotImageName", spotImageName)
 
         Glide.with(this@AddSpot)
                 .load(File(fullPhotoPath))
@@ -82,14 +80,8 @@ class AddSpot : AppCompatActivity(){
 
     //Is the galleryAddPic method even needed???? Apart from renaming
     private fun galleryAddPic(spotImageName: String, editName: String, selectedBodySide: String, selectedBodyPart: String) { //Need better way of dealing with temps
-        Log.e("fullPhotopath", fullPhotoPath)
-        Log.e("spotImageName", spotImageName)
-        Log.e("editName", editName)
-        Log.e("selectedBodySide", selectedBodySide)
-        Log.e("selectedBodyPart", selectedBodyPart)
         val photoDirectory = fullPhotoPath.removeSuffix(spotImageName)
         val newDirPath = photoDirectory.replace("temp", "$selectedBodySide/$selectedBodyPart/$editName")
-        Log.e("newDirPath", newDirPath)
         val newDir = File(newDirPath)
         if(!newDir.exists()) newDir.mkdirs()
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
