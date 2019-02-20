@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -15,6 +14,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import java.io.File
 import com.stfalcon.frescoimageviewer.ImageViewer
 import com.yalantis.ucrop.UCrop
+import java.util.*
 
 class SpotImageList : CameraOpeningActivity() {
 
@@ -89,7 +89,6 @@ class SpotImageList : CameraOpeningActivity() {
         for (uri in fullImagePaths) {
             arrayOfImageUris += Uri.parse("file://" + uri) //Again, is this the best design?
         }
-
         val listView = findViewById<ListView>(R.id.ListView)
         listView.adapter = spotImagesAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, arg3 ->
@@ -99,13 +98,16 @@ class SpotImageList : CameraOpeningActivity() {
                     .allowSwipeToDismiss(true)
                     .show()
         }
+        val selectedSpotBooleanList = arrayOfNulls<Boolean>(fullImagePaths.size)
+        Arrays.fill(selectedSpotBooleanList, java.lang.Boolean.FALSE)
 
         with(listView) {
             choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
             setMultiChoiceModeListener(object : AbsListView.MultiChoiceModeListener {
                 override fun onItemCheckedStateChanged(mode: ActionMode, position: Int,
                                                        id: Long, checked: Boolean) {
-                    if (checkedItemCount <2 || checkedItemCount >2) { //TODO Can we make it so no more than 2 can be selected?
+                    selectedSpotBooleanList[position] = checked
+                    if (checkedItemCount <2 || checkedItemCount >2) { //Can we make it so no more than 2 can be selected?
                         mode.title = "Select images"
                         mode.menu.findItem(R.id.compare).isEnabled = false
                     } else {
@@ -116,12 +118,12 @@ class SpotImageList : CameraOpeningActivity() {
                 override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                     return when (item.itemId) {
                         R.id.compare -> {
-                            var selectedSpotsPaths = emptyArray<String>()
-                            (0..checkedItemCount) //Same as a for loop to get the ImagePaths of currently selected spots
-                                    .filter { checkedItemPositions.get(it) }
-                                    .forEach { selectedSpotsPaths += fullImagePaths[it] }
-                            val firstSpotToCompare = selectedSpotsPaths[0] //TODO fix this loop, sometimes firstspot out of bounds osmetimes second
-                            val secondSpotToCompare = selectedSpotsPaths[1]
+                            var spotIndicesToCompare = emptyArray<Int>()
+                            (0 until selectedSpotBooleanList.size)
+                                    .filter { selectedSpotBooleanList[it]==true }
+                                    .forEach { spotIndicesToCompare+= it }
+                            val firstSpotToCompare = fullImagePaths[spotIndicesToCompare[0]]
+                            val secondSpotToCompare = fullImagePaths[spotIndicesToCompare[1]]
 
                             val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
                             intent.putExtra("firstSpotToCompare", firstSpotToCompare)
@@ -165,7 +167,7 @@ class SpotImageList : CameraOpeningActivity() {
             intent.putExtra("selectedBodyPart", selectedBodyPart)
             intent.putExtra("selectedBodySide", selectedBodySide)
             startActivity(intent)
-            }
+        }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             val cropOptions = UCrop.Options().apply {
