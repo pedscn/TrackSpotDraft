@@ -18,7 +18,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.example.pedroschulze.trackspotdraft.AddSpot">
+            tools:context="com.dev.pedroschulze.trackspotdraft.AddSpot">
 
             <ImageView
                 android:id="@+id/spot_image"

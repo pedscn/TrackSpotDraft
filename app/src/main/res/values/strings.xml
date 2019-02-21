@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">TrackSpotDraft</string>
-    <string name="title_activity_new_spot_screen">Select Body Part</string>
+    <string name="app_name">TrackYourSpot</string>
+    <string name="title_activity_new_spot_screen">TrackYourSpot</string>
     <string name="title_activity_old_spot_screen">OldSpotScreen</string>
     <string name="title_activity_track_spot_screen">TrackSpotScreen</string>
     <string name="title_activity_settings_screen">SettingsScreen</string>

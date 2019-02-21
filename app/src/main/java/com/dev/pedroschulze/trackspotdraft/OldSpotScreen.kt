@@ -1,4 +1,4 @@
-package com.example.pedroschulze.trackspotdraft
+package com.dev.pedroschulze.trackspotdraft
 
 import android.Manifest
 import android.app.Activity

@@ -58,9 +58,6 @@
         android:layout_toEndOf="@+id/thumbnail"
         android:text="@string/tag" />
 
-    <!-- Rightend Duration -->
-
-    <!-- Rightend Arrow -->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

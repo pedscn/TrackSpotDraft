@@ -1,4 +1,4 @@
-package com.example.pedroschulze.trackspotdraft
+package com.dev.pedroschulze.trackspotdraft
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
