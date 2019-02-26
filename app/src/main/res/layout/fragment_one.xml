@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/frontfinalwider"
     android:layout_height="match_parent">
@@ -21,7 +22,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_head"
-            app:layout_constraintVertical_bias="0.223" />
+            app:layout_constraintVertical_bias="0.156" />
 
         <Button
             android:id="@+id/btn_left_arm"
@@ -43,16 +44,13 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="232dp"
+            android:layout_marginEnd="84dp"
+            android:layout_marginTop="8dp"
             android:text="@string/left_leg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.439"
-            app:layout_constraintStart_toEndOf="@+id/btn_left_leg"
-            app:layout_constraintTop_toBottomOf="@+id/btn_back"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_right_arm"
+            app:layout_constraintVertical_bias="0.401" />
 
         <Button
             android:id="@+id/btn_head"
@@ -60,7 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/head"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,16 +68,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="232dp"
+            android:layout_marginStart="76dp"
+            android:layout_marginTop="8dp"
             android:text="@string/right_leg"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_back"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_back"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_left_arm"
+            app:layout_constraintVertical_bias="0.395" />
 
         <Button
             android:id="@+id/btn_right_arm"

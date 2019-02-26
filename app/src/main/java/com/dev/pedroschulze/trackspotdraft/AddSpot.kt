@@ -78,7 +78,7 @@ class AddSpot : AppCompatActivity(){
         fileOrDirectory.delete()
     }
 
-    //Is the galleryAddPic method even needed???? Apart from renaming
+    //Is the galleryAddPic method even needed???? Apart from renaming //Is it dangerous?
     private fun galleryAddPic(spotImageName: String, editName: String, selectedBodySide: String, selectedBodyPart: String) { //Need better way of dealing with temps
         val photoDirectory = fullPhotoPath.removeSuffix(spotImageName)
         val newDirPath = photoDirectory.replace("temp", "$selectedBodySide/$selectedBodyPart/$editName")

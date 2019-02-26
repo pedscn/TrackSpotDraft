@@ -9,6 +9,10 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import android.content.ClipData
+import android.os.Build
+
+
 
 abstract class CameraOpeningActivity : AppCompatActivity() {
     lateinit var currentFullPhotoPath : String //Probably bad design, could instead return path with createImage file or dispatchTPI?
@@ -41,10 +45,24 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
                             "my.package.name.provider",
                             it
                     )
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    } else {
+                        val clip = ClipData.newUri(contentResolver, "clipData", photoURI)
+                        takePictureIntent.clipData = clip
+                        takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    }
+
+                    takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, OldSpotScreen.REQUEST_TAKE_PHOTO)
                 }
             }
         }
+    }
+
+    fun isValidPhotoPath(photoPath : String) : Boolean {
+        return photoPath.contains("JPEG")
     }
 }

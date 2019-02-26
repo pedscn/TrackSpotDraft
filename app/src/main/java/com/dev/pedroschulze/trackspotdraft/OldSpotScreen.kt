@@ -47,23 +47,23 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
-            checkPermissions()
+            checkPermissionsAndStartCamera()
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun checkPermissions() {
+    private fun checkPermissionsAndStartCamera() {
         val hasCameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
         val hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)  == PackageManager.PERMISSION_GRANTED
         if (!hasCameraPermission || !hasStoragePermission) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
         } else {
-            startCamera()
+            deployCamera()
         }
     }
 
-    private fun startCamera() {
+    private fun deployCamera() {
         val spotTempDirectory = devicePictureDirectory + "/trackyourspot/temp/" //Probably crap design, could find something better
         dispatchTakePictureIntent(spotTempDirectory)
     }
@@ -72,7 +72,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                startCamera()
+                deployCamera()
             }
             else {
                 Toast.makeText(this, "Please enable Camera and Storage permissions", Toast.LENGTH_SHORT).show();
@@ -103,8 +103,10 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         var spotImageNames = emptyArray<String>() //JPG only filenames
         var spotDirectories = emptyArray<String>() //Path without jpg
         var spotThumbnails = emptyArray<Bitmap>()
+        var numberOfSpots = 0
         File(spotListDirectory).walk().maxDepth(1).forEachIndexed { index, file -> //Look into SQLLite
             if (index != 0) {
+                numberOfSpots++
                 val spotName = file.toString().removePrefix(spotListDirectory)
                 val imgFile =  File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()[1]
                 spotNames += spotName
@@ -112,6 +114,10 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/")
                 spotThumbnails += BitmapFactory.decodeFile(imgFile.absolutePath)
             }
+        }
+        val hasCameraBeenClosed = intent.getBooleanExtra("cameraClosed", false) //Opens Camera straight away if there are no old spots
+        if (numberOfSpots==0 && !hasCameraBeenClosed) {
+            checkPermissionsAndStartCamera()
         }
 
         val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.test_list_item, R.id.title, spotNames) { //spotNames needs to be passed or no spots shown.
@@ -163,24 +169,27 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val cropOptions = UCrop.Options().apply {
-                setShowCropGrid(false)
-                setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                setShowCropFrame(true)
-                setAllowedGestures(0,0,0)
+            if (isValidPhotoPath(currentFullPhotoPath)) {
+                val cropOptions = UCrop.Options().apply {
+                    setShowCropGrid(false)
+                    setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setShowCropFrame(true)
+                    setAllowedGestures(0,0,0)
+                }
+                //Is this stable on every device? Bad design probably
+                UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //same destination as source file
+                        .withAspectRatio(1.toFloat(), 1.toFloat())
+                        .withOptions(cropOptions)
+                        .start(this)
             }
-            //Is this stable on every device? Bad design probably
-            UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //same destination as source file
-                    .withAspectRatio(1.toFloat(), 1.toFloat())
-                    .withOptions(cropOptions)
-                    .start(this)
         }
         //Error or back press on cropping activity
-        if (resultCode != RESULT_OK) {
+        if (resultCode != RESULT_OK && isValidPhotoPath(currentFullPhotoPath)) {
             File(currentFullPhotoPath).delete() //Can this cause errors?
             val intent = intent
+            intent.putExtra("cameraClosed", true)
             finish()
             startActivity(intent)
         }

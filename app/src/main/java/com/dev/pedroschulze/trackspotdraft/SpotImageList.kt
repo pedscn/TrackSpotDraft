@@ -72,7 +72,7 @@ class SpotImageList : CameraOpeningActivity() {
                 val photoDescription = view.findViewById<View>(R.id.seconddesc) as TextView
                 val text3 = view.findViewById<View>(R.id.artist) as TextView
                 val photoThumbnail = view.findViewById<ImageView>(R.id.thumbn) as ImageView
-                val spotDateText = "Added on " +fullImagePaths[position].removePrefix(spotDirectory).subSequence(5,15).toString().replace("-", "/")
+                val spotDateText = "Added on " + fullImagePaths[position].removePrefix(spotDirectory).subSequence(5,15).toString().replace("-", "/")
                 photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
                 photoJpegName.textSize = 14.toFloat()
                 photoDescription.text = spotDateText
@@ -170,20 +170,22 @@ class SpotImageList : CameraOpeningActivity() {
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
-            val cropOptions = UCrop.Options().apply {
-                setAllowedGestures(0,0,0)
-                setShowCropGrid(false)
-                setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                setShowCropFrame(true)
+            if (isValidPhotoPath(currentFullPhotoPath)) {
+                val cropOptions = UCrop.Options().apply {
+                    setAllowedGestures(0,0,0)
+                    setShowCropGrid(false)
+                    setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setShowCropFrame(true)
+                }
+                UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //Fix if needed
+                        .withAspectRatio(1.toFloat(),1.toFloat())
+                        .withOptions(cropOptions)
+                        .start(this)
             }
-            UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //Fix if needed
-                    .withAspectRatio(1.toFloat(),1.toFloat())
-                    .withOptions(cropOptions)
-                    .start(this)
         }
-        if (resultCode != RESULT_OK) { //Error or back press on cropping activity
+        if (resultCode != RESULT_OK && isValidPhotoPath(currentFullPhotoPath)) { //Error or back press on cropping activity
             File(currentFullPhotoPath).delete() //Can this cause errors?
             val intent = intent
             finish()
