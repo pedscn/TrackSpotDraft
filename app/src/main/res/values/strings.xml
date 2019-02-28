@@ -4,15 +4,12 @@
     <string name="title_activity_old_spot_screen">OldSpotScreen</string>
     <string name="title_activity_track_spot_screen">TrackSpotScreen</string>
     <string name="title_activity_settings_screen">SettingsScreen</string>
-    <string name="title_activity_body_screen">BodyScreen</string>
     <string name="title_activity_add_spot">AddSpot</string>
     <string name="title_activity_spot_image_list">SpotImageList</string>
     <string name="compare">Compare</string>
     <string name="email">Email</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add">Add</string>
-    <string name="name">Name for Spot:</string>
     <string name="confirm">Confirm</string>
     <string name="left_leg">Left Leg</string>
     <string name="head">Head</string>
@@ -22,10 +19,15 @@
     <string name="torso">Torso</string>
     <string name="back">Back</string>
     <string name="title_tag">title tag</string>
-    <string name="thumbnail">thumbnail</string>
     <string name="tag">tag</string>
-    <string name="icon">icon</string>
     <string name="cancel">Cancel</string>
     <string name="name_for_spot">Name for Spot:</string>
-    <string name="title_activity_cropping">CroppingActivity</string>
+    <string name="first_spot_image">First Spot Image</string>
+    <string name="second_spot_image">Second Spot Image</string>
+    <string name="spot_thumbnail">Spot Thumbnail</string>
+    <string name="spot_image">Spot Image</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="info">Info</string>
 </resources>

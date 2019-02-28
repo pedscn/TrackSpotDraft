@@ -21,13 +21,14 @@ import kotlinx.android.synthetic.main.activity_old_spot_screen.*
 import android.support.v4.app.ActivityCompat
 import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
+import com.yalantis.ucrop.UCropActivity
 
 
 class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
 
     companion object {
-        val REQUEST_IMAGE_CAPTURE = 1
-        val REQUEST_TAKE_PHOTO = 1
+        const val REQUEST_IMAGE_CAPTURE = 1
+        const val REQUEST_TAKE_PHOTO = 1
     }
 
     private lateinit var selectedBodyPart : String
@@ -36,7 +37,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
     private lateinit var spotListDirectory: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menuitems, menu)
+        menuInflater.inflate(R.menu.addbar, menu)
         return true
     }
 
@@ -64,7 +65,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
     }
 
     private fun deployCamera() {
-        val spotTempDirectory = devicePictureDirectory + "/trackyourspot/temp/" //Probably crap design, could find something better
+        val spotTempDirectory = "$devicePictureDirectory/trackyourspot/temp/" //Probably crap design, could find something better
         dispatchTakePictureIntent(spotTempDirectory)
     }
 
@@ -75,7 +76,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 deployCamera()
             }
             else {
-                Toast.makeText(this, "Please enable Camera and Storage permissions", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enable Camera and Storage permissions", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -104,17 +105,19 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         var spotDirectories = emptyArray<String>() //Path without jpg
         var spotThumbnails = emptyArray<Bitmap>()
         var numberOfSpots = 0
-        File(spotListDirectory).walk().maxDepth(1).forEachIndexed { index, file -> //Look into SQLLite
+        File(spotListDirectory).walk().maxDepth(1).forEachIndexed { index, file ->
+            //Look into SQLLite
             if (index != 0) {
                 numberOfSpots++
                 val spotName = file.toString().removePrefix(spotListDirectory)
-                val imgFile =  File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()[1]
+                val imgFile = File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()[1]
                 spotNames += spotName
                 spotDirectories += "$spotListDirectory$spotName/"
                 spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/")
                 spotThumbnails += BitmapFactory.decodeFile(imgFile.absolutePath)
             }
         }
+
         val hasCameraBeenClosed = intent.getBooleanExtra("cameraClosed", false) //Opens Camera straight away if there are no old spots
         if (numberOfSpots==0 && !hasCameraBeenClosed) {
             checkPermissionsAndStartCamera()
@@ -126,7 +129,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 val spotNameTextView = view.findViewById<View>(R.id.title) as TextView //Need to refactor and edit xml
                 val spotDirectoryTextView = view.findViewById<View>(R.id.artist) as TextView
                 val spotJpegTextView = view.findViewById<View>(R.id.seconddesc) as TextView
-                val spotThumbnailImageView = view.findViewById<ImageView>(R.id.thumbn) as ImageView
+                val spotThumbnailImageView = view.findViewById(R.id.thumbn) as ImageView
                 val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
                 spotNameTextView.text = spotNames[position]
                 spotDirectoryTextView.text = spotDirectories[position] //TODO, substitute with date or number of dates
@@ -163,7 +166,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
             intent.putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can delete later
             intent.putExtra("selectedBodyPart", selectedBodyPart)
             intent.putExtra("spotListDirectory", spotListDirectory)
-            intent.putExtra("spotImageName", currentFullPhotoPath.removePrefix(devicePictureDirectory+"/trackyourspot/temp/"))
+            intent.putExtra("spotImageName", currentFullPhotoPath.removePrefix("$devicePictureDirectory/trackyourspot/temp/"))
             intent.putExtra("fullPhotoPath", currentFullPhotoPath)
             startActivity(intent)
         }
@@ -176,10 +179,10 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                     setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
                     setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
                     setShowCropFrame(true)
-                    setAllowedGestures(0,0,0)
+                    setAllowedGestures(UCropActivity.NONE, UCropActivity.NONE, UCropActivity.NONE)
                 }
                 //Is this stable on every device? Bad design probably
-                UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //same destination as source file
+                UCrop.of(Uri.parse("file://$currentFullPhotoPath"), Uri.parse("file://$currentFullPhotoPath")) //same destination as source file
                         .withAspectRatio(1.toFloat(), 1.toFloat())
                         .withOptions(cropOptions)
                         .start(this)

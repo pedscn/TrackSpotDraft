@@ -43,7 +43,7 @@ class AddSpot : AppCompatActivity(){
         editTextWidget.setHintTextAppearance(R.style.CustomHintEnabled)
         editTextWidget.isErrorEnabled = true
 
-        val btnConfirmSpot = findViewById<Button>(R.id.btn_confirm_spot) as Button //SDK version not compatible with inference.
+        val btnConfirmSpot = findViewById<Button>(R.id.btn_confirm_spot) //SDK version not compatible with inference.
         btnConfirmSpot.setOnClickListener {
             val editName = editText.text.toString()
             if (editName.isBlank()) {
@@ -65,7 +65,7 @@ class AddSpot : AppCompatActivity(){
             }
         }
 
-        val btnCancel = findViewById<Button>(R.id.btn_cancel) as Button //SDK version not compatible with inference.
+        val btnCancel = findViewById<Button>(R.id.btn_cancel) //SDK version not compatible with inference.
         btnCancel.setOnClickListener {
             onBackPressed()
         }

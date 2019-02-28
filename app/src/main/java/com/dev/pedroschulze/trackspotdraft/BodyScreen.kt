@@ -5,15 +5,31 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import FragmentAdapter
+import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 
 class BodyScreen : AppCompatActivity() {
     private lateinit var selectedBodySide : String
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.bodybar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_info -> {
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_body_screen)
         setSupportActionBar(findViewById(R.id.body_screen_toolbar))
-        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
         selectedBodySide = if (intent.hasExtra("selectedBodySide")) {
             intent.getStringExtra("selectedBodySide")
         } else {

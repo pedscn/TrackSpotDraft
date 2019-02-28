@@ -23,14 +23,16 @@
                 android:layout_marginBottom="10dp"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/first_spot_image" />
 
             <ImageView
                 android:id="@+id/bottomImage"
                 android:layout_width="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/second_spot_image" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

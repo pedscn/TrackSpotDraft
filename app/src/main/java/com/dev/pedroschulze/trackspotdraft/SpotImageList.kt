@@ -1,5 +1,6 @@
 package com.dev.pedroschulze.trackspotdraft
 import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -14,6 +15,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import java.io.File
 import com.stfalcon.frescoimageviewer.ImageViewer
 import com.yalantis.ucrop.UCrop
+import com.yalantis.ucrop.UCropActivity
 import java.util.*
 
 class SpotImageList : CameraOpeningActivity() {
@@ -29,13 +31,17 @@ class SpotImageList : CameraOpeningActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menuitems, menu)
+        menuInflater.inflate(R.menu.imagelistbar, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             dispatchTakePictureIntent(spotDirectory)
+            true
+        }
+        R.id.compare -> {
+            //TODO
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -51,7 +57,7 @@ class SpotImageList : CameraOpeningActivity() {
         spotDirectory = intent.getStringExtra("spotDirectory")
         selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         selectedBodySide = intent.getStringExtra("selectedBodySide")
-        title = "Images of " + spotName
+        title = "Images of $spotName"
         createSpotImageLists()
     }
 
@@ -71,7 +77,7 @@ class SpotImageList : CameraOpeningActivity() {
                 val photoJpegName = view.findViewById<View>(R.id.title) as TextView //TODO Refactor these names
                 val photoDescription = view.findViewById<View>(R.id.seconddesc) as TextView
                 val text3 = view.findViewById<View>(R.id.artist) as TextView
-                val photoThumbnail = view.findViewById<ImageView>(R.id.thumbn) as ImageView
+                val photoThumbnail = view.findViewById(R.id.thumbn) as ImageView
                 val spotDateText = "Added on " + fullImagePaths[position].removePrefix(spotDirectory).subSequence(5,15).toString().replace("-", "/")
                 photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
                 photoJpegName.textSize = 14.toFloat()
@@ -87,7 +93,7 @@ class SpotImageList : CameraOpeningActivity() {
 
         var arrayOfImageUris = emptyArray<Uri>()
         for (uri in fullImagePaths) {
-            arrayOfImageUris += Uri.parse("file://" + uri) //Again, is this the best design?
+            arrayOfImageUris += Uri.parse("file://$uri") //Again, is this the best design?
         }
         val listView = findViewById<ListView>(R.id.ListView)
         listView.adapter = spotImagesAdapter
@@ -141,7 +147,7 @@ class SpotImageList : CameraOpeningActivity() {
 
                 override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
                     val menuInflater: MenuInflater = mode.menuInflater
-                    menuInflater.inflate(R.menu.context_bar, menu)
+                    menuInflater.inflate(R.menu.contextual_bar, menu)
                     return true
                 }
 
@@ -172,14 +178,14 @@ class SpotImageList : CameraOpeningActivity() {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             if (isValidPhotoPath(currentFullPhotoPath)) {
                 val cropOptions = UCrop.Options().apply {
-                    setAllowedGestures(0,0,0)
+                    setAllowedGestures(UCropActivity.NONE, UCropActivity.NONE, UCropActivity.NONE)
                     setShowCropGrid(false)
                     setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
                     setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
                     setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
                     setShowCropFrame(true)
                 }
-                UCrop.of(Uri.parse("file://"+ currentFullPhotoPath), Uri.parse("file://"+ currentFullPhotoPath)) //Fix if needed
+                UCrop.of(Uri.parse("file://$currentFullPhotoPath"), Uri.parse("file://$currentFullPhotoPath")) //Fix if needed
                         .withAspectRatio(1.toFloat(),1.toFloat())
                         .withOptions(cropOptions)
                         .start(this)
