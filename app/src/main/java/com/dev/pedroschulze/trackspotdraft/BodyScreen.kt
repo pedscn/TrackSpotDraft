@@ -12,6 +12,8 @@ import android.view.MenuItem
 class BodyScreen : AppCompatActivity() {
     private lateinit var selectedBodySide : String
 
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.bodybar, menu)
         return true

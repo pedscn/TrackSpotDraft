@@ -21,7 +21,7 @@ class IntroActivity : AppIntro() {
             description = "There are many different types of skin cancer. You probably have heard of malignant melanoma, which is a highly dangerous cancer and needs immediate treatment. Some cancers are slow growing and may not need treatment."
             //descColor = resources.getColor(R.color.black)
             imageDrawable = R.drawable.melanoma
-            bgColor = resources.getColor(R.color.colorPrimary)
+            bgColor = Color.parseColor("#ff9999")
         }
 
         val secondSliderPage = SliderPage().apply {
@@ -37,7 +37,7 @@ class IntroActivity : AppIntro() {
             description = "Sun exposure is a major factor in skin cancer. Always use appropriate skin protection."
             //descColor = resources.getColor(R.color.black)
             imageDrawable = R.drawable.finalskinpatch
-            bgColor = resources.getColor(R.color.colorPrimary)
+            bgColor = Color.parseColor("#00cc7a")
         }
 
         val fourthSliderPage = SliderPage().apply {
@@ -45,7 +45,7 @@ class IntroActivity : AppIntro() {
             description = "You should see your doctor if there is anything about a spot that worries you."
             //descColor = resources.getColor(R.color.black)
             imageDrawable = R.drawable.doctorclipart
-            bgColor = resources.getColor(R.color.colorPrimary)
+            bgColor = Color.parseColor("#9494b8")
         }
         addSlide(AppIntroFragment.newInstance(firstSliderPage))
         addSlide(AppIntroFragment.newInstance(secondSliderPage))

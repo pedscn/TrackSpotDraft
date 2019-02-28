@@ -31,7 +31,8 @@ class SpotImageList : CameraOpeningActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.imagelistbar, menu)
+        menuInflater.inflate(R.menu.addbar, menu)
+        //menuInflater.inflate(R.menu.imagelistbar, menu) //TODO Uncomment when gonna implement
         return true
     }
 
@@ -40,10 +41,9 @@ class SpotImageList : CameraOpeningActivity() {
             dispatchTakePictureIntent(spotDirectory)
             true
         }
-        R.id.compare -> {
-            //TODO
+        /*R.id.compare -> { //TODO Uncomment when implementing
             true
-        }
+        }*/
         else -> super.onOptionsItemSelected(item)
     }
 

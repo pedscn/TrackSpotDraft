@@ -101,7 +101,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
 
     private fun createSpotList() {
         var spotNames = emptyArray<String>()
-        var spotImageNames = emptyArray<String>() //JPG only filenames
+        //var spotImageNames = emptyArray<String>() //JPG only filenames
         var spotDirectories = emptyArray<String>() //Path without jpg
         var spotThumbnails = emptyArray<Bitmap>()
         var numberOfSpots = 0
@@ -110,11 +110,15 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
             if (index != 0) {
                 numberOfSpots++
                 val spotName = file.toString().removePrefix(spotListDirectory)
-                val imgFile = File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()[1]
                 spotNames += spotName
                 spotDirectories += "$spotListDirectory$spotName/"
-                spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/")
-                spotThumbnails += BitmapFactory.decodeFile(imgFile.absolutePath)
+                //spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/") //Not used
+                val filesInFolder = File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()
+                spotThumbnails += if (filesInFolder.size>1) {
+                    BitmapFactory.decodeFile(filesInFolder[1].absolutePath)
+                } else {
+                    BitmapFactory.decodeResource(this.resources, R.drawable.questionmark)
+                }
             }
         }
 
@@ -130,7 +134,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 val spotDirectoryTextView = view.findViewById<View>(R.id.artist) as TextView
                 val spotJpegTextView = view.findViewById<View>(R.id.seconddesc) as TextView
                 val spotThumbnailImageView = view.findViewById(R.id.thumbn) as ImageView
-                val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
+                //val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
                 spotNameTextView.text = spotNames[position]
                 spotDirectoryTextView.text = spotDirectories[position] //TODO, substitute with date or number of dates
                 spotJpegTextView.text = spotDirectories[position]
@@ -151,7 +155,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 putExtra("selectedBodyPart", selectedBodyPart)
                 putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can remove in the future
                 putExtra("spotName", spotNames[index])
-                putExtra("spotImageName", spotImageNames[index])
+                //putExtra("spotImageName", spotImageNames[index]) // Not used
                 putExtra("spotDirectory", spotDirectories[index])
             }
             startActivity(intent)

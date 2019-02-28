@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/frontcolored"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="145dp"
+            android:layout_height="244dp"
+            android:background="@android:color/transparent"
+            android:text="@string/torso"
+            app:layout_constraintStart_toEndOf="@+id/btn_right_arm"
+            app:layout_constraintTop_toBottomOf="@+id/btn_head" />
+
+        <Button
+            android:id="@+id/btn_right_arm"
+            android:layout_width="107dp"
+            android:layout_height="311dp"
+            android:text="@string/right_arm"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="146dp" />
+
+        <Button
+            android:id="@+id/btn_head"
+            android:layout_width="147dp"
+            android:layout_height="123dp"
+            android:text="@string/head"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="4dp" />
+
+        <Button
+            android:id="@+id/btn_left_leg"
+            android:layout_width="71dp"
+            android:layout_height="341dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/left_leg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_right_leg"
+            app:layout_constraintTop_toBottomOf="@+id/btn_back" />
+
+        <Button
+            android:id="@+id/btn_right_leg"
+            android:layout_width="71dp"
+            android:layout_height="343dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/right_leg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_left_leg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_back"
+            app:layout_constraintVertical_bias="0.494" />
+
+        <Button
+            android:id="@+id/btn_left_arm"
+            android:layout_width="106dp"
+            android:layout_height="305dp"
+            android:text="@string/left_arm"
+            tools:layout_editor_absoluteX="276dp"
+            tools:layout_editor_absoluteY="146dp" />
+    </android.support.constraint.ConstraintLayout>
+</RelativeLayout>
