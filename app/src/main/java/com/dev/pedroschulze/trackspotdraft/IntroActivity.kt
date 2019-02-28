@@ -29,7 +29,7 @@ class IntroActivity : AppIntro() {
             description = "There are many normal reasons why a spot might change appearance and a change does not mean cancer. Similarly, an existing spot could become cancerous without much change to its appearance."
             //descColor = resources.getColor(R.color.black)
             imageDrawable = R.drawable.magnifying_glass
-            bgColor = resources.getColor(R.color.colorPrimary)
+            bgColor = Color.parseColor("#0bcbdf")
         }
 
         val thirdSliderPage = SliderPage().apply {
@@ -54,8 +54,7 @@ class IntroActivity : AppIntro() {
 
         //setBarColor(Color.parseColor("#3F51B5"))
         //setSeparatorColor(Color.parseColor("#2196F3"))
-
-        // Hide Skip/Done button.
+        
         showSkipButton(true)
         isProgressButtonEnabled = true
     }
