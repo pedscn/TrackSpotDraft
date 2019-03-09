@@ -1,6 +1,5 @@
 package com.dev.pedroschulze.trackspotdraft
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,6 +16,8 @@ import com.stfalcon.frescoimageviewer.ImageViewer
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCropActivity
 import java.util.*
+import android.widget.AdapterView
+import android.view.MenuInflater
 
 class SpotImageList : CameraOpeningActivity() {
 
@@ -24,6 +25,9 @@ class SpotImageList : CameraOpeningActivity() {
     lateinit var spotDirectory: String
     lateinit var selectedBodyPart: String
     lateinit var selectedBodySide: String
+    private var mActionModeCallback: AbsListView.MultiChoiceModeListener? = null
+    private var numberOfImages = 0
+    lateinit var listView: ListView
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -31,8 +35,7 @@ class SpotImageList : CameraOpeningActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.addbar, menu)
-        //menuInflater.inflate(R.menu.imagelistbar, menu) //TODO Uncomment when gonna implement
+        menuInflater.inflate(R.menu.imagelistbar, menu)
         return true
     }
 
@@ -41,9 +44,13 @@ class SpotImageList : CameraOpeningActivity() {
             dispatchTakePictureIntent(spotDirectory)
             true
         }
-        /*R.id.compare -> { //TODO Uncomment when implementing
+        R.id.compare -> {
+            if (numberOfImages>0) {
+                startActionMode(mActionModeCallback)
+                listView.setItemChecked(0, true)
+            }
             true
-        }*/
+        }
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -57,7 +64,7 @@ class SpotImageList : CameraOpeningActivity() {
         spotDirectory = intent.getStringExtra("spotDirectory")
         selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         selectedBodySide = intent.getStringExtra("selectedBodySide")
-        title = "Images of $spotName"
+        title = spotName
         createSpotImageLists()
     }
 
@@ -65,10 +72,60 @@ class SpotImageList : CameraOpeningActivity() {
         var fullImagePaths = emptyArray<String>()
         var imageThumbnails = emptyArray<Bitmap>()
         val imageFiles =  File(spotDirectory).walk().maxDepth(1).toList()
-
         for (i in 2..imageFiles.size) {
             fullImagePaths += imageFiles[i-1].toString()
             imageThumbnails += BitmapFactory.decodeFile(imageFiles[i-1].absolutePath)
+        }
+        numberOfImages = fullImagePaths.size
+        val selectedSpotBooleanList = arrayOfNulls<Boolean>(fullImagePaths.size)
+        Arrays.fill(selectedSpotBooleanList, java.lang.Boolean.FALSE)
+
+        mActionModeCallback = object : AbsListView.MultiChoiceModeListener { //Contextual Action Bar
+            override fun onItemCheckedStateChanged(mode: ActionMode, position: Int,
+                                                   id: Long, checked: Boolean) {
+                mode.title = "Select two images"
+                selectedSpotBooleanList[position] = checked
+                val checkedItemCount = listView.checkedItemCount
+                mode.menu.findItem(R.id.compare).isEnabled = checkedItemCount == 2 //Needed so that compare button is only available if 2 images are selected
+            }
+
+            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+                val menuInflater: MenuInflater = mode.menuInflater
+                menuInflater.inflate(R.menu.contextual_bar, menu)
+                return true
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode) {
+                //TODO
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+                //TODO
+                return false
+            }
+
+            override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+                return when (item.itemId) {
+                    R.id.compare -> {
+                        var spotIndicesToCompare = emptyArray<Int>()
+                        (0 until selectedSpotBooleanList.size)
+                                .filter { selectedSpotBooleanList[it]==true }
+                                .forEach { spotIndicesToCompare+= it }
+                        val firstSpotToCompare = fullImagePaths[spotIndicesToCompare[0]]
+                        val secondSpotToCompare = fullImagePaths[spotIndicesToCompare[1]]
+                        val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
+                        intent.putExtra("firstSpotToCompare", firstSpotToCompare)
+                        intent.putExtra("secondSpotToCompare", secondSpotToCompare)
+                        intent.putExtra("spotName", spotName)
+                        intent.putExtra("spotDirectory", spotDirectory)
+                        intent.putExtra("selectedBodyPart", selectedBodyPart)
+                        intent.putExtra("selectedBodySide", selectedBodySide)
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
 
         val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.test_list_item, R.id.title, fullImagePaths) { //Again, can refactor xml
@@ -95,71 +152,26 @@ class SpotImageList : CameraOpeningActivity() {
         for (uri in fullImagePaths) {
             arrayOfImageUris += Uri.parse("file://$uri") //Again, is this the best design?
         }
-        val listView = findViewById<ListView>(R.id.ListView)
-        listView.adapter = spotImagesAdapter
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, _, arg3 ->
-            ImageViewer.Builder(this, arrayOfImageUris)
-                    .setStartPosition(arg3.toInt())
-                    .hideStatusBar(false)
-                    .allowSwipeToDismiss(true)
-                    .show()
-        }
-        val selectedSpotBooleanList = arrayOfNulls<Boolean>(fullImagePaths.size)
-        Arrays.fill(selectedSpotBooleanList, java.lang.Boolean.FALSE)
 
-        with(listView) {
+        listView = findViewById(R.id.ListView)
+        listView.apply {
+            adapter = spotImagesAdapter
             choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
-            setMultiChoiceModeListener(object : AbsListView.MultiChoiceModeListener {
-                override fun onItemCheckedStateChanged(mode: ActionMode, position: Int,
-                                                       id: Long, checked: Boolean) {
-                    selectedSpotBooleanList[position] = checked
-                    if (checkedItemCount <2 || checkedItemCount >2) { //Can we make it so no more than 2 can be selected?
-                        mode.title = "Select images"
-                        mode.menu.findItem(R.id.compare).isEnabled = false
-                    } else {
-                        mode.menu.findItem(R.id.compare).isEnabled = true
-                    }
-                }
-
-                override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-                    return when (item.itemId) {
-                        R.id.compare -> {
-                            var spotIndicesToCompare = emptyArray<Int>()
-                            (0 until selectedSpotBooleanList.size)
-                                    .filter { selectedSpotBooleanList[it]==true }
-                                    .forEach { spotIndicesToCompare+= it }
-                            val firstSpotToCompare = fullImagePaths[spotIndicesToCompare[0]]
-                            val secondSpotToCompare = fullImagePaths[spotIndicesToCompare[1]]
-
-                            val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
-                            intent.putExtra("firstSpotToCompare", firstSpotToCompare)
-                            intent.putExtra("secondSpotToCompare", secondSpotToCompare)
-                            intent.putExtra("spotName", spotName)
-                            intent.putExtra("spotDirectory", spotDirectory)
-                            intent.putExtra("selectedBodyPart", selectedBodyPart)
-                            intent.putExtra("selectedBodySide", selectedBodySide)
-                            startActivity(intent)
-                            true
-                        }
-                        else -> false
-                    }
-                }
-
-                override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-                    val menuInflater: MenuInflater = mode.menuInflater
-                    menuInflater.inflate(R.menu.contextual_bar, menu)
+            setMultiChoiceModeListener(mActionModeCallback)
+            onItemClickListener = AdapterView.OnItemClickListener { _, _, _, arg3 ->
+                ImageViewer.Builder(context, arrayOfImageUris)
+                        .setStartPosition(arg3.toInt())
+                        .hideStatusBar(false)
+                        .allowSwipeToDismiss(true)
+                        .show()
+            }
+            onItemLongClickListener = object : AdapterView.OnItemLongClickListener {
+                override fun onItemLongClick(arg0: AdapterView<*>, view: View,
+                                             position: Int, id: Long): Boolean {
+                    startActionMode(mActionModeCallback)
                     return true
                 }
-
-                override fun onDestroyActionMode(mode: ActionMode) {
-                    //TODO
-                }
-
-                override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-                    //TODO
-                    return false
-                }
-            })
+            }
         }
     }
 
