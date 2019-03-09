@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import FragmentAdapter
+import android.content.Context
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
@@ -38,6 +39,13 @@ class BodyScreen : AppCompatActivity() {
             "front"
         }
         createTabs(selectedBodySide)
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return
+        val isTutorialDone = sharedPref.getBoolean("TutorialDone", false)
+        if (!isTutorialDone) {
+            sharedPref.edit().putBoolean("TutorialDone", true).apply()
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
