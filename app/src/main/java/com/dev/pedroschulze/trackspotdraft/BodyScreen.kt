@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_body_screen.*
 
 class BodyScreen : AppCompatActivity() {
     private lateinit var selectedBodySide : String
@@ -32,6 +33,8 @@ class BodyScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_body_screen)
+        val rellayout = bodyscreen_rellayout
+        rellayout.setBackgroundColor(resources.getColor(R.color.white))
         setSupportActionBar(findViewById(R.id.body_screen_toolbar))
         selectedBodySide = if (intent.hasExtra("selectedBodySide")) {
             intent.getStringExtra("selectedBodySide")

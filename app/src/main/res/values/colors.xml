@@ -7,4 +7,5 @@
     <color name="colorError">#bb0000</color>
     <color name="colorAccent">#bdbfe0</color>
     <color name="lightGrey">#ededed</color>
+    <color name="white">#FFFFFF</color>
 </resources>
