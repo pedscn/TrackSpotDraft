@@ -38,7 +38,7 @@ class CompareSpotScreen : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
             intent.apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_EMAIL, arrayOf("trackspotandroid@inf.ed.ac.uk"))
+                //putExtra(Intent.EXTRA_EMAIL, arrayOf("email@example.com"))
                 putExtra(Intent.EXTRA_SUBJECT, "Skin Spots")
                 putExtra(Intent.EXTRA_TEXT, "Insert your message here")
                 val uris = ArrayList<Uri>()
