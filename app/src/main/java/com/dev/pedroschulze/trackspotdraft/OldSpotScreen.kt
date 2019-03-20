@@ -95,8 +95,16 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         selectedBodySide = intent.getStringExtra("selectedBodySide")
         devicePictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
         spotListDirectory = "$devicePictureDirectory/trackyourspot/$selectedBodySide/$selectedBodyPart/" //Research good file path naming conventions
-        val capitalisedTitle = selectedBodyPart.capitalize()
+        //val capitalisedTitle = selectedBodyPart.capitalize()
+        var capitalisedTitle = ""
+        when (selectedBodyPart) { //Hacky way to display title correctly
+            "leftarm" -> capitalisedTitle = "Left Arm"
+            "rightarm" -> capitalisedTitle = "Right Arm"
+            "rightleg" -> capitalisedTitle = "Right Leg"
+            "leftleg" -> capitalisedTitle = "Left Leg"
+        }
         title = "$capitalisedTitle Spots" //Need to substitute with labels
+        //Need to substitute with labels
     }
 
     private fun createSpotList() {
