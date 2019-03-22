@@ -102,8 +102,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
             "leftleg" -> "Left Leg"
             else -> selectedBodyPart.capitalize()
         }
-        title = "$capitalisedTitle Spots" //Need to substitute with labels
-        //Need to substitute with labels
+        title = "$capitalisedTitle Spots"
     }
 
     private fun createSpotList() {
