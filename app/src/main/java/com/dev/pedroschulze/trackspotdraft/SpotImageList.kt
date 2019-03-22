@@ -69,50 +69,62 @@ class SpotImageList : CameraOpeningActivity() {
     }
 
     private fun createSpotImageLists() { //Same as OldSpotScreen, there's a better way.
+        //Initialise arrays for each photo's path and thumbnails
         var fullImagePaths = emptyArray<String>()
         var imageThumbnails = emptyArray<Bitmap>()
+        //Loop through images in the selected spot's directory
         val imageFiles =  File(spotDirectory).walk().maxDepth(1).toList()
         for (i in 2..imageFiles.size) {
             fullImagePaths += imageFiles[i-1].toString()
             imageThumbnails += BitmapFactory.decodeFile(imageFiles[i-1].absolutePath)
         }
         numberOfImages = fullImagePaths.size
+        //Initialise dynamic array to keep track of which images are selected
         val selectedSpotBooleanList = arrayOfNulls<Boolean>(fullImagePaths.size)
+        //By default, no images are selected
         Arrays.fill(selectedSpotBooleanList, java.lang.Boolean.FALSE)
 
+        //Initialise contextual action toolbar to allow user to select images
         mActionModeCallback = object : AbsListView.MultiChoiceModeListener { //Contextual Action Bar
-            override fun onItemCheckedStateChanged(mode: ActionMode, position: Int,
-                                                   id: Long, checked: Boolean) {
-                mode.title = "Select two images"
+            //This method is called whenever an item is selected or deselected
+            override fun onItemCheckedStateChanged(mode: ActionMode, position: Int, id: Long, checked: Boolean) {
+                //Update list of selected spots array
                 selectedSpotBooleanList[position] = checked
                 val checkedItemCount = listView.checkedItemCount
+                //Allow pressing the compare button if exactly 2 images are selected
                 mode.menu.findItem(R.id.compare).isEnabled = checkedItemCount == 2 //Needed so that compare button is only available if 2 images are selected
             }
 
             override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
                 val menuInflater: MenuInflater = mode.menuInflater
                 menuInflater.inflate(R.menu.contextual_bar, menu)
+                mode.title = "Select two images"
                 return true
             }
 
             override fun onDestroyActionMode(mode: ActionMode) {
-                //TODO
             }
 
             override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-                //TODO
                 return false
             }
-
+            //This method is called when the user presses a button in the
+            //contextual action toolbar.
             override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
                 return when (item.itemId) {
+                    //When the user presses the "compare" button
                     R.id.compare -> {
+                        //Initialise array of indices of the images to compare
                         var spotIndicesToCompare = emptyArray<Int>()
+                        //Loop through array of selected spots
                         (0 until selectedSpotBooleanList.size)
+                                //If a spot is selected, save it's index
                                 .filter { selectedSpotBooleanList[it]==true }
                                 .forEach { spotIndicesToCompare+= it }
+                        //Get image paths for both spots to be compared
                         val firstSpotToCompare = fullImagePaths[spotIndicesToCompare[0]]
                         val secondSpotToCompare = fullImagePaths[spotIndicesToCompare[1]]
+                        //Open the comparison screen and send info of selected sports
                         val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
                         intent.putExtra("firstSpotToCompare", firstSpotToCompare)
                         intent.putExtra("secondSpotToCompare", secondSpotToCompare)
@@ -178,8 +190,11 @@ class SpotImageList : CameraOpeningActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        //If Cropping has been done successfully
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            //Open Spot Image list screen for that specific spot
             val intent = Intent(this, SpotImageList::class.java)
+            //Pass on spot name and directory to the image list
             intent.putExtra("spotName", spotName)
             intent.putExtra("spotDirectory", spotDirectory)
             intent.putExtra("selectedBodyPart", selectedBodyPart)
@@ -187,8 +202,11 @@ class SpotImageList : CameraOpeningActivity() {
             startActivity(intent)
         }
 
+        //If Photo has been taken successfully
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            //Check if the photopath is valid (eg. is a jpg file in storage)
             if (isValidPhotoPath(currentFullPhotoPath)) {
+                //Start uCrop cropping screen with specific UI properties
                 val cropOptions = UCrop.Options().apply {
                     setAllowedGestures(UCropActivity.NONE, UCropActivity.NONE, UCropActivity.NONE)
                     setShowCropGrid(false)
@@ -197,13 +215,18 @@ class SpotImageList : CameraOpeningActivity() {
                     setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
                     setShowCropFrame(true)
                 }
-                UCrop.of(Uri.parse("file://$currentFullPhotoPath"), Uri.parse("file://$currentFullPhotoPath")) //Fix if needed
+                //Choose the same source and destination for the cropped image (Overwrite it)
+                UCrop.of(Uri.parse("file://$currentFullPhotoPath"),
+                        Uri.parse("file://$currentFullPhotoPath")) //Fix if needed
                         .withAspectRatio(1.toFloat(),1.toFloat())
                         .withOptions(cropOptions)
                         .start(this)
             }
         }
-        if (resultCode != RESULT_OK && isValidPhotoPath(currentFullPhotoPath)) { //Error or back press on cropping activity
+
+        //If photo hasn't been taken (eg. user presses the back button)
+        if (resultCode != RESULT_OK && isValidPhotoPath(currentFullPhotoPath)) {
+            //Delete the corrupt image file
             File(currentFullPhotoPath).delete() //Can this cause errors?
             val intent = intent
             finish()
