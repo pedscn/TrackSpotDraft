@@ -57,7 +57,7 @@ class AddSpot : AppCompatActivity(){
             }
             else {
                 val processedEditName = editName.replace(" ", "-")
-                galleryAddPic(spotImageName, processedEditName, selectedBodySide, selectedBodyPart)
+                moveImageFile(spotImageName, processedEditName, selectedBodySide, selectedBodyPart)
                 val intent = Intent(this, OldSpotScreen::class.java)
                 intent.putExtra("selectedBodyPart", selectedBodyPart)
                 intent.putExtra("selectedBodySide", selectedBodySide)
@@ -78,17 +78,22 @@ class AddSpot : AppCompatActivity(){
         fileOrDirectory.delete()
     }
 
-    //Is the galleryAddPic method even needed???? Apart from renaming //Is it dangerous?
-    private fun galleryAddPic(spotImageName: String, editName: String, selectedBodySide: String, selectedBodyPart: String) { //Need better way of dealing with temps
+    //Is the moveImageFile method even needed???? Apart from renaming //Is it dangerous?
+    private fun moveImageFile(spotImageName: String, newSpotName: String, selectedBodySide: String, selectedBodyPart: String) { //Need better way of dealing with temps
         val photoDirectory = fullPhotoPath.removeSuffix(spotImageName)
-        val newDirPath = photoDirectory.replace("temp", "$selectedBodySide/$selectedBodyPart/$editName")
+        //Move image from temp folder to a new *newSpotName* folder
+        val newDirPath = photoDirectory.replace("temp", "$selectedBodySide/$selectedBodyPart/$newSpotName")
         val newDir = File(newDirPath)
+        //Check if the directory exists already, create it otherwise
         if(!newDir.exists()) newDir.mkdirs()
+        //Make app available in the device's Gallery
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
             val f = File(fullPhotoPath)
             mediaScanIntent.data = Uri.fromFile(f)
             sendBroadcast(mediaScanIntent)
+            //Rename the file to the new path
             f.renameTo(File(newDirPath + spotImageName))
+            //Delete the temporary folder
             val tempFolder = File(photoDirectory)
             deleteRecursive(tempFolder)
         }
