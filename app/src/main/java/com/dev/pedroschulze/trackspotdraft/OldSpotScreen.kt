@@ -95,36 +95,36 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         selectedBodySide = intent.getStringExtra("selectedBodySide")
         devicePictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
         spotListDirectory = "$devicePictureDirectory/trackyourspot/$selectedBodySide/$selectedBodyPart/" //Research good file path naming conventions
-        //val capitalisedTitle = selectedBodyPart.capitalize()
-        var capitalisedTitle = ""
-        when (selectedBodyPart) { //Hacky way to display title correctly
-            "leftarm" -> capitalisedTitle = "Left Arm"
-            "rightarm" -> capitalisedTitle = "Right Arm"
-            "rightleg" -> capitalisedTitle = "Right Leg"
-            "leftleg" -> capitalisedTitle = "Left Leg"
+        val capitalisedTitle = when (selectedBodyPart) { //Hacky way to display title correctly
+            "leftarm" -> "Left Arm"
+            "rightarm" -> "Right Arm"
+            "rightleg" -> "Right Leg"
+            "leftleg" -> "Left Leg"
+            else -> selectedBodyPart.capitalize()
         }
         title = "$capitalisedTitle Spots" //Need to substitute with labels
         //Need to substitute with labels
     }
 
     private fun createSpotList() {
-        var spotNames = emptyArray<String>()
+        var spotNames = emptyArray<String>() //Spot Names
         //var spotImageNames = emptyArray<String>() //JPG only filenames
-        var spotDirectories = emptyArray<String>() //Path without jpg
-        var spotThumbnails = emptyArray<Bitmap>()
-        var numberOfSpots = 0
+        var spotDirectories = emptyArray<String>() //Spot paths without jpg file
+        var spotThumbnails = emptyArray<Bitmap>() //Spot thumbnail paths
+        var numberOfSpots = 0 //Counter for later use
         File(spotListDirectory).walk().maxDepth(1).forEachIndexed { index, file ->
             //Look into SQLLite
-            if (index != 0) {
+            if (index != 0) { //Ignore the root folder
                 numberOfSpots++
                 val spotName = file.toString().removePrefix(spotListDirectory)
-                spotNames += spotName
-                spotDirectories += "$spotListDirectory$spotName/"
+                spotNames += spotName //Add spot to list of spot names
+                spotDirectories += "$spotListDirectory$spotName/" //Add directory
                 //spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/") //Not used
                 val filesInFolder = File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()
+                //Grab first image of each spot folder
                 spotThumbnails += if (filesInFolder.size>1) {
                     BitmapFactory.decodeFile(filesInFolder[1].absolutePath)
-                } else {
+                } else { //Show question mark icon if image is missing.
                     BitmapFactory.decodeResource(this.resources, R.drawable.questionmark)
                 }
             }
