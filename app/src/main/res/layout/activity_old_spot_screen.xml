@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/actionbar"
+        android:id="@+id/old_spot_screen_toolbar"/>
+
     <ListView
-        android:id="@+id/sampleListView"
+        android:layout_below="@+id/old_spot_screen_toolbar"
+        android:id="@+id/old_spot_screen_spot_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="#b5b5b5"
         android:dividerHeight="1dp" />
+</RelativeLayout>
 
-</LinearLayout>
