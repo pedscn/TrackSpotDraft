@@ -1,4 +1,4 @@
-package com.dev.pedroschulze.trackspotdraft
+package com.dev.pedscn.trackyourspot
 
 import android.graphics.BitmapFactory
 import android.net.Uri

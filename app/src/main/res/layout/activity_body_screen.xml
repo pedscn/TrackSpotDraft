@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dev.pedroschulze.trackspotdraft.BodyScreen">
+    tools:context="com.dev.pedscn.trackyourspot.BodyScreen">
 
     <include layout="@layout/actionbar"
         android:id="@+id/body_screen_toolbar"/>

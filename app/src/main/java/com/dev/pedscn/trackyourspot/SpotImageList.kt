@@ -1,4 +1,4 @@
-package com.dev.pedroschulze.trackspotdraft
+package com.dev.pedscn.trackyourspot
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
-import com.dev.pedroschulze.trackspotdraft.OldSpotScreen.Companion.REQUEST_IMAGE_CAPTURE
+import com.dev.pedscn.trackyourspot.OldSpotScreen.Companion.REQUEST_IMAGE_CAPTURE
 import com.facebook.drawee.backends.pipeline.Fresco
 import java.io.File
 import com.stfalcon.frescoimageviewer.ImageViewer

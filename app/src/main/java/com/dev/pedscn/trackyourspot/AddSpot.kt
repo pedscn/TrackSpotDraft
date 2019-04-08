@@ -1,4 +1,4 @@
-package com.dev.pedroschulze.trackspotdraft
+package com.dev.pedscn.trackyourspot
 
 import android.content.Intent
 import android.os.Bundle

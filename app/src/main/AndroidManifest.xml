@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dev.pedroschulze.trackspotdraft">
+    package="com.dev.pedscn.trackyourspot">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,10 +21,10 @@
         android:roundIcon="@mipmap/ic_mag"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IntroActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name="com.dev.pedscn.trackyourspot.IntroActivity"></activity>
+        <activity android:name="com.dev.pedscn.trackyourspot.MainActivity"></activity>
         <activity
-            android:name=".BodyScreen"
+            android:name="com.dev.pedscn.trackyourspot.BodyScreen"
             android:label="@string/title_activity_new_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,18 +35,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".OldSpotScreen"
+            android:name="com.dev.pedscn.trackyourspot.OldSpotScreen"
             android:label="@string/title_activity_old_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".CompareSpotScreen"
+            android:name="com.dev.pedscn.trackyourspot.CompareSpotScreen"
             android:label="@string/title_activity_track_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dev.pedroschulze.trackspotdraft.BodyScreen" />
+                android:value="com.dev.pedscn.trackyourspot.BodyScreen" />
         </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -59,7 +59,7 @@
         </provider>
 
         <activity
-            android:name=".AddSpot"
+            android:name="com.dev.pedscn.trackyourspot.AddSpot"
             android:label="@string/title_activity_add_spot"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -68,11 +68,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".SpotImageList"
+            android:name="com.dev.pedscn.trackyourspot.SpotImageList"
             android:label="@string/title_activity_spot_image_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
-
 </manifest>
