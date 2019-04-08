@@ -26,12 +26,12 @@ class FragmentOne : Fragment() {
         createMainMenu()
     }
 
-    private fun openBodyPart(selectedBodyPart : String) {
-       val intent = Intent(this.activity, OldSpotScreen::class.java)
-       intent.putExtra("selectedBodyPart", selectedBodyPart)
-       intent.putExtra("selectedBodySide", selectedBodySide)
-       startActivity(intent)
-   }
+    private fun openBodyPart(selectedBodyPart: String) {
+        val intent = Intent(this.activity, OldSpotScreen::class.java)
+        intent.putExtra("selectedBodyPart", selectedBodyPart)
+        intent.putExtra("selectedBodySide", selectedBodySide)
+        startActivity(intent)
+    }
 
     private fun createMainMenu() {
 

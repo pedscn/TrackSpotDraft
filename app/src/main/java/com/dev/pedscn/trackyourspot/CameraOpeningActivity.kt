@@ -1,7 +1,9 @@
 package com.dev.pedscn.trackyourspot
 
+import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
@@ -9,25 +11,22 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import android.content.ClipData
-import android.os.Build
-
 
 
 abstract class CameraOpeningActivity : AppCompatActivity() {
-    lateinit var currentFullPhotoPath : String //Probably bad design, could instead return path with createImage file or dispatchTPI?
+    lateinit var currentFullPhotoPath: String //Probably bad design, could instead return path with createImage file or dispatchTPI?
 
     private fun createImageFile(spotDirectory: String): File {
         //Used for creating a unique name for the image file
-        val timeStamp: String = SimpleDateFormat("dd-MM-yyyy_HHmmss").format(Date()) //Better way?
+        val timeStamp: String = SimpleDateFormat("dd-MM-yyyy_HHmmss", Locale.getDefault()).format(Date()) //Better way?
         //If needed, create the folder for the spot.
         val newDir = File(spotDirectory)
-        if(!newDir.exists()) newDir.mkdirs()
+        if (!newDir.exists()) newDir.mkdirs()
         //Create a temporary image file
         return File.createTempFile(
-                "JPEG_${timeStamp}_",
-                ".jpg",
-                newDir
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            newDir
         ).apply {
             //Saves the image path in String format for later use.
             currentFullPhotoPath = absolutePath
@@ -35,8 +34,7 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
     }
 
     fun dispatchTakePictureIntent(spotDirectory: String) {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
-            takePictureIntent ->
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
                 // Create the File where the photo should go
@@ -49,9 +47,9 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
                 photoFile?.also {
                     //Get the image file's URI
                     val photoURI: Uri = FileProvider.getUriForFile(
-                            this,
-                            "my.package.name.provider",
-                            it
+                        this,
+                        "my.package.name.provider",
+                        it
                     )
                     //For compatibility issues, we need to check the device's
                     //Android version and add write permissions accordingly.
@@ -71,7 +69,7 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
         }
     }
 
-    fun isValidPhotoPath(photoPath : String) : Boolean {
+    fun isValidPhotoPath(photoPath: String): Boolean {
         return photoPath.contains("JPEG")
     }
 }

@@ -21,8 +21,7 @@
         android:roundIcon="@mipmap/ic_mag"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.dev.pedscn.trackyourspot.IntroActivity"></activity>
-        <activity android:name="com.dev.pedscn.trackyourspot.MainActivity"></activity>
+        <activity android:name="com.dev.pedscn.trackyourspot.IntroActivity" />
         <activity
             android:name="com.dev.pedscn.trackyourspot.BodyScreen"
             android:label="@string/title_activity_new_spot_screen"
@@ -30,6 +29,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -38,7 +38,7 @@
             android:name="com.dev.pedscn.trackyourspot.OldSpotScreen"
             android:label="@string/title_activity_old_spot_screen"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.dev.pedscn.trackyourspot.CompareSpotScreen"
             android:label="@string/title_activity_track_spot_screen"
@@ -48,6 +48,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dev.pedscn.trackyourspot.BodyScreen" />
         </activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="my.package.name.provider"
@@ -71,7 +72,6 @@
             android:name="com.dev.pedscn.trackyourspot.SpotImageList"
             android:label="@string/title_activity_spot_image_list"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 </manifest>
