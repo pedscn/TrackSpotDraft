@@ -8,18 +8,17 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.*
 import android.widget.*
+import android.widget.AdapterView
 import com.bumptech.glide.Glide
-import com.dev.pedscn.trackyourspot.OldSpotScreen.Companion.REQUEST_IMAGE_CAPTURE
+import com.dev.pedscn.trackyourspot.OldSpotActivity.Companion.REQUEST_IMAGE_CAPTURE
 import com.facebook.drawee.backends.pipeline.Fresco
-import java.io.File
 import com.stfalcon.frescoimageviewer.ImageViewer
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCropActivity
+import java.io.File
 import java.util.*
-import android.widget.AdapterView
-import android.view.MenuInflater
 
-class SpotImageList : CameraOpeningActivity() {
+class SpotImageListActivity : CameraOpeningActivity() {
 
     private lateinit var spotName : String
     lateinit var spotDirectory: String
@@ -68,7 +67,7 @@ class SpotImageList : CameraOpeningActivity() {
         createSpotImageLists()
     }
 
-    private fun createSpotImageLists() { //Same as OldSpotScreen, there's a better way.
+    private fun createSpotImageLists() { //Same as OldSpotActivity, there's a better way.
         //Initialise arrays for each photo's path and thumbnails
         var fullImagePaths = emptyArray<String>()
         var imageThumbnails = emptyArray<Bitmap>()
@@ -125,7 +124,7 @@ class SpotImageList : CameraOpeningActivity() {
                         val firstSpotToCompare = fullImagePaths[spotIndicesToCompare[0]]
                         val secondSpotToCompare = fullImagePaths[spotIndicesToCompare[1]]
                         //Open the comparison screen and send info of selected sports
-                        val intent = Intent(this@SpotImageList, CompareSpotScreen::class.java)
+                        val intent = Intent(this@SpotImageListActivity, CompareSpotActivity::class.java)
                         intent.putExtra("firstSpotToCompare", firstSpotToCompare)
                         intent.putExtra("secondSpotToCompare", secondSpotToCompare)
                         intent.putExtra("spotName", spotName)
@@ -140,7 +139,7 @@ class SpotImageList : CameraOpeningActivity() {
             }
         }
 
-        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.test_list_item, R.id.title, fullImagePaths) { //Again, can refactor xml
+        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.title, fullImagePaths) { //Again, can refactor xml
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val photoJpegName = view.findViewById<View>(R.id.title) as TextView //TODO Refactor these names
@@ -152,7 +151,7 @@ class SpotImageList : CameraOpeningActivity() {
                 photoJpegName.textSize = 14.toFloat()
                 photoDescription.text = spotDateText
                 text3.visibility = View.GONE
-                Glide.with(this@SpotImageList)
+                Glide.with(this@SpotImageListActivity)
                         .load(imageThumbnails[position])
                         .thumbnail( 0.1f )
                         .into(photoThumbnail)
@@ -193,7 +192,7 @@ class SpotImageList : CameraOpeningActivity() {
         //If Cropping has been done successfully
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             //Open Spot Image list screen for that specific spot
-            val intent = Intent(this, SpotImageList::class.java)
+            val intent = Intent(this, SpotImageListActivity::class.java)
             //Pass on spot name and directory to the image list
             intent.putExtra("spotName", spotName)
             intent.putExtra("spotDirectory", spotDirectory)
@@ -235,7 +234,7 @@ class SpotImageList : CameraOpeningActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, OldSpotScreen::class.java)
+        val intent = Intent(this, OldSpotActivity::class.java)
         intent.putExtra("selectedBodySide", selectedBodySide)
         intent.putExtra("selectedBodyPart", selectedBodyPart)
         startActivity(intent)

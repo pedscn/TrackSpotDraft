@@ -3,28 +3,28 @@ package com.dev.pedscn.trackyourspot
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import java.io.File
-import android.graphics.BitmapFactory
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
-import com.bumptech.glide.Glide
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.yalantis.ucrop.UCrop
-import kotlinx.android.synthetic.main.activity_old_spot_screen.*
-import android.support.v4.app.ActivityCompat
-import android.content.pm.PackageManager
-import android.support.v4.content.ContextCompat
 import com.yalantis.ucrop.UCropActivity
+import kotlinx.android.synthetic.main.activity_old_spot_screen.*
+import java.io.File
 
 
-class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
+class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
 
     companion object {
         const val REQUEST_IMAGE_CAPTURE = 1
@@ -134,7 +134,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
             checkPermissionsAndStartCamera()
         }
 
-        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.test_list_item, R.id.title, spotNames) { //spotNames needs to be passed or no spots shown.
+        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.title, spotNames) { //spotNames needs to be passed or no spots shown.
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val spotNameTextView = view.findViewById<View>(R.id.title) as TextView //Need to refactor and edit xml
@@ -146,7 +146,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
                 spotDirectoryTextView.text = spotDirectories[position] //TODO, substitute with date or number of dates
                 spotJpegTextView.text = spotDirectories[position]
                 spotDirectoryTextView.visibility = View.GONE
-                Glide.with(this@OldSpotScreen)
+                Glide.with(this@OldSpotActivity)
                         .load(spotThumbnails[position])
                         .thumbnail( 0.1f ) //Improves memory management
                         .into(spotThumbnailImageView)
@@ -157,7 +157,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         val listView = old_spot_screen_spot_list
         listView.adapter = spotListAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, index, _ -> //We only need the position index to select item from spotList
-            val intent = Intent(this, SpotImageList::class.java)
+            val intent = Intent(this, SpotImageListActivity::class.java)
             intent.apply {
                 putExtra("selectedBodyPart", selectedBodyPart)
                 putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can remove in the future
@@ -173,7 +173,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
-            val intent = Intent(this, AddSpot::class.java)
+            val intent = Intent(this, AddSpotActivity::class.java)
             intent.putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can delete later
             intent.putExtra("selectedBodyPart", selectedBodyPart)
             intent.putExtra("spotListDirectory", spotListDirectory)
@@ -210,7 +210,7 @@ class OldSpotScreen : CameraOpeningActivity() { // Reduces redundancy
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, BodyScreen::class.java)
+        val intent = Intent(this, BodyScreenActivity::class.java)
         intent.putExtra("selectedBodySide", selectedBodySide)
         startActivity(intent)
     }

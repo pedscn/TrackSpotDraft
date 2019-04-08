@@ -4,7 +4,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/actionbar"
+    <include
+        layout="@layout/action_bar"
         android:id="@+id/old_spot_screen_toolbar"/>
 
     <ListView

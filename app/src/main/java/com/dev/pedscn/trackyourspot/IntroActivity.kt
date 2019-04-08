@@ -1,14 +1,13 @@
 package com.dev.pedscn.trackyourspot
 
 import android.content.Intent
-import android.os.Bundle
-import com.github.paolorotolo.appintro.AppIntroFragment
 import android.graphics.Color
+import android.os.Bundle
 import android.support.annotation.Nullable
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import com.github.paolorotolo.appintro.AppIntro
 import com.github.paolorotolo.appintro.AppIntro2
+import com.github.paolorotolo.appintro.AppIntroFragment
 import com.github.paolorotolo.appintro.model.SliderPage
 
 class IntroActivity : AppIntro2() {
@@ -65,12 +64,12 @@ class IntroActivity : AppIntro2() {
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {
-        val intent = Intent(this, BodyScreen::class.java)
+        val intent = Intent(this, BodyScreenActivity::class.java)
         startActivity(intent)
     }
 
     override fun onDonePressed(currentFragment: Fragment?) {
-        val intent = Intent(this, BodyScreen::class.java)
+        val intent = Intent(this, BodyScreenActivity::class.java)
         startActivity(intent)
     }
 

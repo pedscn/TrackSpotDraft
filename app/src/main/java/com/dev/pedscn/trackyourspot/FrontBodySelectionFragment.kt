@@ -8,17 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 
-class FragmentTwo : Fragment() {
+class FrontBodySelectionFragment : Fragment() {
 
-    private val selectedBodySide = "back"
+    private val selectedBodySide = "front"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_two, container, false)
+        return inflater.inflate(R.layout.fragment_front_body_selection, container, false)
     }
 
     companion object {
-        fun newInstance(): FragmentTwo = FragmentTwo()
+        fun newInstance(): FrontBodySelectionFragment = FrontBodySelectionFragment()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -26,8 +26,8 @@ class FragmentTwo : Fragment() {
         createMainMenu()
     }
 
-    private fun openBodyPart(selectedBodyPart : String) {
-        val intent = Intent(this.activity, OldSpotScreen::class.java)
+    private fun openBodyPart(selectedBodyPart: String) {
+        val intent = Intent(this.activity, OldSpotActivity::class.java)
         intent.putExtra("selectedBodyPart", selectedBodyPart)
         intent.putExtra("selectedBodySide", selectedBodySide)
         startActivity(intent)
@@ -43,17 +43,17 @@ class FragmentTwo : Fragment() {
         btnRightArm.setOnClickListener {
             openBodyPart("rightarm")
         }
-        val btnBack = view?.findViewById(R.id.btn_back) as Button
-        btnBack.setOnClickListener {
-            openBodyPart("back")
-        }
-        val btnRightLeg = view?.findViewById(R.id.btn_right_leg) as Button
-        btnRightLeg.setOnClickListener {
-            openBodyPart("rightleg")
+        val btnTorso = view?.findViewById(R.id.btn_back) as Button
+        btnTorso.setOnClickListener {
+            openBodyPart("torso")
         }
         val btnLeftLeg = view?.findViewById(R.id.btn_left_leg) as Button
         btnLeftLeg.setOnClickListener {
             openBodyPart("leftleg")
+        }
+        val btnRightLeg = view?.findViewById(R.id.btn_right_leg) as Button
+        btnRightLeg.setOnClickListener {
+            openBodyPart("rightleg")
         }
         val btnHead = view?.findViewById(R.id.btn_head) as Button
         btnHead.setOnClickListener {

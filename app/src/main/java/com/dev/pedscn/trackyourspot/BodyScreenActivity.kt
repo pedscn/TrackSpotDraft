@@ -1,17 +1,17 @@
 package com.dev.pedscn.trackyourspot
 
+import FragmentAdapter
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import FragmentAdapter
-import android.content.Context
-import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_body_screen.*
 
-class BodyScreen : AppCompatActivity() {
+class BodyScreenActivity : AppCompatActivity() {
     private lateinit var selectedBodySide : String
 
 

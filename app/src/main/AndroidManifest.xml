@@ -23,7 +23,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.dev.pedscn.trackyourspot.IntroActivity" />
         <activity
-            android:name="com.dev.pedscn.trackyourspot.BodyScreen"
+            android:name="com.dev.pedscn.trackyourspot.BodyScreenActivity"
             android:label="@string/title_activity_new_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -35,18 +35,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dev.pedscn.trackyourspot.OldSpotScreen"
+            android:name="com.dev.pedscn.trackyourspot.OldSpotActivity"
             android:label="@string/title_activity_old_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.dev.pedscn.trackyourspot.CompareSpotScreen"
+            android:name="com.dev.pedscn.trackyourspot.CompareSpotActivity"
             android:label="@string/title_activity_track_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dev.pedscn.trackyourspot.BodyScreen" />
+                android:value="com.dev.pedscn.trackyourspot.BodyScreenActivity" />
         </activity>
 
         <provider
@@ -60,7 +60,7 @@
         </provider>
 
         <activity
-            android:name="com.dev.pedscn.trackyourspot.AddSpot"
+            android:name="com.dev.pedscn.trackyourspot.AddSpotActivity"
             android:label="@string/title_activity_add_spot"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -69,7 +69,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.dev.pedscn.trackyourspot.SpotImageList"
+            android:name="com.dev.pedscn.trackyourspot.SpotImageListActivity"
             android:label="@string/title_activity_spot_image_list"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

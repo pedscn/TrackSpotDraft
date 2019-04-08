@@ -3,7 +3,8 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/actionbar"
+    <include
+        layout="@layout/action_bar"
         android:id="@+id/track_spot_screen_toolbar"/>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"

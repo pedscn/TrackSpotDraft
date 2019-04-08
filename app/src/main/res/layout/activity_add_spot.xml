@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/add_spot_screen_toolbar"
-        layout="@layout/actionbar" />
+        layout="@layout/action_bar" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

@@ -1,17 +1,17 @@
 package com.dev.pedscn.trackyourspot
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_add_spot.*
-import android.net.Uri
 import android.support.v7.widget.Toolbar
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.activity_add_spot.*
 import java.io.File
 
-class AddSpot : AppCompatActivity(){
+class AddSpotActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -34,7 +34,7 @@ class AddSpot : AppCompatActivity(){
         selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         val spotImageName = intent.getStringExtra("spotImageName")
 
-        Glide.with(this@AddSpot)
+        Glide.with(this@AddSpotActivity)
                 .load(File(fullPhotoPath))
                 .apply(RequestOptions().fitCenter())
                 .into(spot_image)
@@ -58,7 +58,7 @@ class AddSpot : AppCompatActivity(){
             else {
                 val processedEditName = editName.replace(" ", "-")
                 moveImageFile(spotImageName, processedEditName, selectedBodySide, selectedBodyPart)
-                val intent = Intent(this, OldSpotScreen::class.java)
+                val intent = Intent(this, OldSpotActivity::class.java)
                 intent.putExtra("selectedBodyPart", selectedBodyPart)
                 intent.putExtra("selectedBodySide", selectedBodySide)
                 startActivity(intent)
@@ -105,7 +105,7 @@ class AddSpot : AppCompatActivity(){
 
     private fun deletePicAndClose() {
         File(fullPhotoPath).delete()
-        val intent = Intent(this, OldSpotScreen::class.java)
+        val intent = Intent(this, OldSpotActivity::class.java)
         intent.putExtra("selectedBodyPart", selectedBodyPart)
         intent.putExtra("selectedBodySide", selectedBodySide)
         startActivity(intent)

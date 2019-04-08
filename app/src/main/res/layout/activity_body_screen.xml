@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dev.pedscn.trackyourspot.BodyScreen">
+    tools:context="com.dev.pedscn.trackyourspot.BodyScreenActivity">
 
-    <include layout="@layout/actionbar"
+    <include
+        layout="@layout/action_bar"
         android:id="@+id/body_screen_toolbar"/>
 
     <android.support.v4.view.ViewPager
