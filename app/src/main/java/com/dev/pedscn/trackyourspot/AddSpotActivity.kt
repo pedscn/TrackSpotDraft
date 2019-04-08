@@ -58,7 +58,7 @@ class AddSpotActivity : AppCompatActivity() {
             else {
                 val processedEditName = editName.replace(" ", "-")
                 moveImageFile(spotImageName, processedEditName, selectedBodySide, selectedBodyPart)
-                val intent = Intent(this, OldSpotActivity::class.java)
+                val intent = Intent(this, OldSpotListActivity::class.java)
                 intent.putExtra("selectedBodyPart", selectedBodyPart)
                 intent.putExtra("selectedBodySide", selectedBodySide)
                 startActivity(intent)
@@ -105,7 +105,7 @@ class AddSpotActivity : AppCompatActivity() {
 
     private fun deletePicAndClose() {
         File(fullPhotoPath).delete()
-        val intent = Intent(this, OldSpotActivity::class.java)
+        val intent = Intent(this, OldSpotListActivity::class.java)
         intent.putExtra("selectedBodyPart", selectedBodyPart)
         intent.putExtra("selectedBodySide", selectedBodySide)
         startActivity(intent)

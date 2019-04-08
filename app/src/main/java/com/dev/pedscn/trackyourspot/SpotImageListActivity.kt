@@ -10,7 +10,7 @@ import android.view.*
 import android.widget.*
 import android.widget.AdapterView
 import com.bumptech.glide.Glide
-import com.dev.pedscn.trackyourspot.OldSpotActivity.Companion.REQUEST_IMAGE_CAPTURE
+import com.dev.pedscn.trackyourspot.OldSpotListActivity.Companion.REQUEST_IMAGE_CAPTURE
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.stfalcon.frescoimageviewer.ImageViewer
 import com.yalantis.ucrop.UCrop
@@ -67,7 +67,7 @@ class SpotImageListActivity : CameraOpeningActivity() {
         createSpotImageLists()
     }
 
-    private fun createSpotImageLists() { //Same as OldSpotActivity, there's a better way.
+    private fun createSpotImageLists() { //Same as OldSpotListActivity, there's a better way.
         //Initialise arrays for each photo's path and thumbnails
         var fullImagePaths = emptyArray<String>()
         var imageThumbnails = emptyArray<Bitmap>()
@@ -139,18 +139,16 @@ class SpotImageListActivity : CameraOpeningActivity() {
             }
         }
 
-        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.title, fullImagePaths) { //Again, can refactor xml
+        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.list_row_title, fullImagePaths) { //Again, can refactor xml
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                val photoJpegName = view.findViewById<View>(R.id.title) as TextView //TODO Refactor these names
-                val photoDescription = view.findViewById<View>(R.id.seconddesc) as TextView
-                val text3 = view.findViewById<View>(R.id.artist) as TextView
-                val photoThumbnail = view.findViewById(R.id.thumbn) as ImageView
+                val photoJpegName = view.findViewById<View>(R.id.list_row_title) as TextView //TODO Refactor these names
+                val photoDescription = view.findViewById<View>(R.id.list_row_description) as TextView
+                val photoThumbnail = view.findViewById(R.id.list_row_thumbnail) as ImageView
                 val spotDateText = "Added on " + fullImagePaths[position].removePrefix(spotDirectory).subSequence(5,15).toString().replace("-", "/")
                 photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
                 photoJpegName.textSize = 14.toFloat()
                 photoDescription.text = spotDateText
-                text3.visibility = View.GONE
                 Glide.with(this@SpotImageListActivity)
                         .load(imageThumbnails[position])
                         .thumbnail( 0.1f )
@@ -234,7 +232,7 @@ class SpotImageListActivity : CameraOpeningActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this, OldSpotActivity::class.java)
+        val intent = Intent(this, OldSpotListActivity::class.java)
         intent.putExtra("selectedBodySide", selectedBodySide)
         intent.putExtra("selectedBodyPart", selectedBodyPart)
         startActivity(intent)

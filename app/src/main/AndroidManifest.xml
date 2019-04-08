@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dev.pedscn.trackyourspot.OldSpotActivity"
+            android:name="com.dev.pedscn.trackyourspot.OldSpotListActivity"
             android:label="@string/title_activity_old_spot_screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

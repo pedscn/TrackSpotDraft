@@ -24,16 +24,16 @@ import kotlinx.android.synthetic.main.activity_old_spot_screen.*
 import java.io.File
 
 
-class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
+class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
 
     companion object {
         const val REQUEST_IMAGE_CAPTURE = 1
         const val REQUEST_TAKE_PHOTO = 1
     }
 
-    private lateinit var selectedBodyPart : String
-    private lateinit var devicePictureDirectory : String
-    private lateinit var selectedBodySide : String
+    private lateinit var selectedBodyPart: String
+    private lateinit var devicePictureDirectory: String
+    private lateinit var selectedBodySide: String
     private lateinit var spotListDirectory: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,7 +56,7 @@ class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
 
     private fun checkPermissionsAndStartCamera() {
         val hasCameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-        val hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)  == PackageManager.PERMISSION_GRANTED
+        val hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
         if (!hasCameraPermission || !hasStoragePermission) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
         } else {
@@ -72,10 +72,10 @@ class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                && grantResults[1] == PackageManager.PERMISSION_GRANTED
+            ) {
                 deployCamera()
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Please enable Camera and Storage permissions", Toast.LENGTH_SHORT).show()
             }
         }
@@ -121,7 +121,7 @@ class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
                 //spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/") //Not used
                 val filesInFolder = File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()
                 //Grab first image of each spot folder
-                spotThumbnails += if (filesInFolder.size>1) {
+                spotThumbnails += if (filesInFolder.size > 1) {
                     BitmapFactory.decodeFile(filesInFolder[1].absolutePath)
                 } else { //Show question mark icon if image is missing.
                     BitmapFactory.decodeResource(this.resources, R.drawable.questionmark)
@@ -130,33 +130,32 @@ class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
         }
 
         val hasCameraBeenClosed = intent.getBooleanExtra("cameraClosed", false) //Opens Camera straight away if there are no old spots
-        if (numberOfSpots==0 && !hasCameraBeenClosed) {
+        if (numberOfSpots == 0 && !hasCameraBeenClosed) {
             checkPermissionsAndStartCamera()
         }
 
-        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.title, spotNames) { //spotNames needs to be passed or no spots shown.
+        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.list_row_title, spotNames) { //spotNames needs to be passed or no spots shown.
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                val spotNameTextView = view.findViewById<View>(R.id.title) as TextView //Need to refactor and edit xml
-                val spotDirectoryTextView = view.findViewById<View>(R.id.artist) as TextView
-                val spotJpegTextView = view.findViewById<View>(R.id.seconddesc) as TextView
-                val spotThumbnailImageView = view.findViewById(R.id.thumbn) as ImageView
+                val spotNameTextView = view.findViewById<View>(R.id.list_row_title) as TextView //Need to refactor and edit xml
+                val spotJpegTextView = view.findViewById<View>(R.id.list_row_description) as TextView
+                val spotThumbnailImageView = view.findViewById(R.id.list_row_thumbnail) as ImageView
+
                 //val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
                 spotNameTextView.text = spotNames[position]
-                spotDirectoryTextView.text = spotDirectories[position] //TODO, substitute with date or number of dates
                 spotJpegTextView.text = spotDirectories[position]
-                spotDirectoryTextView.visibility = View.GONE
-                Glide.with(this@OldSpotActivity)
-                        .load(spotThumbnails[position])
-                        .thumbnail( 0.1f ) //Improves memory management
-                        .into(spotThumbnailImageView)
+                Glide.with(this@OldSpotListActivity)
+                    .load(spotThumbnails[position])
+                    .thumbnail(0.1f) //Improves memory management
+                    .into(spotThumbnailImageView)
                 return view
             }
         }
 
         val listView = old_spot_screen_spot_list
         listView.adapter = spotListAdapter
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, index, _ -> //We only need the position index to select item from spotList
+        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, index, _ ->
+            //We only need the position index to select item from spotList
             val intent = Intent(this, SpotImageListActivity::class.java)
             intent.apply {
                 putExtra("selectedBodyPart", selectedBodyPart)
@@ -194,9 +193,9 @@ class OldSpotActivity : CameraOpeningActivity() { // Reduces redundancy
                 }
                 //Is this stable on every device? Bad design probably
                 UCrop.of(Uri.parse("file://$currentFullPhotoPath"), Uri.parse("file://$currentFullPhotoPath")) //same destination as source file
-                        .withAspectRatio(1.toFloat(), 1.toFloat())
-                        .withOptions(cropOptions)
-                        .start(this)
+                    .withAspectRatio(1.toFloat(), 1.toFloat())
+                    .withOptions(cropOptions)
+                    .start(this)
             }
         }
         //Error or back press on cropping activity

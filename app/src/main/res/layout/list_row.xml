@@ -1,70 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/activatedBackgroundIndicator"
-    android:orientation="horizontal"
-    android:padding="5dip">
-
-    <!--  ListRow Left sied Thumbnail image -->
-    <LinearLayout
-        android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="3dip"
-        android:layout_alignParentStart="true"
-        android:background="@color/grey"
-        android:layout_marginEnd="12dip">
-
-        <ImageView
-            android:layout_width="52sp"
-            android:layout_height="52sp"
-            android:id="@+id/thumbn"
-            android:contentDescription="@string/spot_thumbnail" />
-
-    </LinearLayout>
-
-    <!-- Title Of Song-->
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/thumbnail"
-        android:layout_toEndOf="@+id/thumbnail"
-        android:text="@string/title_tag"
-        android:textColor="#040404"
-        android:typeface="sans"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/artist"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:textColor="#343434"
-        android:textSize="15sp"
-        android:layout_marginTop="1dip"
-        android:layout_toEndOf="@+id/thumbnail" />
-
-    <TextView
-        android:id="@+id/seconddesc"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/artist"
-        android:textColor="#343434"
-        android:textSize="12sp"
-        android:layout_marginTop="1dip"
-        android:layout_toEndOf="@+id/thumbnail"
-        android:text="@string/tag" />
+    android:background="?android:attr/activatedBackgroundIndicator">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:src="@drawable/ic_arrow"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="@null" />
+        android:id="@+id/list_row_thumbnail"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/bordered_background"
+        android:contentDescription="@string/spot_thumbnail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/questionmark" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/list_row_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/title_tag"
+        android:textColor="#040404"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        app:layout_constraintBottom_toTopOf="@+id/list_row_description"
+        app:layout_constraintEnd_toStartOf="@+id/list_row_right_chevron"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/list_row_thumbnail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/list_row_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="@string/tag"
+        android:textColor="#343434"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/list_row_right_chevron"
+        app:layout_constraintStart_toEndOf="@+id/list_row_thumbnail" />
+
+    <ImageView
+        android:id="@+id/list_row_right_chevron"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="false"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

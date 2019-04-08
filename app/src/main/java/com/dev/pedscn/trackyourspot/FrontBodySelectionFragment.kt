@@ -27,7 +27,7 @@ class FrontBodySelectionFragment : Fragment() {
     }
 
     private fun openBodyPart(selectedBodyPart: String) {
-        val intent = Intent(this.activity, OldSpotActivity::class.java)
+        val intent = Intent(this.activity, OldSpotListActivity::class.java)
         intent.putExtra("selectedBodyPart", selectedBodyPart)
         intent.putExtra("selectedBodySide", selectedBodySide)
         startActivity(intent)

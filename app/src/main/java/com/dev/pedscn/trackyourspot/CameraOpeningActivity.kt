@@ -63,7 +63,7 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
                     //Open Camera App
                     takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, OldSpotActivity.REQUEST_TAKE_PHOTO)
+                    startActivityForResult(takePictureIntent, OldSpotListActivity.REQUEST_TAKE_PHOTO)
                 }
             }
         }
