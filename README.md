@@ -12,10 +12,10 @@ This project was developed as part of my undergraduate dissertation.
 3) Email the two images to a doctor (or other person).
 
 ## Screenshots
-<img src="https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/info.png?token=Aetm4WFzC3e5bKQyAxfo4us9OJfy4hT_ks5ctbRMwA%3D%3D" width="250" />
+<img src="https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/info.png?token=Aetm4WFzC3e5bKQyAxfo4us9OJfy4hT_ks5ctbRMwA%3D%3D" width="250" />&nbsp;
 <img src="https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/spothistory.png?token=Aetm4Rzi0z4LNHzez23d9LBb3-7qA2Bcks5ctbRtwA%3D%3D" width="250" />
-<img src="https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/crop.png?token=Aetm4Uo8J8UNwsxG9eVRExwgPBMrV98-ks5ctbQ1wA%3D%3D" width="250" />
-<img src="http://https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/compare.png?token=Aetm4V7PpbrqaERAm32O1PLkeF-Mt_0_ks5ctbP-wA%3D%3D" width="250" />
+<img src="https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/crop.png?token=Aetm4Uo8J8UNwsxG9eVRExwgPBMrV98-ks5ctbQ1wA%3D%3D" width="250" />&nbsp;
+<img src="https://raw.githubusercontent.com/pedscn/TrackYourSpot/master/app/src/main/res/screenshots/compare.png?token=Aetm4V7PpbrqaERAm32O1PLkeF-Mt_0_ks5ctbP-wA%3D%3D" width="250" />
 
 ## Setup
 Note: Unnecessary comments have been added to several classes for clarity purposes in the dissertation report.
