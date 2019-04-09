@@ -18,8 +18,8 @@ This project was developed as part of my undergraduate dissertation.
 ## Setup
 Note: Unnecessary comments have been added to several classes for clarity purposes in the dissertation report.
 
-## Libraries used
--uCrop
--Info screens
--Fresco
--Email intent builder
+## Libraries
+- [uCrop](https://github.com/Yalantis/uCrop) - Image Cropping Library
+- [AppIntro](https://github.com/AppIntro/AppIntro) - Make a cool app intro for your app
+- [Fresco](https://github.com/facebook/fresco) - Displaying Images
+- [Glide](https://github.com/bumptech/glide) - Media Management
