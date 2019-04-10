@@ -26,5 +26,5 @@ This Android app was developed as part of my undergraduate dissertation. The app
 - [Glide](https://github.com/bumptech/glide) - Media Management
 
 ## Setup
-- Run `$ git clone https://github.com/libgit2/libgit2`
+- Run `$ git clone https://github.com/pedscn/TrackYourSpot.git`
 - Import into Android Studio
