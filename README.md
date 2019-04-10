@@ -24,3 +24,7 @@ This Android app was developed as part of my undergraduate dissertation. The app
 - [AppIntro](https://github.com/AppIntro/AppIntro) - Make a cool app intro for your app
 - [Fresco](https://github.com/facebook/fresco) - Displaying Images
 - [Glide](https://github.com/bumptech/glide) - Media Management
+
+## Setup
+- Run `$ git clone https://github.com/libgit2/libgit2`
+- Import into Android Studio
