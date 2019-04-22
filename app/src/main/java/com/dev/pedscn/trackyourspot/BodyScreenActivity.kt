@@ -9,12 +9,11 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.dev.pedscn.trackyourspot.BodySides.FRONT
 import kotlinx.android.synthetic.main.activity_body_screen.*
 
 class BodyScreenActivity : AppCompatActivity() {
     private lateinit var selectedBodySide : String
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.bodybar, menu)
@@ -33,13 +32,13 @@ class BodyScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_body_screen)
-        val rellayout = bodyscreen_rellayout
-        rellayout.setBackgroundColor(resources.getColor(R.color.white))
+        val bodyScreenRelLayout = bodyscreen_rellayout
+        bodyScreenRelLayout.setBackgroundColor(resources.getColor(R.color.white))
         setSupportActionBar(findViewById(R.id.body_screen_toolbar))
         selectedBodySide = if (intent.hasExtra("selectedBodySide")) {
             intent.getStringExtra("selectedBodySide")
         } else {
-            "front"
+            FRONT
         }
         createTabs(selectedBodySide)
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE) ?: return

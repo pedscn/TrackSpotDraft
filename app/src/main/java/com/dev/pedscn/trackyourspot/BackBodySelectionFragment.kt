@@ -23,12 +23,6 @@ class BackBodySelectionFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_back_body_selection, container, false)
     }
 
-    companion object {
-        fun newInstance(): BackBodySelectionFragment = BackBodySelectionFragment()
-        const val SELECTED_BODY_PART = "selectedBodyPart"
-        const val SELECTED_BODY_SIDE = "selectedBodySide"
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         createMainMenu()
@@ -61,5 +55,11 @@ class BackBodySelectionFragment : Fragment() {
         btn_head_back_body.setOnClickListener {
             openBodyPart(HEAD)
         }
+    }
+
+    companion object {
+        fun newInstance(): BackBodySelectionFragment = BackBodySelectionFragment()
+        const val SELECTED_BODY_PART = "selectedBodyPart"
+        const val SELECTED_BODY_SIDE = "selectedBodySide"
     }
 }
