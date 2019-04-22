@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dev.pedscn.trackyourspot.BodyParts.BACK
+import com.dev.pedscn.trackyourspot.BodySides.BACK
 import com.dev.pedscn.trackyourspot.BodyParts.HEAD
 import com.dev.pedscn.trackyourspot.BodyParts.LEFT_ARM
 import com.dev.pedscn.trackyourspot.BodyParts.LEFT_LEG
@@ -25,6 +25,8 @@ class BackBodySelectionFragment : Fragment() {
 
     companion object {
         fun newInstance(): BackBodySelectionFragment = BackBodySelectionFragment()
+        const val SELECTED_BODY_PART = "selectedBodyPart"
+        const val SELECTED_BODY_SIDE = "selectedBodySide"
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -34,8 +36,8 @@ class BackBodySelectionFragment : Fragment() {
 
     private fun openBodyPart(selectedBodyPart : String) {
         val intent = Intent(this.activity, OldSpotListActivity::class.java)
-        intent.putExtra("selectedBodyPart", selectedBodyPart)
-        intent.putExtra("selectedBodySide", selectedBodySide)
+        intent.putExtra(SELECTED_BODY_PART, selectedBodyPart)
+        intent.putExtra(SELECTED_BODY_SIDE, selectedBodySide)
         startActivity(intent)
     }
 

@@ -12,11 +12,12 @@ import com.dev.pedscn.trackyourspot.BodyParts.LEFT_LEG
 import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_ARM
 import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_LEG
 import com.dev.pedscn.trackyourspot.BodyParts.TORSO
+import com.dev.pedscn.trackyourspot.BodySides.FRONT
 import kotlinx.android.synthetic.main.fragment_front_body_selection.*
 
 class FrontBodySelectionFragment : Fragment() {
 
-    private val selectedBodySide = "front"
+    private val selectedBodySide = FRONT
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
