@@ -6,11 +6,17 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import com.dev.pedscn.trackyourspot.BodyParts.BACK
+import com.dev.pedscn.trackyourspot.BodyParts.HEAD
+import com.dev.pedscn.trackyourspot.BodyParts.LEFT_ARM
+import com.dev.pedscn.trackyourspot.BodyParts.LEFT_LEG
+import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_ARM
+import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_LEG
+import kotlinx.android.synthetic.main.fragment_back_body_selection.*
 
 class BackBodySelectionFragment : Fragment() {
 
-    private val selectedBodySide = "back"
+    private val selectedBodySide = BACK
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -35,29 +41,23 @@ class BackBodySelectionFragment : Fragment() {
 
     private fun createMainMenu() {
 
-        val btnLeftArm = view?.findViewById(R.id.btn_left_arm) as Button
-        btnLeftArm.setOnClickListener {
-            openBodyPart("leftarm")
+        btn_left_arm_back_body.setOnClickListener {
+            openBodyPart(LEFT_ARM)
         }
-        val btnRightArm = view?.findViewById(R.id.btn_right_arm) as Button
-        btnRightArm.setOnClickListener {
-            openBodyPart("rightarm")
+        btn_right_arm_back_body.setOnClickListener {
+            openBodyPart(RIGHT_ARM)
         }
-        val btnBack = view?.findViewById(R.id.btn_back) as Button
-        btnBack.setOnClickListener {
-            openBodyPart("back")
+        btn_back_back_body.setOnClickListener {
+            openBodyPart(BACK)
         }
-        val btnRightLeg = view?.findViewById(R.id.btn_right_leg) as Button
-        btnRightLeg.setOnClickListener {
-            openBodyPart("rightleg")
+        btn_right_leg_back_body.setOnClickListener {
+            openBodyPart(RIGHT_LEG)
         }
-        val btnLeftLeg = view?.findViewById(R.id.btn_left_leg) as Button
-        btnLeftLeg.setOnClickListener {
-            openBodyPart("leftleg")
+        btn_left_leg_back_body.setOnClickListener {
+            openBodyPart(LEFT_LEG)
         }
-        val btnHead = view?.findViewById(R.id.btn_head) as Button
-        btnHead.setOnClickListener {
-            openBodyPart("head")
+        btn_head_back_body.setOnClickListener {
+            openBodyPart(HEAD)
         }
     }
 }

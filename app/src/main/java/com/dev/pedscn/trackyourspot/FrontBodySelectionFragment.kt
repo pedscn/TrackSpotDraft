@@ -6,7 +6,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import com.dev.pedscn.trackyourspot.BodyParts.HEAD
+import com.dev.pedscn.trackyourspot.BodyParts.LEFT_ARM
+import com.dev.pedscn.trackyourspot.BodyParts.LEFT_LEG
+import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_ARM
+import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_LEG
+import com.dev.pedscn.trackyourspot.BodyParts.TORSO
+import kotlinx.android.synthetic.main.fragment_front_body_selection.*
 
 class FrontBodySelectionFragment : Fragment() {
 
@@ -17,10 +23,6 @@ class FrontBodySelectionFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_front_body_selection, container, false)
     }
 
-    companion object {
-        fun newInstance(): FrontBodySelectionFragment = FrontBodySelectionFragment()
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         createMainMenu()
@@ -28,36 +30,42 @@ class FrontBodySelectionFragment : Fragment() {
 
     private fun openBodyPart(selectedBodyPart: String) {
         val intent = Intent(this.activity, OldSpotListActivity::class.java)
-        intent.putExtra("selectedBodyPart", selectedBodyPart)
-        intent.putExtra("selectedBodySide", selectedBodySide)
+        intent.putExtra(SELECTED_BODY_PART, selectedBodyPart)
+        intent.putExtra(SELECTED_BODY_SIDE, selectedBodySide)
         startActivity(intent)
     }
 
     private fun createMainMenu() {
 
-        val btnLeftArm = view?.findViewById(R.id.btn_left_arm) as Button
+        val btnLeftArm = btn_left_arm_front_body
         btnLeftArm.setOnClickListener {
-            openBodyPart("leftarm")
+            openBodyPart(LEFT_ARM)
         }
-        val btnRightArm = view?.findViewById(R.id.btn_right_arm) as Button
+        val btnRightArm = btn_right_arm_front_body
         btnRightArm.setOnClickListener {
-            openBodyPart("rightarm")
+            openBodyPart(RIGHT_ARM)
         }
-        val btnTorso = view?.findViewById(R.id.btn_back) as Button
+        val btnTorso = btn_torso_front_body
         btnTorso.setOnClickListener {
-            openBodyPart("torso")
+            openBodyPart(TORSO)
         }
-        val btnLeftLeg = view?.findViewById(R.id.btn_left_leg) as Button
+        val btnLeftLeg = btn_left_leg_front_body
         btnLeftLeg.setOnClickListener {
-            openBodyPart("leftleg")
+            openBodyPart(LEFT_LEG)
         }
-        val btnRightLeg = view?.findViewById(R.id.btn_right_leg) as Button
+        val btnRightLeg = btn_right_leg_front_body
         btnRightLeg.setOnClickListener {
-            openBodyPart("rightleg")
+            openBodyPart(RIGHT_LEG)
         }
-        val btnHead = view?.findViewById(R.id.btn_head) as Button
+        val btnHead = btn_head_front_body
         btnHead.setOnClickListener {
-            openBodyPart("head")
+            openBodyPart(HEAD)
         }
+    }
+
+    companion object {
+        fun newInstance(): FrontBodySelectionFragment = FrontBodySelectionFragment()
+        const val SELECTED_BODY_PART = "selectedBodyPart"
+        const val SELECTED_BODY_SIDE = "selectedBodySide"
     }
 }
