@@ -18,6 +18,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.bumptech.glide.Glide
+import com.dev.pedscn.trackyourspot.BodyParts.LEFT_ARM
+import com.dev.pedscn.trackyourspot.BodyParts.LEFT_LEG
+import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_ARM
+import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_LEG
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCropActivity
 import kotlinx.android.synthetic.main.activity_old_spot_screen.*
@@ -96,10 +100,10 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
         devicePictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
         spotListDirectory = "$devicePictureDirectory/trackyourspot/$selectedBodySide/$selectedBodyPart/" //Research good file path naming conventions
         val capitalisedTitle = when (selectedBodyPart) { //Hacky way to display title correctly
-            "leftarm" -> "Left Arm"
-            "rightarm" -> "Right Arm"
-            "rightleg" -> "Right Leg"
-            "leftleg" -> "Left Leg"
+            LEFT_ARM -> "Left Arm"
+            RIGHT_ARM -> "Right Arm"
+            RIGHT_LEG -> "Right Leg"
+            LEFT_LEG -> "Left Leg"
             else -> selectedBodyPart.capitalize()
         }
         title = "$capitalisedTitle Spots"
