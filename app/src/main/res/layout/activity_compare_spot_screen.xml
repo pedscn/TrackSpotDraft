@@ -1,17 +1,17 @@
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <include
-        layout="@layout/action_bar"
-        android:id="@+id/track_spot_screen_toolbar"/>
+        android:id="@+id/track_spot_screen_toolbar"
+        layout="@layout/action_bar" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,19 +21,19 @@
             <ImageView
                 android:id="@+id/topImage"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="10dp"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/first_spot_image" />
+                android:layout_marginBottom="10dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/first_spot_image"
+                android:scaleType="fitCenter" />
 
             <ImageView
                 android:id="@+id/bottomImage"
                 android:layout_width="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/second_spot_image" />
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/second_spot_image"
+                android:scaleType="fitCenter" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

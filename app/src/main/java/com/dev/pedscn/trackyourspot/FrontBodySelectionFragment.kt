@@ -19,8 +19,10 @@ class FrontBodySelectionFragment : Fragment() {
 
     private val selectedBodySide = FRONT
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_front_body_selection, container, false)
     }
 

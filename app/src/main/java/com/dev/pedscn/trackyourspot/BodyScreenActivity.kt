@@ -13,7 +13,7 @@ import com.dev.pedscn.trackyourspot.BodySides.FRONT
 import kotlinx.android.synthetic.main.activity_body_screen.*
 
 class BodyScreenActivity : AppCompatActivity() {
-    private lateinit var selectedBodySide : String
+    private lateinit var selectedBodySide: String
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.bodybar, menu)
@@ -55,8 +55,8 @@ class BodyScreenActivity : AppCompatActivity() {
         return true
     }
 
-    private fun createTabs(selectedBodySide : String) {
-        val tabLayout: TabLayout = findViewById(R.id.tab_layout) //Ignore Android Studio Error
+    private fun createTabs(selectedBodySide: String) {
+        val tabLayout: TabLayout = findViewById(R.id.tab_layout)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         val adapter = FragmentAdapter(supportFragmentManager)
         viewPager.adapter = adapter
@@ -65,7 +65,7 @@ class BodyScreenActivity : AppCompatActivity() {
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
         val frontTab = tabLayout.getTabAt(0)
         val backTab = tabLayout.getTabAt(1)
-        if (selectedBodySide=="back") {
+        if (selectedBodySide == "back") {
             backTab?.select()
         }
         frontTab?.text = "Front"

@@ -10,12 +10,12 @@
     <item
         android:id="@+id/compare"
         android:title="@string/compare"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_info"
         android:icon="@drawable/ic_info"
         android:title="@string/help"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
 </menu>

@@ -1,4 +1,5 @@
 package com.dev.pedscn.trackyourspot
+
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,7 +22,7 @@ import java.util.*
 
 class SpotImageListActivity : CameraOpeningActivity() {
 
-    private lateinit var spotName : String
+    private lateinit var spotName: String
     lateinit var spotDirectory: String
     lateinit var selectedBodyPart: String
     lateinit var selectedBodySide: String
@@ -45,7 +46,7 @@ class SpotImageListActivity : CameraOpeningActivity() {
             true
         }
         R.id.compare -> {
-            if (numberOfImages>0) {
+            if (numberOfImages > 0) {
                 startActionMode(mActionModeCallback)
                 listView.setItemChecked(0, true)
             }
@@ -91,10 +92,10 @@ class SpotImageListActivity : CameraOpeningActivity() {
         var fullImagePaths = emptyArray<String>()
         var imageThumbnails = emptyArray<Bitmap>()
         //Loop through images in the selected spot's directory
-        val imageFiles =  File(spotDirectory).walk().maxDepth(1).toList()
+        val imageFiles = File(spotDirectory).walk().maxDepth(1).toList()
         for (i in 2..imageFiles.size) {
-            fullImagePaths += imageFiles[i-1].toString()
-            imageThumbnails += BitmapFactory.decodeFile(imageFiles[i-1].absolutePath)
+            fullImagePaths += imageFiles[i - 1].toString()
+            imageThumbnails += BitmapFactory.decodeFile(imageFiles[i - 1].absolutePath)
         }
         numberOfImages = fullImagePaths.size
         //Initialise dynamic array to keep track of which images are selected
@@ -105,12 +106,18 @@ class SpotImageListActivity : CameraOpeningActivity() {
         //Initialise contextual action toolbar to allow user to select images
         mActionModeCallback = object : AbsListView.MultiChoiceModeListener { //Contextual Action Bar
             //This method is called whenever an item is selected or deselected
-            override fun onItemCheckedStateChanged(mode: ActionMode, position: Int, id: Long, checked: Boolean) {
+            override fun onItemCheckedStateChanged(
+                mode: ActionMode,
+                position: Int,
+                id: Long,
+                checked: Boolean
+            ) {
                 //Update list of selected spots array
                 selectedSpotBooleanList[position] = checked
                 val checkedItemCount = listView.checkedItemCount
                 //Allow pressing the compare button if exactly 2 images are selected
-                mode.menu.findItem(R.id.compare).isEnabled = checkedItemCount == 2 //Needed so that compare button is only available if 2 images are selected
+                mode.menu.findItem(R.id.compare).isEnabled =
+                    checkedItemCount == 2 //Needed so that compare button is only available if 2 images are selected
             }
 
             override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -126,6 +133,7 @@ class SpotImageListActivity : CameraOpeningActivity() {
             override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
                 return false
             }
+
             //This method is called when the user presses a button in the
             //contextual action toolbar.
             override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
@@ -136,14 +144,15 @@ class SpotImageListActivity : CameraOpeningActivity() {
                         var spotIndicesToCompare = emptyArray<Int>()
                         //Loop through array of selected spots
                         (0 until selectedSpotBooleanList.size)
-                                //If a spot is selected, save it's index
-                                .filter { selectedSpotBooleanList[it]==true }
-                                .forEach { spotIndicesToCompare+= it }
+                            //If a spot is selected, save it's index
+                            .filter { selectedSpotBooleanList[it] == true }
+                            .forEach { spotIndicesToCompare += it }
                         //Get image paths for both spots to be compared
                         val firstSpotToCompare = fullImagePaths[spotIndicesToCompare[0]]
                         val secondSpotToCompare = fullImagePaths[spotIndicesToCompare[1]]
                         //Open the comparison screen and send info of selected sports
-                        val intent = Intent(this@SpotImageListActivity, CompareSpotActivity::class.java)
+                        val intent =
+                            Intent(this@SpotImageListActivity, CompareSpotActivity::class.java)
                         intent.putExtra("firstSpotToCompare", firstSpotToCompare)
                         intent.putExtra("secondSpotToCompare", secondSpotToCompare)
                         intent.putExtra("spotName", spotName)
@@ -158,20 +167,31 @@ class SpotImageListActivity : CameraOpeningActivity() {
             }
         }
 
-        val spotImagesAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.list_row_title, fullImagePaths) { //Again, can refactor xml
+        val spotImagesAdapter = object : ArrayAdapter<String>(
+            this,
+            R.layout.list_row,
+            R.id.list_row_title,
+            fullImagePaths
+        ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                val photoJpegName = view.findViewById<View>(R.id.list_row_title) as TextView //TODO Refactor these names
-                val photoDescription = view.findViewById<View>(R.id.list_row_description) as TextView
+                val photoJpegName =
+                    view.findViewById<View>(R.id.list_row_title) as TextView
+                val photoDescription =
+                    view.findViewById<View>(R.id.list_row_description) as TextView
                 val photoThumbnail = view.findViewById(R.id.list_row_thumbnail) as ImageView
-                val spotDateText = "Added on " + fullImagePaths[position].removePrefix(spotDirectory).subSequence(5,15).toString().replace("-", "/")
+                val spotDateText =
+                    "Added on " + fullImagePaths[position].removePrefix(spotDirectory).subSequence(
+                        5,
+                        15
+                    ).toString().replace("-", "/")
                 photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
                 photoJpegName.textSize = 14.toFloat()
                 photoDescription.text = spotDateText
                 Glide.with(this@SpotImageListActivity)
-                        .load(imageThumbnails[position])
-                        .thumbnail( 0.1f )
-                        .into(photoThumbnail)
+                    .load(imageThumbnails[position])
+                    .thumbnail(0.1f)
+                    .into(photoThumbnail)
                 return view
             }
         }
@@ -188,14 +208,16 @@ class SpotImageListActivity : CameraOpeningActivity() {
             setMultiChoiceModeListener(mActionModeCallback)
             onItemClickListener = AdapterView.OnItemClickListener { _, _, _, arg3 ->
                 ImageViewer.Builder(context, arrayOfImageUris)
-                        .setStartPosition(arg3.toInt())
-                        .hideStatusBar(false)
-                        .allowSwipeToDismiss(true)
-                        .show()
+                    .setStartPosition(arg3.toInt())
+                    .hideStatusBar(false)
+                    .allowSwipeToDismiss(true)
+                    .show()
             }
             onItemLongClickListener = object : AdapterView.OnItemLongClickListener {
-                override fun onItemLongClick(arg0: AdapterView<*>, view: View,
-                                             position: Int, id: Long): Boolean {
+                override fun onItemLongClick(
+                    arg0: AdapterView<*>, view: View,
+                    position: Int, id: Long
+                ): Boolean {
                     startActionMode(mActionModeCallback)
                     return true
                 }
@@ -226,17 +248,34 @@ class SpotImageListActivity : CameraOpeningActivity() {
                 val cropOptions = UCrop.Options().apply {
                     setAllowedGestures(UCropActivity.NONE, UCropActivity.NONE, UCropActivity.NONE)
                     setShowCropGrid(false)
-                    setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                    setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                    setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setToolbarColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.colorPrimary
+                        )
+                    )
+                    setActiveWidgetColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.colorPrimary
+                        )
+                    )
+                    setStatusBarColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.colorPrimary
+                        )
+                    )
                     setShowCropFrame(true)
                 }
                 //Choose the same source and destination for the cropped image (Overwrite it)
-                UCrop.of(Uri.parse("file://$currentFullPhotoPath"),
-                        Uri.parse("file://$currentFullPhotoPath")) //Fix if needed
-                        .withAspectRatio(1.toFloat(),1.toFloat())
-                        .withOptions(cropOptions)
-                        .start(this)
+                UCrop.of(
+                    Uri.parse("file://$currentFullPhotoPath"),
+                    Uri.parse("file://$currentFullPhotoPath")
+                ) //Fix if needed
+                    .withAspectRatio(1.toFloat(), 1.toFloat())
+                    .withOptions(cropOptions)
+                    .start(this)
             }
         }
 

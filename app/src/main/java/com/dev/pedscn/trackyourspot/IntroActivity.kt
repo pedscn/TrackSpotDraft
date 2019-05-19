@@ -26,28 +26,32 @@ class IntroActivity : AppIntro2() {
 
         val secondSliderPage = SliderPage().apply {
             title = "Spot Changes"
-            description = "There are many normal reasons why a spot might change appearance. Similarly, an existing spot could become cancerous without much change to its appearance."
+            description =
+                "There are many normal reasons why a spot might change appearance. Similarly, an existing spot could become cancerous without much change to its appearance."
             imageDrawable = R.drawable.magnifying_glass
             bgColor = Color.parseColor("#0bcbdf")
         }
 
         val thirdSliderPage = SliderPage().apply {
             title = "Skin Protection"
-            description = "Sun exposure is a major factor in skin cancer. Always use appropriate skin protection."
+            description =
+                "Sun exposure is a major factor in skin cancer. Always use appropriate skin protection."
             imageDrawable = R.drawable.finalskinpatch
             bgColor = Color.parseColor("#00cc7a")
         }
 
         val fourthSliderPage = SliderPage().apply {
             title = "Consult Your Doctor"
-            description = "You should always see your doctor if there is anything about a spot that worries you."
+            description =
+                "You should always see your doctor if there is anything about a spot that worries you."
             imageDrawable = R.drawable.doctorclipart
             bgColor = Color.parseColor("#AB47BC")
         }
 
         val fifthSliderPage = SliderPage().apply {
             title = "Start Tracking"
-            description = "On the next screen you can begin tracking your spots, simply tap on a body part to add a spot."
+            description =
+                "On the next screen you can begin tracking your spots, simply tap on a body part to add a spot."
             imageDrawable = R.drawable.checkmark
             bgColor = Color.parseColor("#9494b8")
         }

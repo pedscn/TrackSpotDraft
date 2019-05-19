@@ -18,7 +18,8 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
 
     private fun createImageFile(spotDirectory: String): File {
         //Used for creating a unique name for the image file
-        val timeStamp: String = SimpleDateFormat("dd-MM-yyyy_HHmmss", Locale.getDefault()).format(Date()) //Better way?
+        val timeStamp: String =
+            SimpleDateFormat("dd-MM-yyyy_HHmmss", Locale.getDefault()).format(Date()) //Better way?
         //If needed, create the folder for the spot.
         val newDir = File(spotDirectory)
         if (!newDir.exists()) newDir.mkdirs()
@@ -63,7 +64,10 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
                     //Open Camera App
                     takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, OldSpotListActivity.REQUEST_TAKE_PHOTO)
+                    startActivityForResult(
+                        takePictureIntent,
+                        OldSpotListActivity.REQUEST_TAKE_PHOTO
+                    )
                 }
             }
         }

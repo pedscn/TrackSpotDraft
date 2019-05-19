@@ -61,27 +61,25 @@ class AddSpotActivity : AppCompatActivity() {
         val spotImageName = intent.getStringExtra("spotImageName")
 
         Glide.with(this@AddSpotActivity)
-                .load(File(fullPhotoPath))
-                .apply(RequestOptions().fitCenter())
-                .into(spot_image)
+            .load(File(fullPhotoPath))
+            .apply(RequestOptions().fitCenter())
+            .into(spot_image)
         val editTextWidget = spot_name_widget
         val editText = spot_name_edittext
         editTextWidget.setHintTextAppearance(R.style.CustomHintEnabled)
         editTextWidget.isErrorEnabled = true
 
-        val btnConfirmSpot = findViewById<Button>(R.id.btn_confirm_spot) //SDK version not compatible with inference.
+        val btnConfirmSpot =
+            findViewById<Button>(R.id.btn_confirm_spot) //SDK version not compatible with inference.
         btnConfirmSpot.setOnClickListener {
             val editName = editText.text.toString()
             if (editName.isBlank()) {
                 editTextWidget.error = "Name cannot be blank"
-            }
-            else if (editName.length>19) {
+            } else if (editName.length > 19) {
                 editTextWidget.error = "Name must be under 20 characters"
-            }
-            else if (!editName.matches(Regex(pattern = "^[a-zA-Z0-9 ]+\$"))) {
+            } else if (!editName.matches(Regex(pattern = "^[a-zA-Z0-9 ]+\$"))) {
                 editTextWidget.error = "Only letters and numbers allowed"
-            }
-            else {
+            } else {
                 val processedEditName = editName.replace(" ", "-")
                 moveImageFile(spotImageName, processedEditName, selectedBodySide, selectedBodyPart)
                 val intent = Intent(this, OldSpotListActivity::class.java)
@@ -91,7 +89,8 @@ class AddSpotActivity : AppCompatActivity() {
             }
         }
 
-        val btnCancel = findViewById<Button>(R.id.btn_cancel) //SDK version not compatible with inference.
+        val btnCancel =
+            findViewById<Button>(R.id.btn_cancel) //SDK version not compatible with inference.
         btnCancel.setOnClickListener {
             onBackPressed()
         }
@@ -105,13 +104,19 @@ class AddSpotActivity : AppCompatActivity() {
     }
 
     //Is the moveImageFile method even needed???? Apart from renaming //Is it dangerous?
-    private fun moveImageFile(spotImageName: String, newSpotName: String, selectedBodySide: String, selectedBodyPart: String) { //Need better way of dealing with temps
+    private fun moveImageFile(
+        spotImageName: String,
+        newSpotName: String,
+        selectedBodySide: String,
+        selectedBodyPart: String
+    ) { //Need better way of dealing with temps
         val photoDirectory = fullPhotoPath.removeSuffix(spotImageName)
         //Move image from temp folder to a new *newSpotName* folder
-        val newDirPath = photoDirectory.replace("temp", "$selectedBodySide/$selectedBodyPart/$newSpotName")
+        val newDirPath =
+            photoDirectory.replace("temp", "$selectedBodySide/$selectedBodyPart/$newSpotName")
         val newDir = File(newDirPath)
         //Check if the directory exists already, create it otherwise
-        if(!newDir.exists()) newDir.mkdirs()
+        if (!newDir.exists()) newDir.mkdirs()
         //Make app available in the device's Gallery
         Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).also { mediaScanIntent ->
             val f = File(fullPhotoPath)

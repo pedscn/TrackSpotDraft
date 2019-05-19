@@ -6,20 +6,22 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dev.pedscn.trackyourspot.BodySides.BACK
 import com.dev.pedscn.trackyourspot.BodyParts.HEAD
 import com.dev.pedscn.trackyourspot.BodyParts.LEFT_ARM
 import com.dev.pedscn.trackyourspot.BodyParts.LEFT_LEG
 import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_ARM
 import com.dev.pedscn.trackyourspot.BodyParts.RIGHT_LEG
+import com.dev.pedscn.trackyourspot.BodySides.BACK
 import kotlinx.android.synthetic.main.fragment_back_body_selection.*
 
 class BackBodySelectionFragment : Fragment() {
 
     private val selectedBodySide = BACK
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_back_body_selection, container, false)
     }
 
@@ -28,7 +30,7 @@ class BackBodySelectionFragment : Fragment() {
         createMainMenu()
     }
 
-    private fun openBodyPart(selectedBodyPart : String) {
+    private fun openBodyPart(selectedBodyPart: String) {
         val intent = Intent(this.activity, OldSpotListActivity::class.java)
         intent.putExtra(SELECTED_BODY_PART, selectedBodyPart)
         intent.putExtra(SELECTED_BODY_SIDE, selectedBodySide)

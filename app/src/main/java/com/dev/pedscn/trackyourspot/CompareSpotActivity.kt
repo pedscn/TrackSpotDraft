@@ -44,8 +44,16 @@ class CompareSpotActivity : AppCompatActivity() {
                 putExtra(Intent.EXTRA_TEXT, "Insert your message here")
                 val uris = ArrayList<Uri>()
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                uris += FileProvider.getUriForFile(this@CompareSpotActivity, "my.package.name.provider", File(firstSpotToCompare))
-                uris += FileProvider.getUriForFile(this@CompareSpotActivity, "my.package.name.provider", File(secondSpotToCompare))
+                uris += FileProvider.getUriForFile(
+                    this@CompareSpotActivity,
+                    "my.package.name.provider",
+                    File(firstSpotToCompare)
+                )
+                uris += FileProvider.getUriForFile(
+                    this@CompareSpotActivity,
+                    "my.package.name.provider",
+                    File(secondSpotToCompare)
+                )
                 putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
                 startActivity(Intent.createChooser(intent, "Send email..."))
             }
@@ -87,13 +95,13 @@ class CompareSpotActivity : AppCompatActivity() {
         firstSpotToCompare = intent.getStringExtra("firstSpotToCompare")
         secondSpotToCompare = intent.getStringExtra("secondSpotToCompare")
         Glide.with(this@CompareSpotActivity)
-                .load(BitmapFactory.decodeFile(File(firstSpotToCompare).absolutePath))
-                .apply(RequestOptions().fitCenter())
-                .into(topImage)
+            .load(BitmapFactory.decodeFile(File(firstSpotToCompare).absolutePath))
+            .apply(RequestOptions().fitCenter())
+            .into(topImage)
         Glide.with(this@CompareSpotActivity)
-                .load(BitmapFactory.decodeFile(File(secondSpotToCompare).absolutePath))
-                .apply(RequestOptions().fitCenter())
-                .into(bottomImage)
+            .load(BitmapFactory.decodeFile(File(secondSpotToCompare).absolutePath))
+            .apply(RequestOptions().fitCenter())
+            .into(bottomImage)
     }
 
     override fun onBackPressed() {

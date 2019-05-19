@@ -75,28 +75,47 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
     }
 
     private fun checkPermissionsAndStartCamera() {
-        val hasCameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-        val hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        val hasCameraPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+        val hasStoragePermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
         if (!hasCameraPermission || !hasStoragePermission) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                0
+            )
         } else {
             deployCamera()
         }
     }
 
     private fun deployCamera() {
-        val spotTempDirectory = "$devicePictureDirectory/trackyourspot/temp/" //Probably crap design, could find something better
+        val spotTempDirectory =
+            "$devicePictureDirectory/trackyourspot/temp/" //Probably crap design, could find something better
         dispatchTakePictureIntent(spotTempDirectory)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         if (requestCode == 0) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 && grantResults[1] == PackageManager.PERMISSION_GRANTED
             ) {
                 deployCamera()
             } else {
-                Toast.makeText(this, "Please enable Camera and Storage permissions", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Please enable Camera and Storage permissions",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -113,8 +132,10 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
     private fun initVariables() {
         selectedBodyPart = intent.getStringExtra("selectedBodyPart")
         selectedBodySide = intent.getStringExtra("selectedBodySide")
-        devicePictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
-        spotListDirectory = "$devicePictureDirectory/trackyourspot/$selectedBodySide/$selectedBodyPart/" //Research good file path naming conventions
+        devicePictureDirectory =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+        spotListDirectory =
+            "$devicePictureDirectory/trackyourspot/$selectedBodySide/$selectedBodyPart/" //Research good file path naming conventions
         val capitalisedTitle = when (selectedBodyPart) { //Hacky way to display title correctly
             LEFT_ARM -> "Left Arm"
             RIGHT_ARM -> "Right Arm"
@@ -139,7 +160,8 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
                 spotNames += spotName //Add spot to list of spot names
                 spotDirectories += "$spotListDirectory$spotName/" //Add directory
                 //spotImageNames += imgFile.toString().removePrefix("$spotListDirectory/$spotName/") //Not used
-                val filesInFolder = File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()
+                val filesInFolder =
+                    File("$spotListDirectory/$spotName/").walk().maxDepth(1).toList()
                 //Grab first image of each spot folder
                 spotThumbnails += if (filesInFolder.size > 1) {
                     BitmapFactory.decodeFile(filesInFolder[1].absolutePath)
@@ -149,16 +171,26 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
             }
         }
 
-        val hasCameraBeenClosed = intent.getBooleanExtra("cameraClosed", false) //Opens Camera straight away if there are no old spots
+        val hasCameraBeenClosed = intent.getBooleanExtra(
+            "cameraClosed",
+            false
+        ) //Opens Camera straight away if there are no old spots
         if (numberOfSpots == 0 && !hasCameraBeenClosed) {
             checkPermissionsAndStartCamera()
         }
 
-        val spotListAdapter = object : ArrayAdapter<String>(this, R.layout.list_row, R.id.list_row_title, spotNames) { //spotNames needs to be passed or no spots shown.
+        val spotListAdapter = object : ArrayAdapter<String>(
+            this,
+            R.layout.list_row,
+            R.id.list_row_title,
+            spotNames
+        ) { //spotNames needs to be passed or no spots shown.
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                val spotNameTextView = view.findViewById<View>(R.id.list_row_title) as TextView //Need to refactor and edit xml
-                val spotJpegTextView = view.findViewById<View>(R.id.list_row_description) as TextView
+                val spotNameTextView =
+                    view.findViewById<View>(R.id.list_row_title) as TextView //Need to refactor and edit xml
+                val spotJpegTextView =
+                    view.findViewById<View>(R.id.list_row_description) as TextView
                 val spotThumbnailImageView = view.findViewById(R.id.list_row_thumbnail) as ImageView
 
                 //val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
@@ -179,7 +211,10 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
             val intent = Intent(this, SpotImageListActivity::class.java)
             intent.apply {
                 putExtra("selectedBodyPart", selectedBodyPart)
-                putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can remove in the future
+                putExtra(
+                    "selectedBodySide",
+                    selectedBodySide
+                ) //Not necessarily needed, can remove in the future
                 putExtra("spotName", spotNames[index])
                 //putExtra("spotImageName", spotImageNames[index]) // Not used
                 putExtra("spotDirectory", spotDirectories[index])
@@ -193,10 +228,16 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
 
         if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
             val intent = Intent(this, AddSpotActivity::class.java)
-            intent.putExtra("selectedBodySide", selectedBodySide) //Not necessarily needed, can delete later
+            intent.putExtra(
+                "selectedBodySide",
+                selectedBodySide
+            ) //Not necessarily needed, can delete later
             intent.putExtra("selectedBodyPart", selectedBodyPart)
             intent.putExtra("spotListDirectory", spotListDirectory)
-            intent.putExtra("spotImageName", currentFullPhotoPath.removePrefix("$devicePictureDirectory/trackyourspot/temp/"))
+            intent.putExtra(
+                "spotImageName",
+                currentFullPhotoPath.removePrefix("$devicePictureDirectory/trackyourspot/temp/")
+            )
             intent.putExtra("fullPhotoPath", currentFullPhotoPath)
             startActivity(intent)
         }
@@ -205,14 +246,32 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
             if (isValidPhotoPath(currentFullPhotoPath)) {
                 val cropOptions = UCrop.Options().apply {
                     setShowCropGrid(false)
-                    setToolbarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                    setActiveWidgetColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
-                    setStatusBarColor(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    setToolbarColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.colorPrimary
+                        )
+                    )
+                    setActiveWidgetColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.colorPrimary
+                        )
+                    )
+                    setStatusBarColor(
+                        ContextCompat.getColor(
+                            applicationContext,
+                            R.color.colorPrimary
+                        )
+                    )
                     setShowCropFrame(true)
                     setAllowedGestures(UCropActivity.NONE, UCropActivity.NONE, UCropActivity.NONE)
                 }
                 //Is this stable on every device? Bad design probably
-                UCrop.of(Uri.parse("file://$currentFullPhotoPath"), Uri.parse("file://$currentFullPhotoPath")) //same destination as source file
+                UCrop.of(
+                    Uri.parse("file://$currentFullPhotoPath"),
+                    Uri.parse("file://$currentFullPhotoPath")
+                ) //same destination as source file
                     .withAspectRatio(1.toFloat(), 1.toFloat())
                     .withOptions(cropOptions)
                     .start(this)
