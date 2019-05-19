@@ -18,7 +18,8 @@ class IntroActivity : AppIntro2() {
 
         val firstSliderPage = SliderPage().apply {
             title = "Welcome to TrackYourSpot"
-            description = "This app will help you closely monitor your skin spots. Swipe to start tracking."
+            description =
+                "This app will help you closely monitor your skin spots. Swipe left to learn more."
             imageDrawable = R.drawable.icon_large
             bgColor = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
         }
@@ -74,8 +75,4 @@ class IntroActivity : AppIntro2() {
         startActivity(intent)
     }
 
-    override fun onSlideChanged(oldFragment: Fragment?, newFragment: Fragment?) {
-        super.onSlideChanged(oldFragment, newFragment)
-        // Do something when the slide changes.
-    }
 }

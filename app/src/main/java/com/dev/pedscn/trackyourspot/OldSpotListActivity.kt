@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -53,6 +54,21 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_add -> {
             checkPermissionsAndStartCamera()
+            true
+        }
+
+        R.id.action_info -> {
+            val alertDialog = AlertDialog.Builder(this).create()
+            alertDialog.setTitle("List of Spots")
+            alertDialog.setMessage(
+                "This is a list of all your spots.\n" +
+                        "\n1. Add a spot by tapping the + button\n" +
+                        "\n2. View a spot by selecting it from the list"
+            )
+            alertDialog.setButton(
+                AlertDialog.BUTTON_POSITIVE, "OK"
+            ) { dialog, _ -> dialog.dismiss() }
+            alertDialog.show()
             true
         }
         else -> super.onOptionsItemSelected(item)

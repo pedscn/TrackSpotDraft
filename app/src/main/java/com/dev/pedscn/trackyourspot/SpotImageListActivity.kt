@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.view.*
 import android.widget.*
 import android.widget.AdapterView
@@ -50,6 +51,24 @@ class SpotImageListActivity : CameraOpeningActivity() {
             }
             true
         }
+
+
+        R.id.action_info -> {
+            val alertDialog = AlertDialog.Builder(this).create()
+            alertDialog.setTitle("Photos of a spot")
+            alertDialog.setMessage(
+                "These are all the photos of a spot.\n" +
+                        "\n1. Tap the compare button to select the images\n" +
+                        "\n2. Select exactly two images to compare\n" +
+                        "\n3. Tap the compare button again to view them"
+            )
+            alertDialog.setButton(
+                AlertDialog.BUTTON_POSITIVE, "OK"
+            ) { dialog, _ -> dialog.dismiss() }
+            alertDialog.show()
+            true
+        }
+
         else -> super.onOptionsItemSelected(item)
     }
 

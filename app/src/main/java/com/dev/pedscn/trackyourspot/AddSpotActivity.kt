@@ -3,8 +3,11 @@ package com.dev.pedscn.trackyourspot
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -13,14 +16,37 @@ import java.io.File
 
 class AddSpotActivity : AppCompatActivity() {
 
+    private lateinit var selectedBodySide: String
+    private lateinit var selectedBodyPart: String
+    private lateinit var fullPhotoPath: String
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
 
-    private lateinit var selectedBodySide : String
-    private lateinit var selectedBodyPart : String
-    private lateinit var fullPhotoPath : String
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.namebar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_info -> {
+            val alertDialog = AlertDialog.Builder(this).create()
+            alertDialog.setTitle("Naming your spot")
+            alertDialog.setMessage(
+                "This is the first photo of your spot.\n" +
+                        "\n1. If you are happy with the photo, add a name and press confirm\n" +
+                        "\n2. You can also retake the photo by pressing cancel"
+            )
+            alertDialog.setButton(
+                AlertDialog.BUTTON_POSITIVE, "OK"
+            ) { dialog, _ -> dialog.dismiss() }
+            alertDialog.show()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

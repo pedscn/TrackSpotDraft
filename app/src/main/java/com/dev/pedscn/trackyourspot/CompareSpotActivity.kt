@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -50,6 +51,22 @@ class CompareSpotActivity : AppCompatActivity() {
             }
             true
         }
+
+        R.id.action_info -> {
+            val alertDialog = AlertDialog.Builder(this).create()
+            alertDialog.setTitle("Spot Comparison")
+            alertDialog.setMessage(
+                "Here you can compare two photos side by side.\n" +
+                        "\n1. If you are worried about this spot, you should get in touch with a doctor\n" +
+                        "\n2. You can also email these images by tapping the email button"
+            )
+            alertDialog.setButton(
+                AlertDialog.BUTTON_POSITIVE, "OK"
+            ) { dialog, _ -> dialog.dismiss() }
+            alertDialog.show()
+            true
+        }
+
         else -> super.onOptionsItemSelected(item)
     }
 
