@@ -16,18 +16,11 @@ class IntroActivity : AppIntro2() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
 
-        val introSliderPage = SliderPage().apply {
+        val firstSliderPage = SliderPage().apply {
             title = "Welcome to TrackYourSpot"
             description = "This app will help you closely monitor your skin spots. Swipe to start tracking."
             imageDrawable = R.drawable.icon_large
             bgColor = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-        }
-
-        val firstSliderPage = SliderPage().apply {
-            title = "Skin Cancer"
-            description = "Some cancers are slow growing and may not need treatment. Other cases, such as malignant melanoma, are highly dangerous and need immediate treatment."
-            imageDrawable = R.drawable.melanoma
-            bgColor = Color.parseColor("#9494b8")
         }
 
         val secondSliderPage = SliderPage().apply {
@@ -50,11 +43,19 @@ class IntroActivity : AppIntro2() {
             imageDrawable = R.drawable.doctorclipart
             bgColor = Color.parseColor("#AB47BC")
         }
-        addSlide(AppIntroFragment.newInstance(introSliderPage))
+
+        val fifthSliderPage = SliderPage().apply {
+            title = "Start Tracking"
+            description = "On the next screen you can begin tracking your spots, simply tap on a body part to add a spot."
+            imageDrawable = R.drawable.checkmark
+            bgColor = Color.parseColor("#9494b8")
+        }
+
         addSlide(AppIntroFragment.newInstance(firstSliderPage))
         addSlide(AppIntroFragment.newInstance(secondSliderPage))
         addSlide(AppIntroFragment.newInstance(thirdSliderPage))
         addSlide(AppIntroFragment.newInstance(fourthSliderPage))
+        addSlide(AppIntroFragment.newInstance(fifthSliderPage))
 
         //setBarColor(Color.parseColor("#3F51B5"))
         //setSeparatorColor(Color.parseColor("#2196F3"))
