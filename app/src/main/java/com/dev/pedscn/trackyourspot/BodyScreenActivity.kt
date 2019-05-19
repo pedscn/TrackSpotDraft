@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -33,7 +34,7 @@ class BodyScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_body_screen)
         val bodyScreenRelLayout = bodyscreen_rellayout
-        bodyScreenRelLayout.setBackgroundColor(resources.getColor(R.color.white))
+        bodyScreenRelLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
         setSupportActionBar(findViewById(R.id.body_screen_toolbar))
         selectedBodySide = if (intent.hasExtra("selectedBodySide")) {
             intent.getStringExtra("selectedBodySide")
