@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/compare"
-        android:title="@string/help"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/compare"
+        app:showAsAction="ifRoom" />
 
 </menu>
