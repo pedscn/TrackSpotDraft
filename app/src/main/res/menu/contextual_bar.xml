@@ -4,6 +4,6 @@
     <item
         android:id="@+id/compare"
         android:title="@string/compare"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>
