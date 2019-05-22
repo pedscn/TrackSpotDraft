@@ -3,12 +3,13 @@ package com.dev.pedscn.trackyourspot
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
+import android.widget.EditText
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.activity_add_spot.*
@@ -19,6 +20,9 @@ class AddSpotActivity : AppCompatActivity() {
     private lateinit var selectedBodySide: String
     private lateinit var selectedBodyPart: String
     private lateinit var fullPhotoPath: String
+    private lateinit var spotImageName: String
+    private lateinit var editTextWidget: TextInputLayout
+    private lateinit var editText: EditText
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
@@ -36,8 +40,8 @@ class AddSpotActivity : AppCompatActivity() {
             alertDialog.setTitle("Naming your spot")
             alertDialog.setMessage(
                 "This is the first photo of your spot.\n" +
-                        "\n1. If you are happy with the photo, add a name and press confirm\n" +
-                        "\n2. You can also retake the photo by pressing cancel"
+                        "\n1. If you are happy with the photo, add a name and press \u2713 \n" +
+                        "\n2. You can also retake the photo by pressing the back arrow"
             )
             alertDialog.setButton(
                 AlertDialog.BUTTON_POSITIVE, "OK"
@@ -45,33 +49,8 @@ class AddSpotActivity : AppCompatActivity() {
             alertDialog.show()
             true
         }
-        else -> super.onOptionsItemSelected(item)
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_spot)
-        setSupportActionBar(add_spot_screen_toolbar as Toolbar)
-        title = "Spot Preview"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        fullPhotoPath = intent.getStringExtra("fullPhotoPath")
-        selectedBodySide = intent.getStringExtra("selectedBodySide")
-        selectedBodyPart = intent.getStringExtra("selectedBodyPart")
-        val spotImageName = intent.getStringExtra("spotImageName")
-
-        Glide.with(this@AddSpotActivity)
-            .load(File(fullPhotoPath))
-            .apply(RequestOptions().fitCenter())
-            .into(spot_image)
-        val editTextWidget = spot_name_widget
-        val editText = spot_name_edittext
-        editTextWidget.setHintTextAppearance(R.style.CustomHintEnabled)
-        editTextWidget.isErrorEnabled = true
-
-        val btnConfirmSpot =
-            findViewById<Button>(R.id.btn_confirm_spot) //SDK version not compatible with inference.
-        btnConfirmSpot.setOnClickListener {
+        R.id.action_checkmark -> {
             val editName = editText.text.toString()
             if (editName.isBlank()) {
                 editTextWidget.error = "Name cannot be blank"
@@ -87,13 +66,31 @@ class AddSpotActivity : AppCompatActivity() {
                 intent.putExtra("selectedBodySide", selectedBodySide)
                 startActivity(intent)
             }
+            true
         }
+        else -> super.onOptionsItemSelected(item)
+    }
 
-        val btnCancel =
-            findViewById<Button>(R.id.btn_cancel) //SDK version not compatible with inference.
-        btnCancel.setOnClickListener {
-            onBackPressed()
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_spot)
+        setSupportActionBar(add_spot_screen_toolbar as Toolbar)
+        title = "Spot Preview"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        fullPhotoPath = intent.getStringExtra("fullPhotoPath")
+        selectedBodySide = intent.getStringExtra("selectedBodySide")
+        selectedBodyPart = intent.getStringExtra("selectedBodyPart")
+        spotImageName = intent.getStringExtra("spotImageName")
+
+        Glide.with(this@AddSpotActivity)
+            .load(File(fullPhotoPath))
+            .apply(RequestOptions().fitCenter())
+            .into(spot_image)
+        editTextWidget = spot_name_widget
+        editText = spot_name_edittext
+        editTextWidget.setHintTextAppearance(R.style.CustomHintEnabled)
+        editTextWidget.isErrorEnabled = true
     }
 
     private fun deleteRecursive(fileOrDirectory: File) {
