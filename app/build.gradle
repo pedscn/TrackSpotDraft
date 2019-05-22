@@ -11,8 +11,8 @@ android {
         applicationId "com.dev.pedscn.trackyourspot"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 15
-        versionName "1.0.14"
+        versionCode 17
+        versionName "1.0.16"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
