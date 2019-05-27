@@ -1,6 +1,6 @@
 # TrackYourSpot - Android App
 
-This Android app was developed as part of my undergraduate dissertation. The app's goal is to help users track potentially dangerous skin spots or signs of malignant melanoma. For further info, please visit the [TrackYourSpot website](https://pedscn.github.io/trackyourspotweb/index.html).
+This Android app was developed as part of my undergraduate dissertation. The app's goal is to help users track potentially dangerous skin spots or signs of malignant melanoma.
 
 <a href="https://play.google.com/store/apps/details?id=com.dev.pedroschulze.trackspotdraft&amp;hl=en_GB&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
 <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="100">
