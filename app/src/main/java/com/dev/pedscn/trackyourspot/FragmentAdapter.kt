@@ -5,7 +5,7 @@ import com.dev.pedscn.trackyourspot.BackBodySelectionFragment
 import com.dev.pedscn.trackyourspot.FrontBodySelectionFragment
 
 class FragmentAdapter(fm: FragmentManager) :
-    FragmentPagerAdapter(fm) { //Grabbed from online tutorial
+    FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment? = when (position) {
         0 -> FrontBodySelectionFragment.newInstance()
