@@ -17,7 +17,7 @@ abstract class CameraOpeningActivity : AppCompatActivity() {
 
     private fun createImageFile(spotDirectory: String): File {
         val timeStamp: String =
-            SimpleDateFormat("dd-MM-yyyy_HHmmss", Locale.getDefault()).format(Date()) //Better way?
+            SimpleDateFormat("dd-MM-yyyy_HHmmss", Locale.getDefault()).format(Date())
         val newDir = File(spotDirectory)
         if (!newDir.exists()) newDir.mkdirs()
         return File.createTempFile(
