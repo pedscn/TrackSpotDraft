@@ -189,13 +189,13 @@ class OldSpotListActivity : CameraOpeningActivity() { // Reduces redundancy
                 val view = super.getView(position, convertView, parent)
                 val spotNameTextView =
                     view.findViewById<View>(R.id.list_row_title) as TextView //Need to refactor and edit xml
-                val spotJpegTextView =
-                    view.findViewById<View>(R.id.list_row_description) as TextView
+//                val spotJpegTextView =
+//                    view.findViewById<View>(R.id.list_row_description) as TextView
                 val spotThumbnailImageView = view.findViewById(R.id.list_row_thumbnail) as ImageView
 
                 //val spotDateText = "Added on " +spotImageNames[position].removePrefix(spotDirectories[position]).subSequence(5,15)
                 spotNameTextView.text = spotNames[position]
-                spotJpegTextView.text = spotDirectories[position]
+                // spotJpegTextView.text = spotDirectories[position]
                 Glide.with(this@OldSpotListActivity)
                     .load(spotThumbnails[position])
                     .thumbnail(0.1f) //Improves memory management

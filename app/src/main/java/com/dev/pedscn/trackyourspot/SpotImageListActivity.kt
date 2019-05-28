@@ -175,19 +175,17 @@ class SpotImageListActivity : CameraOpeningActivity() {
         ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
-                val photoJpegName =
-                    view.findViewById<View>(R.id.list_row_title) as TextView
-                val photoDescription =
-                    view.findViewById<View>(R.id.list_row_description) as TextView
+                val photoJpegName = view.findViewById<View>(R.id.list_row_title) as TextView
                 val photoThumbnail = view.findViewById(R.id.list_row_thumbnail) as ImageView
+                /*val photoDescription = view.findViewById<View>(R.id.list_row_description) as TextView
                 val spotDateText =
                     "Added on " + fullImagePaths[position].removePrefix(spotDirectory).subSequence(
                         5,
                         15
-                    ).toString().replace("-", "/")
+                    ).toString().replace("-", "/")*/
                 photoJpegName.text = fullImagePaths[position].removePrefix(spotDirectory)
                 photoJpegName.textSize = 14.toFloat()
-                photoDescription.text = spotDateText
+                //photoDescription.text = spotDateText
                 Glide.with(this@SpotImageListActivity)
                     .load(imageThumbnails[position])
                     .thumbnail(0.1f)
