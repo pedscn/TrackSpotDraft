@@ -12,10 +12,10 @@
     <string name="confirm">Confirm</string>
     <string name="left_leg">Left Leg</string>
     <string name="head">Head</string>
+    <string name="torso">Torso</string>
     <string name="right_leg">Right Leg</string>
     <string name="left_arm">Left Arm</string>
     <string name="right_arm">Right Arm</string>
-    <string name="torso">Torso</string>
     <string name="back">Back</string>
     <string name="title_tag">title tag</string>
     <string name="tag">tag</string>
