@@ -186,7 +186,7 @@ class OldSpotListActivity : CameraOpeningActivity() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
                 val spotNameTextView =
-                    view.findViewById<View>(R.id.list_row_title) as TextView //Need to refactor and edit xml
+                    view.findViewById<View>(R.id.list_row_title) as TextView
                 val spotThumbnailImageView = view.findViewById(R.id.list_row_thumbnail) as ImageView
                 spotNameTextView.text = spotNames[position]
                 /*
