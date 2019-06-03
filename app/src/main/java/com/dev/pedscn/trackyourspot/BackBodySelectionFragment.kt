@@ -39,20 +39,20 @@ class BackBodySelectionFragment : Fragment() {
 
     private fun createMainMenu() {
 
-        btn_left_arm_back_body.setOnClickListener {
-            openBodyPart(LEFT_ARM)
-        }
         btn_right_arm_back_body.setOnClickListener {
             openBodyPart(RIGHT_ARM)
+        }
+        btn_left_arm_back_body.setOnClickListener {
+            openBodyPart(LEFT_ARM)
         }
         btn_back_back_body.setOnClickListener {
             openBodyPart(BACK)
         }
-        btn_right_leg_back_body.setOnClickListener {
-            openBodyPart(RIGHT_LEG)
-        }
         btn_left_leg_back_body.setOnClickListener {
             openBodyPart(LEFT_LEG)
+        }
+        btn_right_leg_back_body.setOnClickListener {
+            openBodyPart(RIGHT_LEG)
         }
         btn_head_back_body.setOnClickListener {
             openBodyPart(HEAD)

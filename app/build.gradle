@@ -8,11 +8,11 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.dev.pedscn.trackyourspot"
+        applicationId "com.dev.pedroschulze.trackspotdraft"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 15
-        versionName "1.0.14"
+        versionCode 18
+        versionName "1.0.17"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

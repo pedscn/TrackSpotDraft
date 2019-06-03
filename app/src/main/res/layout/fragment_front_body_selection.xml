@@ -1,76 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/front_colored"
-    app:layout_constraintTop_toBottomOf="@id/my_toolbar">
+    android:layout_height="match_parent">
 
-    <View
+    <ImageView
         android:id="@+id/btn_torso_front_body"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_right_leg_front_body"
-        app:layout_constraintEnd_toStartOf="@+id/btn_left_arm_front_body"
-        app:layout_constraintStart_toEndOf="@+id/btn_right_arm_front_body"
-        app:layout_constraintTop_toBottomOf="@+id/btn_head_front_body" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/torso"
+        android:src="@drawable/front_torso"
+        app:layout_constraintBottom_toTopOf="@id/btn_left_leg_front_body"
+        app:layout_constraintEnd_toStartOf="@id/btn_left_arm_front_body"
+        app:layout_constraintStart_toEndOf="@id/btn_right_arm_front_body"
+        app:layout_constraintTop_toBottomOf="@id/btn_head_front_body" />
 
-    <View
+    <ImageView
         android:id="@+id/btn_left_arm_front_body"
-        android:layout_width="100dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/left_arm"
+        android:src="@drawable/front_left_arm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.315" />
+        app:layout_constraintStart_toEndOf="@id/btn_torso_front_body"
+        app:layout_constraintTop_toBottomOf="@id/btn_head_front_body" />
 
-    <View
+    <ImageView
         android:id="@+id/btn_head_front_body"
-        android:layout_width="100dp"
-        android:layout_height="128dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/head"
+        android:src="@drawable/front_head"
+        app:layout_constraintBottom_toTopOf="@id/btn_torso_front_body"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/btn_right_leg_front_body"
-        android:layout_width="80dp"
-        android:layout_height="340dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:id="@+id/btn_left_leg_front_body"
-        android:layout_width="80dp"
-        android:layout_height="340dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/btn_right_leg_front_body" />
-
-    <View
-        android:id="@+id/btn_right_arm_front_body"
-        android:layout_width="100dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.315" />
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/btn_right_arm_front_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/right_arm"
+        android:src="@drawable/front_right_arm"
+        app:layout_constraintEnd_toStartOf="@id/btn_torso_front_body"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_head_front_body" />
+
+    <ImageView
+        android:id="@+id/btn_right_leg_front_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/right_leg"
+        android:src="@drawable/front_right_leg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_left_leg_front_body"
+        app:layout_constraintStart_toEndOf="@id/btn_right_arm_front_body"
+        app:layout_constraintTop_toBottomOf="@+id/btn_torso_front_body"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/btn_left_leg_front_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/left_leg"
+        android:src="@drawable/front_left_leg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_left_arm_front_body"
+        app:layout_constraintStart_toEndOf="@id/btn_right_leg_front_body"
+        app:layout_constraintTop_toBottomOf="@+id/btn_torso_front_body" />
+
 </android.support.constraint.ConstraintLayout>
