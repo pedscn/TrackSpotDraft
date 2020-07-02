@@ -2,10 +2,6 @@
 
 This Android app was developed as part of my undergraduate dissertation. The app's goal is to help users track potentially dangerous skin spots or signs of malignant melanoma.
 
-<a href="https://play.google.com/store/apps/details?id=com.dev.pedroschulze.trackspotdraft&amp;hl=en_GB&amp;pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
-<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="100">
-</a>
-
 ## Features
 1) Take photos periodically of different spots and keep track of them using a convenient body-oriented interface.
 2) Select and compare side-by-side two images taken at different times of the same spot.
